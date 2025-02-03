@@ -2,8 +2,10 @@ import type { IsographEntrypoint } from '@isograph/react';
 import { type BfBlog__BlogPostList__param } from './BfBlog/BlogPostList/param_type.ts';
 import { type BfBlogPost__BlogPostListItem__param } from './BfBlogPost/BlogPostListItem/param_type.ts';
 import { type Mutation__QualityCheckTweet__param } from './Mutation/QualityCheckTweet/param_type.ts';
+import { type Query__AdminApp__param } from './Query/AdminApp/param_type.ts';
 import { type Query__AppHome__param } from './Query/AppHome/param_type.ts';
 import { type Query__Blog__param } from './Query/Blog/param_type.ts';
+import { type Query__EntrypointAdminApp__param } from './Query/EntrypointAdminApp/param_type.ts';
 import { type Query__EntrypointBlogPost__param } from './Query/EntrypointBlogPost/param_type.ts';
 import { type Query__EntrypointBlog__param } from './Query/EntrypointBlog/param_type.ts';
 import { type Query__QualityCheckTweetForm__param } from './Query/QualityCheckTweetForm/param_type.ts';
@@ -69,12 +71,20 @@ export function iso<T>(
 ): IdentityWithParamComponent<Mutation__QualityCheckTweet__param>;
 
 export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field Query.AdminApp', T>
+): IdentityWithParamComponent<Query__AdminApp__param>;
+
+export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Query.AppHome', T>
 ): IdentityWithParamComponent<Query__AppHome__param>;
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Query.Blog', T>
 ): IdentityWithParamComponent<Query__Blog__param>;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field Query.EntrypointAdminApp', T>
+): IdentityWithParam<Query__EntrypointAdminApp__param>;
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Query.EntrypointBlogPost', T>
@@ -94,6 +104,10 @@ export function iso<T>(
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'entrypoint Query.AppHome', T>
+): void;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'entrypoint Query.EntrypointAdminApp', T>
 ): void;
 
 export function iso<T>(

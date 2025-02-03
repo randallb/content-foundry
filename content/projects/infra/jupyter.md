@@ -1,0 +1,1 @@
+fix jupyter notebook creation to not be insane
