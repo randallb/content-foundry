@@ -69,4 +69,8 @@ export const toolRoutes: RouteMap = new Map([
   ["/tools/jupyter-console", {
     Component: fileHandlerFactory("jupyter-console-open"),
   }],
+  ["/tools/sapling", {
+    Component: fileHandlerFactory("sapling-open"),
+  }],
+  
 ]);
