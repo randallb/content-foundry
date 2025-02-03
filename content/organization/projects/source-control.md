@@ -1,0 +1,1 @@
+- [ ] remove git remotes so we don't accidentally push upstream in remixes
