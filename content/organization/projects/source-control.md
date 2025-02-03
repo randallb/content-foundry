@@ -1,0 +1,2 @@
+- [ ] remove git remotes so we don't accidentally push upstream in remixes
+- [ ] disable git completely in the shell so we don't accidentally use it instead of sl
