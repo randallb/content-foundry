@@ -149,7 +149,7 @@ for (const entry of appRoutes.entries()) {
 }
 
 for (const [path, entrypoint] of isographAppRoutes.entries()) {
-  logger.info(`Registering ${path}`, entrypoint);
+  logger.debug(`Registering ${path}`, entrypoint);
   routes.set(path, async function AppRoute(request, routeParams) {
     const reqUrl = new URL(request.url);
     const initialPath = reqUrl.pathname;
