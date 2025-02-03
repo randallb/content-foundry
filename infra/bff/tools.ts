@@ -23,7 +23,7 @@ async function startJupyter() {
 }
 
 export function addTools(routes: Map<string, Handler>) {
-  logger.info("Adding tools");
+  logger.debug("Adding tools");
   routes.set("/tools/jupyter-notebook-open", async (req) => {
     await startJupyter();
 
