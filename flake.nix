@@ -33,6 +33,8 @@
 
         devShellPackages = with pkgs; [
           sapling
+          gh
+          jq
         ];
 
         deployPackages = with pkgs; [
