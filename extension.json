@@ -8,7 +8,13 @@
       "name": "Graphiql",
       "icon": "static/resources/GraphQL_Logo.svg",
       "handler": "/graphql"
-    }
+    },
+
+    {
+    name: "Sapling",
+    icon: "/static/assets/tools/sapling.png",
+    handler: "/tools/sapling"
+  }
   ],
   "fileHandlers": [
     {

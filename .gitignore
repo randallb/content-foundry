@@ -9,3 +9,4 @@ static/build
 .local
 node_modules
 vendor
+.sapling_token

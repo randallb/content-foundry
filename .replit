@@ -6,7 +6,7 @@ channel = "unstable"
 
 [deployment]
 deploymentTarget = "cloudrun"
-build = ["sh", "-c", "./packages/graphql/graphqlServer.ts && cd packages/app && deno run -A npm:@isograph/compiler && cd ../../ && deno compile --output=build/ --include=packages --include=content --allow-net=0.0.0.0:8000,openrouter.ai --allow-env --allow-read=$HOME/workspace --allow-run=pgrep,jupyter packages/web/web.tsx && ./infra/appBuild/appBuild.ts"]
+build = ["sh", "-c", "bff build"]
 run = ["sh", "-c", "./build/web"]
 
 [languages.deno]
@@ -28,19 +28,7 @@ author = 33272860
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "./packages/graphql/graphqlServer.ts"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd packages/app && deno run -A npm:@isograph/compiler"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "deno compile --output=build/ --include=packages --include=content --allow-net=0.0.0.0:8000,openrouter.ai --allow-env --allow-read=$HOME/workspace --allow-run=pgrep,jupyter packages/web/web.tsx "
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "./infra/appBuild/appBuild.ts"
+args = "bff build"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"

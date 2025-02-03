@@ -1,5 +1,6 @@
 import type { Handler } from "packages/web/web.tsx";
 import { getLogger } from "packages/logger.ts";
+import { BfError } from "packages/BfError.ts";
 const logger = getLogger(import.meta);
 
 async function startJupyter() {
@@ -48,6 +49,21 @@ export function addTools(routes: Map<string, Handler>) {
         location: `https://${
           Deno.env.get("REPLIT_DEV_DOMAIN")
         }:3000/consoles/${filePath}?token=bfjupyter`,
+      },
+    });
+  });
+
+  routes.set("/tools/sapling-open", async () => {
+    const token = await Deno.readTextFile(`${Deno.env.get("REPL_HOME")}/.sapling_token`);
+    if (!token) {
+      throw new BfError("Sapling token not found");
+    }
+    return new Response(null, {
+      status: 302,
+      headers: {
+        location: `https://${
+          Deno.env.get("REPLIT_DEV_DOMAIN")
+        }:3001/?token=${token.trim()}&cwd=%2Fhome%2Frunner%2Fworkspace`,
       },
     });
   });
