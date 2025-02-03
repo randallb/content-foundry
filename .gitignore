@@ -1,0 +1,11 @@
+build/**
+!.gitkeep
+*.ipynb_checkpoints
+!node_modules
+nix_system
+.direnv
+static/build
+.cache
+.local
+node_modules
+vendor

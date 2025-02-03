@@ -1,0 +1,88 @@
+entrypoint = "README.md"
+modules = ["postgresql-16"]
+
+[nix]
+channel = "unstable"
+
+[deployment]
+deploymentTarget = "cloudrun"
+build = ["sh", "-c", "./packages/graphql/graphqlServer.ts && cd packages/app && deno run -A npm:@isograph/compiler && cd ../../ && deno compile --output=build/ --include=packages --include=content --allow-net=0.0.0.0:8000,openrouter.ai --allow-env --allow-read=$HOME/workspace --allow-run=pgrep,jupyter packages/web/web.tsx && ./infra/appBuild/appBuild.ts"]
+run = ["sh", "-c", "./build/web"]
+
+[languages.deno]
+pattern = "**/*.{ts,js,tsx,jsx,json,jsonc,md,mdx}"
+[languages.deno.languageServer]
+start = ["deno", "lsp"]
+[languages.deno.languageServer.initializationOptions]
+enable = true
+lint = true
+config = "./deno.jsonc"
+
+[workflows]
+runButton = "Compile and run"
+
+[[workflows.workflow]]
+name = "Compile and run"
+mode = "sequential"
+author = 33272860
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "./packages/graphql/graphqlServer.ts"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd packages/app && deno run -A npm:@isograph/compiler"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "deno compile --output=build/ --include=packages --include=content --allow-net=0.0.0.0:8000,openrouter.ai --allow-env --allow-read=$HOME/workspace --allow-run=pgrep,jupyter packages/web/web.tsx "
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "./infra/appBuild/appBuild.ts"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "./build/web"
+
+[[workflows.workflow]]
+name = "Jupyter"
+mode = "sequential"
+author = 33272860
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "deno jupyter --install"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "jupyter notebook --config ./infra/jupyter/config.py"
+
+[[ports]]
+localPort = 3011
+externalPort = 3001
+
+[[ports]]
+localPort = 8000
+externalPort = 80
+
+[[ports]]
+localPort = 8888
+externalPort = 3000
+
+[objectStorage]
+defaultBucketID = "replit-objstore-606cdad4-5695-4398-ba16-1878dd101ab7"
+
+[extension]
+isExtension = true
+
+[env]
+HISTFILE = "/home/runner/${REPL_SLUG}/.cache/bash_history"
+HISTCONTROL = "ignoredups"
+HISTFILESIZE = "100000"
+HISTSIZE = "10000"
+FLAG_DIRENV = "1"
+REPLIT_PID1_FLAG_DIRENV = "1"
+FLAKE_PATH = "$HOME/workspace/nix_system/bin"
+PATH = "$FLAKE_PATH:$PATH"

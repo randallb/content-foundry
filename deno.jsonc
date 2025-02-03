@@ -1,0 +1,107 @@
+{
+  "unstable": ["temporal", "webgpu"],
+  "imports": {
+    "@iso": "./packages/app/__generated__/__isograph/iso.ts",
+    "@iso/": "./packages/app/__generated__/__isograph/",
+    "@luca/esbuild-deno-loader": "jsr:@luca/esbuild-deno-loader@^0.11.1",
+    "@openai/openai": "jsr:@openai/openai@^4.78.1",
+    "@std/front-matter": "jsr:@std/front-matter@^1.0.5",
+    "@std/fs": "jsr:@std/fs@^1.0.10",
+    "@std/http": "jsr:@std/http@^1.0.12",
+    "content/": "./content/",
+    "experimental/": "./experimental/",
+    "infra/": "./infra/",
+    "lib/": "./lib/",
+    "packages/": "./packages/",
+    "util/": "./util/",
+  },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "npm:react",
+    "jsxImportSourceTypes": "npm:@types/react@^19"
+
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "dom.asynciterable",
+      "webworker.importscripts",
+      "webworker.iterable",
+      "deno.ns",
+      "deno.unstable"
+    ],
+    "types": [
+      "npm:@types/dom-webcodecs/index.d.ts",
+      "npm:@types/sharedworker/index.d.ts"
+    ]
+  },
+  "fmt": {
+    "exclude": [
+      "__generated__",
+      "infra/__generated__",
+      "packages/__generated__",
+      "packages/third-party",
+      "packages/client/static",
+      ".config",
+      "static",
+      "**/*.json",
+      "**/*.ipynb",
+      "**/.ipynb_checkpoints"
+    ],
+    "include": [
+      "experimental",
+      "infra",
+      "lib",
+      "packages"
+    ]
+  },
+  "test": {
+    "exclude": [
+      "__generated__",
+      "packages/__generated__",
+      "packages/third-party",
+      "packages/client/static",
+      "**/*.disabled.ts",
+      "static"
+    ],
+    "include": [
+      "experimental",
+      "infra",
+      "lib",
+      "packages"
+    ]
+  },
+  "lint": {
+    "rules": {
+      "exclude": [],
+      "include": [
+        "camelCase",
+        "no-console",
+        "no-external-import",
+        "no-self-compare",
+        "no-sync-fn-in-async-fn",
+        "verbatim-module-syntax",
+        "no-eval"
+      ]
+    },
+    "exclude": [
+      "__generated__",
+      "infra/__generated__",
+      "static",
+      "packages/__generated__",
+      "packages/third-party",
+      "packages/client/static",
+      "packages/vcs"
+    ],
+    "include": [
+      "experimental",
+      "infra",
+      "lib",
+      "packages"
+    ]
+  },
+  "lock": {
+    "path": "./deno.lock",
+  },
+  "nodeModulesDir": "manual",
+  "vendor": true
+}

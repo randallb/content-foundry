@@ -1,0 +1,28 @@
+{
+  "name": "BFF",
+  "description": "BFF",
+  "version": "0",
+  "longDescription": "BFF",
+  "tools": [
+    {
+      "name": "Graphiql",
+      "icon": "static/resources/GraphQL_Logo.svg",
+      "handler": "/graphql"
+    }
+  ],
+  "fileHandlers": [
+    {
+      "name": "Jupyter Notebook",
+      "icon": "static/resources/Sapling_icon-green.svg",
+      "handler": "/tools/jupyter-notebook",
+      "glob": "**/*.ipynb"
+    },
+    {
+      "name": "Jupyter Console",
+      "icon": "static/resources/Sapling_icon-green.svg",
+      "handler": "/tools/jupyter-console",
+      "glob": "**/*.ipynb"
+    }
+  ],
+  "scopes": []
+}
