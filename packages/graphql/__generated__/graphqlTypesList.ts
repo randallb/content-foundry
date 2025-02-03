@@ -6,6 +6,7 @@ export * from "packages/graphql/types/graphqlBfBlog.ts";
 export * from "packages/graphql/types/graphqlBfNode.ts";
 export * from "packages/graphql/types/graphqlQualityCheckTweetMutation.ts";
 export * from "packages/graphql/types/graphqlRecommendation.ts";
+export * from "packages/graphql/types/graphqlRegistration.ts";
 
 
 /* you're welcome. */
