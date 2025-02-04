@@ -1,14 +1,19 @@
 import type { IsographEntrypoint } from '@isograph/react';
 import { type BfBlog__BlogPostList__param } from './BfBlog/BlogPostList/param_type.ts';
 import { type BfBlogPost__BlogPostListItem__param } from './BfBlogPost/BlogPostListItem/param_type.ts';
+import { type BfPerson__PersonSettings__param } from './BfPerson/PersonSettings/param_type.ts';
 import { type Mutation__QualityCheckTweet__param } from './Mutation/QualityCheckTweet/param_type.ts';
+import { type Mutation__RegisterMutation__param } from './Mutation/RegisterMutation/param_type.ts';
 import { type Query__AdminApp__param } from './Query/AdminApp/param_type.ts';
 import { type Query__AppHome__param } from './Query/AppHome/param_type.ts';
 import { type Query__Blog__param } from './Query/Blog/param_type.ts';
 import { type Query__EntrypointAdminApp__param } from './Query/EntrypointAdminApp/param_type.ts';
 import { type Query__EntrypointBlogPost__param } from './Query/EntrypointBlogPost/param_type.ts';
 import { type Query__EntrypointBlog__param } from './Query/EntrypointBlog/param_type.ts';
+import { type Query__EntrypointPersonSettings__param } from './Query/EntrypointPersonSettings/param_type.ts';
+import { type Query__EntrypointRegister__param } from './Query/EntrypointRegister/param_type.ts';
 import { type Query__QualityCheckTweetForm__param } from './Query/QualityCheckTweetForm/param_type.ts';
+import { type Query__RegistrationForm__param } from './Query/RegistrationForm/param_type.ts';
 
 // This is the type given to regular client fields.
 // This means that the type of the exported iso literal is exactly
@@ -67,8 +72,16 @@ export function iso<T>(
 ): IdentityWithParamComponent<BfBlogPost__BlogPostListItem__param>;
 
 export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field BfPerson.PersonSettings', T>
+): IdentityWithParamComponent<BfPerson__PersonSettings__param>;
+
+export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Mutation.QualityCheckTweet', T>
 ): IdentityWithParamComponent<Mutation__QualityCheckTweet__param>;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field Mutation.RegisterMutation', T>
+): IdentityWithParam<Mutation__RegisterMutation__param>;
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Query.AdminApp', T>
@@ -95,11 +108,27 @@ export function iso<T>(
 ): IdentityWithParam<Query__EntrypointBlog__param>;
 
 export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field Query.EntrypointPersonSettings', T>
+): IdentityWithParam<Query__EntrypointPersonSettings__param>;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field Query.EntrypointRegister', T>
+): IdentityWithParam<Query__EntrypointRegister__param>;
+
+export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Query.QualityCheckTweetForm', T>
 ): IdentityWithParamComponent<Query__QualityCheckTweetForm__param>;
 
 export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field Query.RegistrationForm', T>
+): IdentityWithParamComponent<Query__RegistrationForm__param>;
+
+export function iso<T>(
   param: T & MatchesWhitespaceAndString<'entrypoint Mutation.QualityCheckTweet', T>
+): void;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'entrypoint Mutation.RegisterMutation', T>
 ): void;
 
 export function iso<T>(
@@ -116,6 +145,14 @@ export function iso<T>(
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'entrypoint Query.EntrypointBlog', T>
+): void;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'entrypoint Query.EntrypointPersonSettings', T>
+): void;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'entrypoint Query.EntrypointRegister', T>
 ): void;
 
 export function iso(_isographLiteralText: string):
