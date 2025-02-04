@@ -1,14 +1,13 @@
-import type {
-  BfMetadata,
-} from "packages/bfDb/classes/BfNodeMetadata.ts";
+import type { BfMetadata } from "packages/bfDb/classes/BfNodeMetadata.ts";
 import { staticImplements } from "lib/staticImplements.ts";
 import { BfErrorNodeNotFound } from "packages/bfDb/classes/BfErrorNode.ts";
-import {
-  BfErrorNotImplemented,
-} from "packages/BfError.ts";
+import { BfErrorNotImplemented } from "packages/BfError.ts";
 import { type BfGid, toBfGid } from "packages/bfDb/classes/BfNodeIds.ts";
 import type { BfCurrentViewer } from "packages/bfDb/classes/BfCurrentViewer.ts";
 import { generateUUID } from "lib/generateUUID.ts";
+import { getLogger } from "packages/logger.ts";
+
+const logger = getLogger(import.meta);
 
 export type BfNodeCache<T extends typeof BfNodeBase = typeof BfNodeBase> = Map<
   BfGid | string,
@@ -36,12 +35,6 @@ export interface BfBaseNodeConstructor<
     bfGids: Array<BfGid>,
     cache?: BfNodeCache,
   ): Promise<Array<TBfInstance>>;
-  create(
-    cv: BfCurrentViewer,
-    props: TProps,
-    metadata?: BfMetadata,
-    cache?: BfNodeCache,
-  ): Promise<TBfInstance>;
 }
 
 type DefaultProps = Record<string, never>;
@@ -67,7 +60,11 @@ export abstract class BfNodeBase<TProps = DefaultProps> {
     };
   }
 
-  static async find<TProps, T extends BfNodeBase<TProps>>(cv: BfCurrentViewer, id: BfGid, cache?: BfNodeCache) {
+  static async find<TProps, T extends BfNodeBase<TProps>>(
+    cv: BfCurrentViewer,
+    id: BfGid,
+    cache?: BfNodeCache,
+  ) {
     const cachedItem = cache?.get(id);
     if (cachedItem) {
       return cachedItem;
@@ -88,6 +85,24 @@ export abstract class BfNodeBase<TProps = DefaultProps> {
       throw e;
     }
     return null;
+  }
+
+  static async create<TProps, TThis extends typeof BfNodeBase<TProps>>(
+    this: TThis,
+    cv: BfCurrentViewer,
+    props: TProps,
+    metadata?: BfMetadata,
+    cache?: BfNodeCache,
+  ): Promise<InstanceType<TThis>> {
+    logger.debug(`Creating ${this.name} with props ${JSON.stringify(props)}`);
+    // @ts-expect-error new-ing an abstract class is a type error.
+    const newNode = new this(cv, props, metadata);
+    await newNode.beforeCreate();
+    await newNode.save();
+    await newNode.afterCreate();
+    logger.debug(`Created ${newNode}`);
+    cache?.set(newNode.metadata.bfGid, newNode);
+    return newNode;
   }
 
   constructor(
@@ -111,10 +126,6 @@ export abstract class BfNodeBase<TProps = DefaultProps> {
     return this._props;
   }
 
-  abstract save(): Promise<this>;
-  abstract delete(): Promise<boolean>;
-  abstract load(): Promise<this>;
-
   toGraphql() {
     const descriptors = Object.getOwnPropertyDescriptors(this);
     const skippedKeys = ["metadata", "cv", "props"];
@@ -131,6 +142,32 @@ export abstract class BfNodeBase<TProps = DefaultProps> {
       __typename: this.__typename,
     };
   }
+
+  abstract save(): Promise<this>;
+  abstract delete(): Promise<boolean>;
+  abstract load(): Promise<this>;
+
+  /** CALLBACKS */
+
+  async beforeCreate(): Promise<void> {}
+
+  async beforeDelete(): Promise<void> {}
+
+  async beforeLoad(): Promise<void> {}
+
+  async beforeUpdate(): Promise<void> {}
+
+  async afterCreate(): Promise<void> {}
+
+  async afterUpdate(): Promise<void> {}
+
+  async afterDelete(): Promise<void> {}
+
+  async validateSave(): Promise<void> {}
+
+  async validatePermissions(): Promise<void> {}
+
+  /** /CALLBACKS */
 }
 
 /**
@@ -184,28 +221,6 @@ export abstract class BfNodeBase<TProps = DefaultProps> {
 //     }
 //   }
 //   /** /DEFAULT METHODS */
-
-//   /** CALLBACKS */
-
-//   async beforeCreate(): Promise<void> {}
-
-//   async beforeDelete(): Promise<void> {}
-
-//   async beforeLoad(): Promise<void> {}
-
-//   async beforeUpdate(): Promise<void> {}
-
-//   async afterCreate(): Promise<void> {}
-
-//   async afterUpdate(): Promise<void> {}
-
-//   async afterDelete(): Promise<void> {}
-
-//   async validateSave(): Promise<void> {}
-
-//   async validatePermissions(): Promise<void> {}
-
-//   /** /CALLBACKS */
 
 //   /** ABSTRACT METHODS */
 //   static async findX<TThis extends typeof BfNodeBase>(
