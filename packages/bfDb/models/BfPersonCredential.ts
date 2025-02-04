@@ -8,7 +8,7 @@ type Base64URLString = string;
 
 export type BfPersonCredentialProps = {
     id: Base64URLString;
-    publicKey: Uint8Array;
+    // publicKey: Uint8Array;
     // user: UserModel;
     webauthnUserID: Base64URLString;
     counter: number;

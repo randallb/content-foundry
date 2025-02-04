@@ -3,7 +3,7 @@ import { type BfGid, toBfGid } from "packages/bfDb/classes/BfNodeIds.ts";
 import { BfCurrentViewer } from "packages/bfDb/classes/BfCurrentViewer.ts";
 // import type { BfNode } from "packages/bfDb/coreModels/BfNode.ts";
 import type { Connection, ConnectionArguments } from "graphql-relay";
-import type { BfNodeBase } from "packages/bfDb/classes/BfNodeBase.ts";
+import type { BfNodeBase, BfNodeBaseProps } from "packages/bfDb/classes/BfNodeBase.ts";
 import type { BfErrorNodeNotFound } from "packages/bfDb/classes/BfErrorNode.ts";
 import { BfErrorNotImplemented } from "packages/BfError.ts";
 import { BfNode } from "packages/bfDb/coreModels/BfNode.ts";
@@ -16,7 +16,7 @@ const logger = getLogger(import.meta);
 
 export type Context = {
   [Symbol.dispose]: () => void;
-  create<TProps>(
+  create<TProps extends BfNodeBaseProps>(
     BfClass: typeof BfNode<TProps>,
     props: TProps,
     metadata?: BfMetadata,
@@ -38,7 +38,7 @@ export type Context = {
 };
 
 export async function createContext(_: Request): Promise<Context> {
-  const cache = new Map<string, Map<BfGid, BfNodeBase<unknown>>>();
+  const cache = new Map<string, Map<BfGid, BfNodeBase>>();
   const currentViewer = new BfCurrentViewer();
 
   logger.debug("context Creating");
@@ -50,14 +50,14 @@ export async function createContext(_: Request): Promise<Context> {
       logger.debug("Context disposed");
     },
 
-    create<TProps>(
+    create<TProps extends BfNodeBaseProps>(
       BfClass: typeof BfNode<TProps>,
       props: TProps,
       metadata?: BfMetadata,
     ) {
       let innerCache = cache.get(BfClass.name);
       if (!innerCache) {
-        innerCache = new Map<BfGid, BfNodeBase<unknown>>();
+        innerCache = new Map<BfGid, BfNodeBase>();
         cache.set(BfClass.name, innerCache);
       }
 

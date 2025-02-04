@@ -1,6 +1,7 @@
 import {
   BfBaseNodeConstructor,
   BfNodeBase,
+  BfNodeBaseProps,
   BfNodeCache,
 } from "packages/bfDb/classes/BfNodeBase.ts";
 import { BfCurrentViewer } from "packages/bfDb/classes/BfCurrentViewer.ts";
@@ -9,17 +10,19 @@ import { staticImplements } from "lib/staticImplements.ts";
 import { BfErrorNotImplemented } from "packages/BfError.ts";
 import { BfMetadata } from "packages/bfDb/classes/BfNodeMetadata.ts";
 import { getLogger } from "packages/logger.ts";
+import { bfPutItem, type JSONValue } from "packages/bfDb/bfDb.ts";
 
 const logger = getLogger(import.meta);
+
+type BfNodeDefaultProps = Record<string, never>;
 
 /**
  * talks to the database with graphql stuff
  */
-type BfNodeProps = Record<string, never>;
-
-@staticImplements<BfBaseNodeConstructor<BfNodeProps, BfNode>>()
-export class BfNode<TProps = BfNodeProps> extends BfNodeBase<TProps> {
-  static findX<TProps, T extends BfNodeBase<TProps>>(
+@staticImplements<BfBaseNodeConstructor<BfNodeDefaultProps, BfNode>>()
+export class BfNode<TProps extends BfNodeBaseProps = BfNodeDefaultProps>
+  extends BfNodeBase<TProps> {
+  static findX<TProps extends BfNodeBaseProps, T extends BfNodeBase<TProps>>(
     _cv: BfCurrentViewer,
     _id: BfGid,
     _cache?: BfNodeCache,
@@ -27,7 +30,7 @@ export class BfNode<TProps = BfNodeProps> extends BfNodeBase<TProps> {
     throw new BfErrorNotImplemented();
   }
 
-  static findRaw<TProps, T extends BfNodeBase<TProps>>(
+  static findRaw<TProps extends BfNodeBaseProps, T extends BfNodeBase<TProps>>(
     _cv: BfCurrentViewer,
     _id: BfGid,
     _caches: Array<BfNodeCache> = [],
@@ -35,7 +38,7 @@ export class BfNode<TProps = BfNodeProps> extends BfNodeBase<TProps> {
     throw new BfErrorNotImplemented();
   }
 
-  static query<TProps, T extends BfNodeBase<TProps>>(
+  static query<TProps extends BfNodeBaseProps, T extends BfNodeBase<TProps>>(
     _cv: BfCurrentViewer,
     _metadata: BfMetadata,
     _props: TProps,
@@ -44,7 +47,7 @@ export class BfNode<TProps = BfNodeProps> extends BfNodeBase<TProps> {
   ): Promise<Array<T>> {
     throw new BfErrorNotImplemented();
   }
-  
+
   // static override async findX(
   //   _cv: BfCurrentViewer,
   //   id: BfGid,
@@ -66,12 +69,15 @@ export class BfNode<TProps = BfNodeProps> extends BfNodeBase<TProps> {
   // }
 
   async save() {
-    return await this;
+    await bfPutItem(this.props, this.metadata);
+    return this;
   }
   async delete() {
-    return await false;
+    throw new BfErrorNotImplemented();
+    return false;
   }
   async load() {
-    return await this;
+    throw new BfErrorNotImplemented();
+    return this;
   }
 }
