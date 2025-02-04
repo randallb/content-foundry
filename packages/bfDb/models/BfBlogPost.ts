@@ -107,13 +107,7 @@ export class BfBlogPost extends BfNodeBase<BfBlogPostProps> {
   ): Promise<Array<T>> {
     throw new BfErrorNotImplemented();
   }
-  static async create(
-    cv: BfCurrentViewer,
-    props: BfBlogPostProps,
-  ) {
-    // throw new BfErrorNotImplemented();
-    return await new this(cv, props);
-  }
+
   // static override async findX(
   //   _cv: BfCurrentViewer,
   //   id: BfGid,
