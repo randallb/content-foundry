@@ -1,4 +1,6 @@
-export class BfError extends Error {};
+export class BfError extends Error {
+  override message = this.constructor.name
+};
 export class BfErrorNotImplemented extends BfError {
   override message = "Not implemented";
 };

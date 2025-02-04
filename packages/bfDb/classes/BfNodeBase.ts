@@ -6,40 +6,49 @@ import { type BfGid, toBfGid } from "packages/bfDb/classes/BfNodeIds.ts";
 import type { BfCurrentViewer } from "packages/bfDb/classes/BfCurrentViewer.ts";
 import { generateUUID } from "lib/generateUUID.ts";
 import { getLogger } from "packages/logger.ts";
+import { JSONValue } from "packages/bfDb/bfDb.ts";
 
 const logger = getLogger(import.meta);
 
-export type BfNodeCache<T extends typeof BfNodeBase = typeof BfNodeBase> = Map<
+export type BfNodeBaseProps = Record<string, JSONValue>;
+
+export type BfNodeCache<
+  TProps extends BfNodeBaseProps = DefaultProps,
+  T extends typeof BfNodeBase<TProps> = typeof BfNodeBase,
+> = Map<
   BfGid | string,
   InstanceType<T>
 >;
 
 export interface BfBaseNodeConstructor<
-  TProps,
-  TBfInstance extends BfNodeBase<TProps>,
+  TProps extends BfNodeBaseProps,
+  TThis extends typeof BfNodeBase<TProps>,
 > {
   findX(
+    this: TThis,
     cv: BfCurrentViewer,
     id: BfGid,
     cache?: BfNodeCache,
-  ): Promise<TBfInstance>;
+  ): Promise<InstanceType<TThis>>;
   findRaw(
     cv: BfCurrentViewer,
     id: BfGid,
     caches?: Array<BfNodeCache>,
-  ): Promise<TBfInstance>;
+  ): Promise<InstanceType<TThis>>;
   query(
     cv: BfCurrentViewer,
     metadata: BfMetadata,
     props: TProps,
     bfGids: Array<BfGid>,
     cache?: BfNodeCache,
-  ): Promise<Array<TBfInstance>>;
+  ): Promise<Array<InstanceType<TThis>>>;
 }
 
 type DefaultProps = Record<string, never>;
 
-export abstract class BfNodeBase<TProps = DefaultProps> {
+export abstract class BfNodeBase<
+  TProps extends BfNodeBaseProps = DefaultProps,
+> {
   __typename = this.constructor.name;
   _metadata: BfMetadata;
 
@@ -47,20 +56,27 @@ export abstract class BfNodeBase<TProps = DefaultProps> {
     return `${Date.now()}`;
   }
 
-  static generateMetadata(): BfMetadata {
+  static generateMetadata(
+    cv: BfCurrentViewer,
+    metadata?: Partial<BfMetadata>,
+  ): BfMetadata {
     const bfGid = toBfGid(generateUUID());
-    return {
+    const defaults = {
       bfGid: bfGid,
-      bfOid: bfGid,
-      bfCid: bfGid,
-      className: this.name,
+      bfOid: cv.bfOid,
+      bfCid: cv.bfGid,
+      className: this.constructor.name,
       createdAt: new Date(),
       lastUpdated: new Date(),
       sortValue: this.generateSortValue(),
     };
+    return { ...defaults, ...metadata };
   }
 
-  static async find<TProps, T extends BfNodeBase<TProps>>(
+  static async find<
+    TProps extends BfNodeBaseProps,
+    T extends BfNodeBase<TProps>,
+  >(
     cv: BfCurrentViewer,
     id: BfGid,
     cache?: BfNodeCache,
@@ -87,7 +103,10 @@ export abstract class BfNodeBase<TProps = DefaultProps> {
     return null;
   }
 
-  static async create<TProps, TThis extends typeof BfNodeBase<TProps>>(
+  static async __DANGEROUS__createUnattached<
+    TProps extends BfNodeBaseProps,
+    TThis extends typeof BfNodeBase<TProps>,
+  >(
     this: TThis,
     cv: BfCurrentViewer,
     props: TProps,
@@ -111,7 +130,7 @@ export abstract class BfNodeBase<TProps = DefaultProps> {
     metadata?: BfMetadata,
   ) {
     this._metadata = metadata ||
-      (this.constructor as typeof BfNodeBase).generateMetadata();
+      (this.constructor as typeof BfNodeBase).generateMetadata(_currentViewer);
   }
 
   get cv(): BfCurrentViewer {
@@ -149,23 +168,23 @@ export abstract class BfNodeBase<TProps = DefaultProps> {
 
   /** CALLBACKS */
 
-  async beforeCreate(): Promise<void> {}
+  beforeCreate(): Promise<void> | void {}
 
-  async beforeDelete(): Promise<void> {}
+  // beforeDelete(): Promise<void> | void {}
 
-  async beforeLoad(): Promise<void> {}
+  // beforeLoad(): Promise<void> | void {}
 
-  async beforeUpdate(): Promise<void> {}
+  // beforeUpdate(): Promise<void> | void {}
 
-  async afterCreate(): Promise<void> {}
+  afterCreate(): Promise<void> | void {}
 
-  async afterUpdate(): Promise<void> {}
+  // afterUpdate(): Promise<void> | void {}
 
-  async afterDelete(): Promise<void> {}
+  // afterDelete(): Promise<void> | void {}
 
-  async validateSave(): Promise<void> {}
+  // validateSave(): Promise<void> | void {}
 
-  async validatePermissions(): Promise<void> {}
+  // validatePermissions(): Promise<void> | void {}
 
   /** /CALLBACKS */
 }

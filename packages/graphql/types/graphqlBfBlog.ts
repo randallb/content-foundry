@@ -1,5 +1,5 @@
 import { objectType, queryField } from "nexus";
-import { BfBlogPost } from "packages/bfDb/models/BfBlogPost.ts";
+// import { BfBlogPost } from "packages/bfDb/models/BfBlogPost.ts";
 import { connectionFromArray } from "graphql-relay";
 import { graphqlBfNode } from "packages/graphql/types/graphqlBfNode.ts";
 
@@ -27,11 +27,8 @@ export const blogType = objectType({
     t.connectionField("posts", {
       type: blogPostType,
       resolve: async (parent, args, ctx) => {
-        const postsCache = await BfBlogPost.getPostsCache();
-        return connectionFromArray(
-          postsCache.values().toArray().map((post) => post.toGraphql()),
-          args,
-        );
+        // const postsCache = await BfBlogPost.getPostsCache();
+        return connectionFromArray([], args);
       },
     });
   },
