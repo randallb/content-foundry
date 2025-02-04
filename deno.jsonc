@@ -102,6 +102,7 @@
     ]
   },
   "lock": {
+    "frozen": true,
     "path": "./deno.lock",
   },
   "nodeModulesDir": "manual",
