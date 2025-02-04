@@ -11,7 +11,9 @@ import { BfIsographFragmentReader } from "lib/BfIsographFragmentReader.tsx";
 const logger = getLogger(import.meta);
 
 export function AppRoot() {
-  const { currentPath, routeParams } = useRouter();
+  const routerProps = useRouter();
+  const params = {...routerProps.routeParams, ...routerProps.queryParams, }
+  const { currentPath } = routerProps;
   const matchingRoute = Array.from(appRoutes).find(([path]) => {
     const pathMatch = matchRouteWithParams(currentPath, path);
     return pathMatch.match === true;
@@ -33,12 +35,12 @@ export function AppRoot() {
   if (isographMatchingRoute) {
     const [_, entrypoint] = isographMatchingRoute;
     const { fragmentReference } = useLazyReference(entrypoint, {
-      id: currentPath.split("/blog/")[1],
+      ...params,
     });
 
     return (
       <ErrorBoundary fallback="Nope. you error">
-        <BfIsographFragmentReader fragmentReference={fragmentReference} />
+        <BfIsographFragmentReader fragmentReference={fragmentReference} additionalProps={routerProps} />
       </ErrorBoundary>
     );
   }

@@ -1,9 +1,16 @@
-import { BfBaseNodeConstructor, BfNodeBase, BfNodeCache } from "packages/bfDb/classes/BfNodeBase.ts";
+import {
+  BfBaseNodeConstructor,
+  BfNodeBase,
+  BfNodeCache,
+} from "packages/bfDb/classes/BfNodeBase.ts";
 import { BfCurrentViewer } from "packages/bfDb/classes/BfCurrentViewer.ts";
 import { BfGid } from "packages/bfDb/classes/BfNodeIds.ts";
 import { staticImplements } from "lib/staticImplements.ts";
 import { BfErrorNotImplemented } from "packages/BfError.ts";
 import { BfMetadata } from "packages/bfDb/classes/BfNodeMetadata.ts";
+import { getLogger } from "packages/logger.ts";
+
+const logger = getLogger(import.meta);
 
 /**
  * talks to the database with graphql stuff
@@ -11,7 +18,7 @@ import { BfMetadata } from "packages/bfDb/classes/BfNodeMetadata.ts";
 type BfNodeProps = Record<string, never>;
 
 @staticImplements<BfBaseNodeConstructor<BfNodeProps, BfNode>>()
-export class BfNode<TProps = BfNodeProps> extends BfNodeBase<TProps>{
+export class BfNode<TProps = BfNodeProps> extends BfNodeBase<TProps> {
   static findX<TProps, T extends BfNodeBase<TProps>>(
     _cv: BfCurrentViewer,
     _id: BfGid,
@@ -37,14 +44,7 @@ export class BfNode<TProps = BfNodeProps> extends BfNodeBase<TProps>{
   ): Promise<Array<T>> {
     throw new BfErrorNotImplemented();
   }
-  static create<TProps, T extends BfNodeBase<TProps>>(
-    _cv: BfCurrentViewer,
-    _props: TProps,
-    _metadata?: BfMetadata,
-    _cache?: BfNodeCache,
-  ): Promise<T> {
-    throw new BfErrorNotImplemented();
-  }
+  
   // static override async findX(
   //   _cv: BfCurrentViewer,
   //   id: BfGid,

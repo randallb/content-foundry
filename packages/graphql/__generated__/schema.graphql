@@ -64,8 +64,15 @@ interface BfNode implements Node {
   id: ID!
 }
 
+type BfPerson implements BfNode & Node {
+  """Unique identifier for the resource"""
+  id: ID!
+  name: String
+}
+
 type Mutation {
   qualityCheckTweet(systemPrompt: String, taskPrompt: String, tweet: String): Recommendations
+  register(registrationInput: RegistrationOptionsInput!): BfNode
 }
 
 interface Node {
@@ -101,6 +108,8 @@ type PageInfo {
 type Query {
   bfNode(id: ID): BfNode
   blog: BfBlog
+  me: BfPerson
+  registrationOptions(code: ID!): RegistrationOptions
 }
 
 type RecommendationItem {
@@ -113,4 +122,63 @@ type RecommendationItem {
 type Recommendations {
   """A list of recommendations"""
   recommendations: [RecommendationItem]
+}
+
+type RegistrationOptions {
+  attestation: String
+  authenticatorSelection: String
+  challenge: String
+  extensions: String
+  publicKey: String
+  supportedAuthenticatorTypes: String
+  timeout: Int
+  user: String
+}
+
+input RegistrationOptionsAttestationInput {
+  attestationObject: String!
+  authenticatorData: String!
+  clientDataJSON: String!
+  publicKey: String!
+  publicKeyAlgorithm: Int!
+  transports: [RegistrationTransportsFuture!]!
+}
+
+input RegistrationOptionsAuthenticationExtensionsClientOutputs {
+  appid: Boolean!
+  credProps: RegistrationOptionsCredentialPropertiesOutput!
+  hmacCreateSecret: Boolean!
+}
+
+input RegistrationOptionsCredentialPropertiesOutput {
+  rk: Boolean!
+}
+
+input RegistrationOptionsInput {
+  attestation: RegistrationOptionsAttestationInput!
+  authenticatorSelection: String!
+  challenge: String!
+  clientExtensionResults: RegistrationOptionsAuthenticationExtensionsClientOutputs!
+  extensions: String!
+  id: ID!
+  publicKey: String!
+  rawId: ID!
+  response: RegistrationOptionsAttestationInput!
+  supportedAuthenticatorTypes: String!
+  timeout: Int!
+  type: Thingy!
+  user: String!
+}
+
+enum RegistrationTransportsFuture {
+  ble
+  cable
+  hybrid
+  internal
+  nfc
+  usb
+}
+
+enum Thingy {
+  public_key
 }

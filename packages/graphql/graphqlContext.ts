@@ -9,15 +9,23 @@ import { BfErrorNotImplemented } from "packages/BfError.ts";
 import { BfNode } from "packages/bfDb/coreModels/BfNode.ts";
 import { GraphqlNode } from "packages/graphql/types/graphqlBfNode.ts";
 import { BfBlogPost } from "packages/bfDb/models/BfBlogPost.ts";
+import { BfMetadata } from "packages/bfDb/classes/BfNodeMetadata.ts";
+import { BfPerson } from "packages/bfDb/models/BfPerson.ts";
 
 const logger = getLogger(import.meta);
 
 export type Context = {
   [Symbol.dispose]: () => void;
+  create<TProps>(
+    BfClass: typeof BfNode<TProps>,
+    props: TProps,
+    metadata?: BfMetadata,
+  ): Promise<BfNode<TProps>>;
   find(
     BfClass: typeof BfNodeBase,
     id: BfGid | string | null | undefined,
   ): Promise<GraphqlNode | null>;
+  findCurrentUser(): Promise<BfPerson | null>;
   findRaw(
     id: BfGid | string | null | undefined,
     BfClass?: typeof BfNode | typeof BfBlogPost,
@@ -41,6 +49,21 @@ export async function createContext(_: Request): Promise<Context> {
       currentViewer.clear();
       logger.debug("Context disposed");
     },
+
+    create<TProps>(
+      BfClass: typeof BfNode<TProps>,
+      props: TProps,
+      metadata?: BfMetadata,
+    ) {
+      let innerCache = cache.get(BfClass.name);
+      if (!innerCache) {
+        innerCache = new Map<BfGid, BfNodeBase<unknown>>();
+        cache.set(BfClass.name, innerCache);
+      }
+
+      return BfClass.create(currentViewer, props, metadata, innerCache);
+    },
+
     async find(BfClass, idOrString) {
       if (idOrString == null) {
         return null;
@@ -53,6 +76,7 @@ export async function createContext(_: Request): Promise<Context> {
       );
       return item?.toGraphql();
     },
+
     async findRaw(idOrString, BfClass = BfNode) {
       if (idOrString == null) {
         return null;
@@ -64,6 +88,10 @@ export async function createContext(_: Request): Promise<Context> {
         cache.values().toArray(),
       );
       return item?.toGraphql();
+    },
+
+    async findCurrentUser() {
+      return BfPerson.findCurrentViewer(currentViewer);
     },
 
     async queryTargetsConnection(source, BfClass, args) {
