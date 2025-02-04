@@ -58,7 +58,7 @@ const connectionString = Deno.env.get("BF_ENV") === "DEVELOPMENT"
   : Deno.env.get("DATABASE_URL");
 
 // const pool = new Pool({ connectionString });
-type JSONValue =
+export type JSONValue =
   | string
   | number
   | boolean

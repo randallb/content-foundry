@@ -1,6 +1,7 @@
 import {
   type BfBaseNodeConstructor,
   BfNodeBase,
+  BfNodeBaseProps,
   type BfNodeCache,
 } from "packages/bfDb/classes/BfNodeBase.ts";
 import { type BfGid, toBfGid } from "packages/bfDb/classes/BfNodeIds.ts";
@@ -76,7 +77,7 @@ export class BfBlogPost extends BfNodeBase<BfBlogPostProps> {
     }
     return this._postsCache;
   }
-  static findX<TProps, T extends BfNodeBase<TProps>>(
+  static findX<TProps extends BfNodeBaseProps, T extends BfNodeBase<TProps>>(
     _cv: BfCurrentViewer,
     _id: BfGid,
     _cache?: BfNodeCache,
@@ -98,7 +99,7 @@ export class BfBlogPost extends BfNodeBase<BfBlogPostProps> {
     throw new BfErrorNodeNotFound();
   }
 
-  static query<TProps, T extends BfNodeBase<TProps>>(
+  static query<TProps extends BfNodeBaseProps, T extends BfNodeBase<TProps>>(
     _cv: BfCurrentViewer,
     _metadata: BfMetadata,
     _props: TProps,

@@ -6,16 +6,19 @@ import { type BfGid, toBfGid } from "packages/bfDb/classes/BfNodeIds.ts";
 import type { BfCurrentViewer } from "packages/bfDb/classes/BfCurrentViewer.ts";
 import { generateUUID } from "lib/generateUUID.ts";
 import { getLogger } from "packages/logger.ts";
+import { JSONValue } from "packages/bfDb/bfDb.ts";
 
 const logger = getLogger(import.meta);
 
-export type BfNodeCache<T extends typeof BfNodeBase = typeof BfNodeBase> = Map<
+export type BfNodeBaseProps = Record<string, JSONValue>;
+
+export type BfNodeCache<TProps extends BfNodeBaseProps = DefaultProps, T extends typeof BfNodeBase<TProps> = typeof BfNodeBase> = Map<
   BfGid | string,
   InstanceType<T>
 >;
 
 export interface BfBaseNodeConstructor<
-  TProps,
+  TProps extends BfNodeBaseProps,
   TBfInstance extends BfNodeBase<TProps>,
 > {
   findX(
@@ -39,7 +42,7 @@ export interface BfBaseNodeConstructor<
 
 type DefaultProps = Record<string, never>;
 
-export abstract class BfNodeBase<TProps = DefaultProps> {
+export abstract class BfNodeBase<TProps extends BfNodeBaseProps = DefaultProps> {
   __typename = this.constructor.name;
   _metadata: BfMetadata;
 
@@ -60,7 +63,7 @@ export abstract class BfNodeBase<TProps = DefaultProps> {
     };
   }
 
-  static async find<TProps, T extends BfNodeBase<TProps>>(
+  static async find<TProps extends BfNodeBaseProps, T extends BfNodeBase<TProps>>(
     cv: BfCurrentViewer,
     id: BfGid,
     cache?: BfNodeCache,
@@ -87,7 +90,7 @@ export abstract class BfNodeBase<TProps = DefaultProps> {
     return null;
   }
 
-  static async create<TProps, TThis extends typeof BfNodeBase<TProps>>(
+  static async create<TProps extends BfNodeBaseProps, TThis extends typeof BfNodeBase<TProps>>(
     this: TThis,
     cv: BfCurrentViewer,
     props: TProps,
@@ -149,23 +152,23 @@ export abstract class BfNodeBase<TProps = DefaultProps> {
 
   /** CALLBACKS */
 
-  async beforeCreate(): Promise<void> {}
+  beforeCreate(): Promise<void> | void {}
 
-  async beforeDelete(): Promise<void> {}
+  // beforeDelete(): Promise<void> | void {}
 
-  async beforeLoad(): Promise<void> {}
+  // beforeLoad(): Promise<void> | void {}
 
-  async beforeUpdate(): Promise<void> {}
+  // beforeUpdate(): Promise<void> | void {}
 
-  async afterCreate(): Promise<void> {}
+  afterCreate(): Promise<void> | void {}
 
-  async afterUpdate(): Promise<void> {}
+  // afterUpdate(): Promise<void> | void {}
 
-  async afterDelete(): Promise<void> {}
+  // afterDelete(): Promise<void> | void {}
 
-  async validateSave(): Promise<void> {}
+  // validateSave(): Promise<void> | void {}
 
-  async validatePermissions(): Promise<void> {}
+  // validatePermissions(): Promise<void> | void {}
 
   /** /CALLBACKS */
 }
