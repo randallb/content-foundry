@@ -24,7 +24,7 @@ export type GraphqlNode = {
 
 export type GraphqlBfNode = GraphqlNode;
 
-export const NodeGraphQLType = interfaceType({
+export const graphqlNode = interfaceType({
   name: "Node",
   sourceType: {
     module: import.meta.url
@@ -37,7 +37,7 @@ export const NodeGraphQLType = interfaceType({
     });
   },
 });
-export const BfNodeGraphQLType = interfaceType({
+export const graphqlBfNode = interfaceType({
   name: "BfNode",
   sourceType: {
     module: import.meta.url
@@ -45,12 +45,12 @@ export const BfNodeGraphQLType = interfaceType({
     export: "GraphqlBfNode",
   },
   definition(t) {
-    t.implements(NodeGraphQLType);
+    t.implements(graphqlNode);
   },
 });
 
-export const BfNodeGraphQLQueryType = queryField("bfNode", {
-  type: BfNodeGraphQLType,
+export const graphqlBfNodeQuery = queryField("bfNode", {
+  type: graphqlBfNode,
   args: {
     id: idArg(),
   },

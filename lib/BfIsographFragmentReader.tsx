@@ -22,6 +22,7 @@ export function BfIsographFragmentReader<
       RouteEntrypoint
     >;
     networkRequestOptions?: Partial<NetworkRequestReaderOptions>;
+    additionalProps: Record<string, any>;
   },
 ): React.ReactNode {
   const { Body } = useResult(
@@ -29,5 +30,5 @@ export function BfIsographFragmentReader<
     props.networkRequestOptions,
   );
 
-  return <Body />;
+  return <Body {...props.additionalProps} />;
 }

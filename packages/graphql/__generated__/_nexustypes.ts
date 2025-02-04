@@ -30,9 +30,42 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  RegistrationOptionsAttestationInput: { // input type
+    attestationObject: string; // String!
+    authenticatorData: string; // String!
+    clientDataJSON: string; // String!
+    publicKey: string; // String!
+    publicKeyAlgorithm: number; // Int!
+    transports: NexusGenEnums['RegistrationTransportsFuture'][]; // [RegistrationTransportsFuture!]!
+  }
+  RegistrationOptionsAuthenticationExtensionsClientOutputs: { // input type
+    appid: boolean; // Boolean!
+    credProps: NexusGenInputs['RegistrationOptionsCredentialPropertiesOutput']; // RegistrationOptionsCredentialPropertiesOutput!
+    hmacCreateSecret: boolean; // Boolean!
+  }
+  RegistrationOptionsCredentialPropertiesOutput: { // input type
+    rk: boolean; // Boolean!
+  }
+  RegistrationOptionsInput: { // input type
+    attestation: NexusGenInputs['RegistrationOptionsAttestationInput']; // RegistrationOptionsAttestationInput!
+    authenticatorSelection: string; // String!
+    challenge: string; // String!
+    clientExtensionResults: NexusGenInputs['RegistrationOptionsAuthenticationExtensionsClientOutputs']; // RegistrationOptionsAuthenticationExtensionsClientOutputs!
+    extensions: string; // String!
+    id: string; // ID!
+    publicKey: string; // String!
+    rawId: string; // ID!
+    response: NexusGenInputs['RegistrationOptionsAttestationInput']; // RegistrationOptionsAttestationInput!
+    supportedAuthenticatorTypes: string; // String!
+    timeout: number; // Int!
+    type: NexusGenEnums['Thingy']; // Thingy!
+    user: string; // String!
+  }
 }
 
 export interface NexusGenEnums {
+  RegistrationTransportsFuture: "ble" | "cable" | "hybrid" | "internal" | "nfc" | "usb"
+  Thingy: "public-key"
 }
 
 export interface NexusGenScalars {
@@ -67,6 +100,10 @@ export interface NexusGenObjects {
     cursor: string; // String!
     node?: NexusGenRootTypes['BfBlogPost'] | null; // BfBlogPost
   }
+  BfPerson: { // root type
+    id: string; // ID!
+    name?: string | null; // String
+  }
   Mutation: {};
   PageInfo: { // root type
     endCursor?: string | null; // String
@@ -84,6 +121,16 @@ export interface NexusGenObjects {
   Recommendations: { // root type
     recommendations?: Array<NexusGenRootTypes['RecommendationItem'] | null> | null; // [RecommendationItem]
   }
+  RegistrationOptions: { // root type
+    attestation?: string | null; // String
+    authenticatorSelection?: string | null; // String
+    challenge?: string | null; // String
+    extensions?: string | null; // String
+    publicKey?: string | null; // String
+    supportedAuthenticatorTypes?: string | null; // String
+    timeout?: number | null; // Int
+    user?: string | null; // String
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -96,7 +143,7 @@ export interface NexusGenUnions {
 
 export type NexusGenRootTypes = NexusGenInterfaces & NexusGenObjects
 
-export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
+export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
   BfBlog: { // field return type
@@ -123,8 +170,13 @@ export interface NexusGenFieldTypes {
     cursor: string; // String!
     node: NexusGenRootTypes['BfBlogPost'] | null; // BfBlogPost
   }
+  BfPerson: { // field return type
+    id: string; // ID!
+    name: string | null; // String
+  }
   Mutation: { // field return type
     qualityCheckTweet: NexusGenRootTypes['Recommendations'] | null; // Recommendations
+    register: NexusGenRootTypes['BfNode'] | null; // BfNode
   }
   PageInfo: { // field return type
     endCursor: string | null; // String
@@ -135,6 +187,8 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     bfNode: NexusGenRootTypes['BfNode'] | null; // BfNode
     blog: NexusGenRootTypes['BfBlog'] | null; // BfBlog
+    me: NexusGenRootTypes['BfPerson'] | null; // BfPerson
+    registrationOptions: NexusGenRootTypes['RegistrationOptions'] | null; // RegistrationOptions
   }
   RecommendationItem: { // field return type
     confidence: number | null; // Float
@@ -144,6 +198,16 @@ export interface NexusGenFieldTypes {
   }
   Recommendations: { // field return type
     recommendations: Array<NexusGenRootTypes['RecommendationItem'] | null> | null; // [RecommendationItem]
+  }
+  RegistrationOptions: { // field return type
+    attestation: string | null; // String
+    authenticatorSelection: string | null; // String
+    challenge: string | null; // String
+    extensions: string | null; // String
+    publicKey: string | null; // String
+    supportedAuthenticatorTypes: string | null; // String
+    timeout: number | null; // Int
+    user: string | null; // String
   }
   BfNode: { // field return type
     id: string; // ID!
@@ -178,8 +242,13 @@ export interface NexusGenFieldTypeNames {
     cursor: 'String'
     node: 'BfBlogPost'
   }
+  BfPerson: { // field return type name
+    id: 'ID'
+    name: 'String'
+  }
   Mutation: { // field return type name
     qualityCheckTweet: 'Recommendations'
+    register: 'BfNode'
   }
   PageInfo: { // field return type name
     endCursor: 'String'
@@ -190,6 +259,8 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     bfNode: 'BfNode'
     blog: 'BfBlog'
+    me: 'BfPerson'
+    registrationOptions: 'RegistrationOptions'
   }
   RecommendationItem: { // field return type name
     confidence: 'Float'
@@ -199,6 +270,16 @@ export interface NexusGenFieldTypeNames {
   }
   Recommendations: { // field return type name
     recommendations: 'RecommendationItem'
+  }
+  RegistrationOptions: { // field return type name
+    attestation: 'String'
+    authenticatorSelection: 'String'
+    challenge: 'String'
+    extensions: 'String'
+    publicKey: 'String'
+    supportedAuthenticatorTypes: 'String'
+    timeout: 'Int'
+    user: 'String'
   }
   BfNode: { // field return type name
     id: 'ID'
@@ -223,30 +304,37 @@ export interface NexusGenArgTypes {
       taskPrompt?: string | null; // String
       tweet?: string | null; // String
     }
+    register: { // args
+      registrationInput: NexusGenInputs['RegistrationOptionsInput']; // RegistrationOptionsInput!
+    }
   }
   Query: {
     bfNode: { // args
       id?: string | null; // ID
     }
+    registrationOptions: { // args
+      code: string; // ID!
+    }
   }
 }
 
 export interface NexusGenAbstractTypeMembers {
-  BfNode: "BfBlog" | "BfBlogPost"
-  Node: "BfBlog" | "BfBlogPost"
+  BfNode: "BfBlog" | "BfBlogPost" | "BfPerson"
+  Node: "BfBlog" | "BfBlogPost" | "BfPerson"
 }
 
 export interface NexusGenTypeInterfaces {
   BfBlog: "BfNode" | "Node"
   BfBlogPost: "BfNode" | "Node"
+  BfPerson: "BfNode" | "Node"
   BfNode: "Node"
 }
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
-export type NexusGenEnumNames = never;
+export type NexusGenEnumNames = keyof NexusGenEnums;
 
 export type NexusGenInterfaceNames = keyof NexusGenInterfaces;
 

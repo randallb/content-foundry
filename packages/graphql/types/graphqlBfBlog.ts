@@ -1,7 +1,7 @@
 import { objectType, queryField } from "nexus";
 import { BfBlogPost } from "packages/bfDb/models/BfBlogPost.ts";
 import { connectionFromArray } from "graphql-relay";
-import { BfNodeGraphQLType } from "packages/graphql/types/graphqlBfNode.ts";
+import { graphqlBfNode } from "packages/graphql/types/graphqlBfNode.ts";
 
 /**
  * Resuming: Load the blog and get its posts and show them in graphiql
@@ -9,7 +9,7 @@ import { BfNodeGraphQLType } from "packages/graphql/types/graphqlBfNode.ts";
 export const blogPostType = objectType({
   name: "BfBlogPost",
   definition(t) {
-    t.implements(BfNodeGraphQLType);
+    t.implements(graphqlBfNode);
     t.string("author");
     t.string("content");
     t.string("title");
@@ -22,7 +22,7 @@ export const blogPostType = objectType({
 export const blogType = objectType({
   name: "BfBlog",
   definition(t) {
-    t.implements(BfNodeGraphQLType);
+    t.implements(graphqlBfNode);
     t.string("name");
     t.connectionField("posts", {
       type: blogPostType,
