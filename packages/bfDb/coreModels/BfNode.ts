@@ -10,24 +10,36 @@ import { staticImplements } from "lib/staticImplements.ts";
 import { BfErrorNotImplemented } from "packages/BfError.ts";
 import { BfMetadata } from "packages/bfDb/classes/BfNodeMetadata.ts";
 import { getLogger } from "packages/logger.ts";
-import { bfPutItem, type JSONValue } from "packages/bfDb/bfDb.ts";
+import { bfGetItem, bfPutItem, type JSONValue } from "packages/bfDb/bfDb.ts";
+import { BfErrorNodeNotFound } from "packages/bfDb/classes/BfErrorNode.ts";
 
 const logger = getLogger(import.meta);
-
-type BfNodeDefaultProps = Record<string, never>;
+logger.setLevel(logger.levels.DEBUG);
 
 /**
  * talks to the database with graphql stuff
  */
-@staticImplements<BfBaseNodeConstructor<BfNodeDefaultProps, BfNode>>()
-export class BfNode<TProps extends BfNodeBaseProps = BfNodeDefaultProps>
-  extends BfNodeBase<TProps> {
-  static findX<TProps extends BfNodeBaseProps, T extends BfNodeBase<TProps>>(
-    _cv: BfCurrentViewer,
-    _id: BfGid,
-    _cache?: BfNodeCache,
-  ): Promise<T> {
-    throw new BfErrorNotImplemented();
+@staticImplements<BfBaseNodeConstructor<BfNodeBaseProps, typeof BfNode>>()
+export class BfNode<TProps extends BfNodeBaseProps> extends BfNodeBase<TProps> {
+  static async findX(
+    cv: BfCurrentViewer,
+    id: BfGid,
+    cache?: BfNodeCache,
+  ) {
+    const itemFromCache = cache?.get(id);
+    if (itemFromCache) {
+      return itemFromCache;
+    }
+    const itemFromDb = await bfGetItem(cv.bfOid, id);
+    logger.debug(itemFromDb)
+    
+    if (!itemFromDb) {
+      logger.debug("couldn't find item", cv.bfOid, id);
+      throw new BfErrorNodeNotFound();
+    }
+    const item = new this(cv, itemFromDb.props, itemFromDb.metadata);
+    cache?.set(id, item);
+    return item;
   }
 
   static findRaw<TProps extends BfNodeBaseProps, T extends BfNodeBase<TProps>>(
@@ -77,6 +89,7 @@ export class BfNode<TProps extends BfNodeBaseProps = BfNodeDefaultProps>
     return false;
   }
   async load() {
+    const item = await bfGetItem(this.cv.bfOid, this.metadata.bfGid);
     throw new BfErrorNotImplemented();
     return this;
   }

@@ -12,37 +12,43 @@ const logger = getLogger(import.meta);
 
 export type BfNodeBaseProps = Record<string, JSONValue>;
 
-export type BfNodeCache<TProps extends BfNodeBaseProps = DefaultProps, T extends typeof BfNodeBase<TProps> = typeof BfNodeBase> = Map<
+export type BfNodeCache<
+  TProps extends BfNodeBaseProps = DefaultProps,
+  T extends typeof BfNodeBase<TProps> = typeof BfNodeBase,
+> = Map<
   BfGid | string,
   InstanceType<T>
 >;
 
 export interface BfBaseNodeConstructor<
   TProps extends BfNodeBaseProps,
-  TBfInstance extends BfNodeBase<TProps>,
+  TThis extends typeof BfNodeBase<TProps>,
 > {
   findX(
+    this: TThis,
     cv: BfCurrentViewer,
     id: BfGid,
     cache?: BfNodeCache,
-  ): Promise<TBfInstance>;
+  ): Promise<InstanceType<TThis>>;
   findRaw(
     cv: BfCurrentViewer,
     id: BfGid,
     caches?: Array<BfNodeCache>,
-  ): Promise<TBfInstance>;
+  ): Promise<InstanceType<TThis>>;
   query(
     cv: BfCurrentViewer,
     metadata: BfMetadata,
     props: TProps,
     bfGids: Array<BfGid>,
     cache?: BfNodeCache,
-  ): Promise<Array<TBfInstance>>;
+  ): Promise<Array<InstanceType<TThis>>>;
 }
 
 type DefaultProps = Record<string, never>;
 
-export abstract class BfNodeBase<TProps extends BfNodeBaseProps = DefaultProps> {
+export abstract class BfNodeBase<
+  TProps extends BfNodeBaseProps = DefaultProps,
+> {
   __typename = this.constructor.name;
   _metadata: BfMetadata;
 
@@ -50,20 +56,27 @@ export abstract class BfNodeBase<TProps extends BfNodeBaseProps = DefaultProps> 
     return `${Date.now()}`;
   }
 
-  static generateMetadata(): BfMetadata {
+  static generateMetadata(
+    cv: BfCurrentViewer,
+    metadata?: Partial<BfMetadata>,
+  ): BfMetadata {
     const bfGid = toBfGid(generateUUID());
-    return {
+    const defaults = {
       bfGid: bfGid,
-      bfOid: bfGid,
-      bfCid: bfGid,
-      className: this.name,
+      bfOid: cv.bfOid,
+      bfCid: cv.bfGid,
+      className: this.constructor.name,
       createdAt: new Date(),
       lastUpdated: new Date(),
       sortValue: this.generateSortValue(),
     };
+    return { ...defaults, ...metadata };
   }
 
-  static async find<TProps extends BfNodeBaseProps, T extends BfNodeBase<TProps>>(
+  static async find<
+    TProps extends BfNodeBaseProps,
+    T extends BfNodeBase<TProps>,
+  >(
     cv: BfCurrentViewer,
     id: BfGid,
     cache?: BfNodeCache,
@@ -90,7 +103,10 @@ export abstract class BfNodeBase<TProps extends BfNodeBaseProps = DefaultProps> 
     return null;
   }
 
-  static async create<TProps extends BfNodeBaseProps, TThis extends typeof BfNodeBase<TProps>>(
+  static async __DANGEROUS__createUnattached<
+    TProps extends BfNodeBaseProps,
+    TThis extends typeof BfNodeBase<TProps>,
+  >(
     this: TThis,
     cv: BfCurrentViewer,
     props: TProps,
@@ -114,7 +130,7 @@ export abstract class BfNodeBase<TProps extends BfNodeBaseProps = DefaultProps> 
     metadata?: BfMetadata,
   ) {
     this._metadata = metadata ||
-      (this.constructor as typeof BfNodeBase).generateMetadata();
+      (this.constructor as typeof BfNodeBase).generateMetadata(_currentViewer);
   }
 
   get cv(): BfCurrentViewer {

@@ -7,11 +7,7 @@ import type {
 } from "packages/bfDb/classes/BfNodeMetadata.ts";
 import { BfErrorDb } from "packages/bfDb/classes/BfErrorDb.ts";
 import {
-  type BfAnyid,
   type BfGid,
-  type BfOid,
-  type BfSid,
-  type BfTid,
   toBfGid,
 } from "packages/bfDb/classes/BfNodeIds.ts";
 import type { BfError } from "packages/BfError.ts";
@@ -72,9 +68,9 @@ type Row<
 > = {
   props: TProps;
   bf_gid: BfGid;
-  bf_sid: BfSid;
-  bf_oid: BfOid;
-  bf_tid: BfTid;
+  bf_sid: BfGid;
+  bf_oid: BfGid;
+  bf_tid: BfGid;
   bf_cid: BfGid;
   bf_t_class_name: string;
   bf_s_class_name: string;
@@ -257,7 +253,7 @@ function rowToMetadata(row: Row): BfMetadata {
 
 export async function bfGetItem<
   TProps extends Props,
->(bfOid: BfOid, bfGid: BfAnyid): Promise<DbItem<TProps> | null> {
+>(bfOid: BfGid, bfGid: BfGid): Promise<DbItem<TProps> | null> {
   try {
     logger.trace("bfGetItem", bfOid, bfGid);
     const rows =
@@ -737,7 +733,7 @@ export function bfQueryItemsWithSizeLimit<
   );
 }
 
-export async function bfDeleteItem(bfOid: BfOid, bfGid: BfGid): Promise<void> {
+export async function bfDeleteItem(bfOid: BfGid, bfGid: BfGid): Promise<void> {
   try {
     logger.debug("bfDeleteItem", { bfOid, bfGid });
     await sql`

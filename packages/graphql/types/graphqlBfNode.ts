@@ -2,7 +2,7 @@ import { BfNode } from "packages/bfDb/coreModels/BfNode.ts";
 import { getLogger } from "packages/logger.ts";
 import { idArg, interfaceType, queryField } from "nexus";
 import type { BfGid } from "packages/bfDb/classes/BfNodeIds.ts";
-import { BfBlogPost } from "packages/bfDb/models/BfBlogPost.ts";
+// import { BfBlogPost } from "packages/bfDb/models/BfBlogPost.ts";
 // import {
 //   idArg,
 //   interfaceType,
@@ -55,7 +55,8 @@ export const graphqlBfNodeQuery = queryField("bfNode", {
     id: idArg(),
   },
   resolve: async (_, { id }, ctx) => {
-    return await ctx.findRaw(id, BfBlogPost);
+    const blogPost = await ctx.findRaw(id, BfNode);
+    return blogPost?.toGraphql();
   },
 });
 

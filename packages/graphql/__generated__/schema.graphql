@@ -3,6 +3,12 @@
 ### Do not make changes to this file directly
 
 
+type AuthenticatorSelection {
+  requireResidentKey: Boolean!
+  residentKey: String!
+  userVerification: String!
+}
+
 type BfBlog implements BfNode & Node {
   """Unique identifier for the resource"""
   id: ID!
@@ -72,7 +78,6 @@ type BfPerson implements BfNode & Node {
 
 type Mutation {
   qualityCheckTweet(systemPrompt: String, taskPrompt: String, tweet: String): Recommendations
-  register(registrationInput: RegistrationOptionsInput!): BfNode
 }
 
 interface Node {
@@ -105,11 +110,27 @@ type PageInfo {
   startCursor: String
 }
 
+type PublicKeyCredentialDescriptorJSON {
+  id: String!
+  transports: [String]
+  type: PublicKeyRegistrationOption!
+}
+
+enum PublicKeyCredentialHint {
+  client_device
+  hybrid
+  security_key
+}
+
+enum PublicKeyRegistrationOption {
+  public_key
+}
+
 type Query {
   bfNode(id: ID): BfNode
   blog: BfBlog
   me: BfPerson
-  registrationOptions(code: ID!): RegistrationOptions
+  registration(code: ID!): Registration
 }
 
 type RecommendationItem {
@@ -124,61 +145,40 @@ type Recommendations {
   recommendations: [RecommendationItem]
 }
 
+type Registration {
+  options: RegistrationOptions
+  person: BfPerson
+}
+
 type RegistrationOptions {
-  attestation: String
-  authenticatorSelection: String
-  challenge: String
-  extensions: String
-  publicKey: String
-  supportedAuthenticatorTypes: String
-  timeout: Int
-  user: String
-}
-
-input RegistrationOptionsAttestationInput {
-  attestationObject: String!
-  authenticatorData: String!
-  clientDataJSON: String!
-  publicKey: String!
-  publicKeyAlgorithm: Int!
-  transports: [RegistrationTransportsFuture!]!
-}
-
-input RegistrationOptionsAuthenticationExtensionsClientOutputs {
-  appid: Boolean!
-  credProps: RegistrationOptionsCredentialPropertiesOutput!
-  hmacCreateSecret: Boolean!
-}
-
-input RegistrationOptionsCredentialPropertiesOutput {
-  rk: Boolean!
-}
-
-input RegistrationOptionsInput {
-  attestation: RegistrationOptionsAttestationInput!
-  authenticatorSelection: String!
+  attestation: String!
+  authenticatorSelection: AuthenticatorSelection!
   challenge: String!
-  clientExtensionResults: RegistrationOptionsAuthenticationExtensionsClientOutputs!
-  extensions: String!
-  id: ID!
-  publicKey: String!
-  rawId: ID!
-  response: RegistrationOptionsAttestationInput!
-  supportedAuthenticatorTypes: String!
+  excludeCredentials: [PublicKeyCredentialDescriptorJSON!]!
+  extensions: RegistrationOptionsExtensions!
+  hints: [PublicKeyCredentialHint!]!
+  pubKeyCredParams: [RegistrationOptionsPubKeyCredParams!]!
+  rp: RegistrationOptionsRp!
   timeout: Int!
-  type: Thingy!
-  user: String!
+  user: RegistrationOptionsUser!
 }
 
-enum RegistrationTransportsFuture {
-  ble
-  cable
-  hybrid
-  internal
-  nfc
-  usb
+type RegistrationOptionsExtensions {
+  credProps: Boolean!
 }
 
-enum Thingy {
-  public_key
+type RegistrationOptionsPubKeyCredParams {
+  alg: Int!
+  type: PublicKeyRegistrationOption!
+}
+
+type RegistrationOptionsRp {
+  id: ID!
+  name: String!
+}
+
+type RegistrationOptionsUser {
+  displayName: String!
+  id: ID!
+  name: String!
 }

@@ -28,6 +28,7 @@ const allowedEnvironmentVariables = [
 const allowedNetworkDestionations = [
   "0.0.0.0:8000",
   "openrouter.ai",
+  "api.us-east-1.aws.neon.tech:443",
 ];
 
 const includableDirectories = [
