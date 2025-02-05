@@ -59,7 +59,7 @@ export abstract class BfNodeBase<
       bfGid: bfGid,
       bfOid: cv.bfOid,
       bfCid: cv.bfGid,
-      className: this.constructor.name,
+      className: this.name,
       createdAt: new Date(),
       lastUpdated: new Date(),
       sortValue: this.generateSortValue(),
@@ -97,17 +97,19 @@ export abstract class BfNodeBase<
     return null;
   }
 
-  static async create<
+  static async __DANGEROUS__createUnattached<
     TProps extends BfNodeBaseProps,
     TThis extends typeof BfNodeBase<TProps>,
   >(
     this: TThis,
     cv: BfCurrentViewer,
     props: TProps,
-    metadata?: BfMetadata,
+    metadata?: Partial<BfMetadata>,
     cache?: BfNodeCache,
   ): Promise<InstanceType<TThis>> {
-    logger.debug(`Creating ${this.name} with props ${JSON.stringify(props)}`);
+    logger.debug(
+      `Creating unattached ${this.name} with props ${JSON.stringify(props)}`,
+    );
     // @ts-expect-error new-ing an abstract class is a type error.
     const newNode = new this(cv, props, metadata);
     await newNode.beforeCreate();
@@ -121,10 +123,12 @@ export abstract class BfNodeBase<
   constructor(
     private _currentViewer: BfCurrentViewer,
     private _props: TProps,
-    metadata?: BfMetadata,
+    metadata?: Partial<BfMetadata>,
   ) {
-    this._metadata = metadata ||
-      (this.constructor as typeof BfNodeBase).generateMetadata(_currentViewer);
+    this._metadata = (this.constructor as typeof BfNodeBase).generateMetadata(
+      _currentViewer,
+      metadata,
+    );
   }
 
   get cv(): BfCurrentViewer {
@@ -156,10 +160,17 @@ export abstract class BfNodeBase<
     };
   }
 
+  toString() {
+    return `${this.constructor.name}#${this.metadata.bfGid}⚡️${this.metadata.bfOid}`
+  }
+
   abstract save(): Promise<this>;
   abstract delete(): Promise<boolean>;
   abstract load(): Promise<this>;
-  abstract createTargetNode<TProps extends BfNodeBaseProps, TBfClass extends typeof BfNode<TProps>>(
+  abstract createTargetNode<
+    TProps extends BfNodeBaseProps,
+    TBfClass extends typeof BfNode<TProps>,
+  >(
     TargetBfClass: TBfClass,
     props: TProps,
     metadata?: BfMetadata,
