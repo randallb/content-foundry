@@ -9,8 +9,10 @@ import { type Query__Blog__param } from './Query/Blog/param_type.ts';
 import { type Query__EntrypointAdminApp__param } from './Query/EntrypointAdminApp/param_type.ts';
 import { type Query__EntrypointBlogPost__param } from './Query/EntrypointBlogPost/param_type.ts';
 import { type Query__EntrypointBlog__param } from './Query/EntrypointBlog/param_type.ts';
+import { type Query__EntrypointLogin__param } from './Query/EntrypointLogin/param_type.ts';
 import { type Query__EntrypointPersonSettings__param } from './Query/EntrypointPersonSettings/param_type.ts';
 import { type Query__EntrypointRegister__param } from './Query/EntrypointRegister/param_type.ts';
+import { type Query__PageLogin__param } from './Query/PageLogin/param_type.ts';
 import { type Query__QualityCheckTweetForm__param } from './Query/QualityCheckTweetForm/param_type.ts';
 import { type Query__RegistrationForm__param } from './Query/RegistrationForm/param_type.ts';
 
@@ -103,12 +105,20 @@ export function iso<T>(
 ): IdentityWithParam<Query__EntrypointBlog__param>;
 
 export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field Query.EntrypointLogin', T>
+): IdentityWithParam<Query__EntrypointLogin__param>;
+
+export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Query.EntrypointPersonSettings', T>
 ): IdentityWithParam<Query__EntrypointPersonSettings__param>;
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Query.EntrypointRegister', T>
 ): IdentityWithParam<Query__EntrypointRegister__param>;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field Query.PageLogin', T>
+): IdentityWithParamComponent<Query__PageLogin__param>;
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Query.QualityCheckTweetForm', T>
@@ -136,6 +146,10 @@ export function iso<T>(
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'entrypoint Query.EntrypointBlog', T>
+): void;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'entrypoint Query.EntrypointLogin', T>
 ): void;
 
 export function iso<T>(
