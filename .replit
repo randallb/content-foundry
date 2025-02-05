@@ -28,11 +28,11 @@ author = 33272860
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "bff build"
+args = "bff build || sleep 20"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "./build/web"
+args = "./build/web || sleep 10"
 
 [[workflows.workflow]]
 name = "Dev tools"
