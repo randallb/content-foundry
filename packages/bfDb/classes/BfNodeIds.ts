@@ -7,25 +7,6 @@ export type Nominal<Type, Identifier> = Type & {
  * BfGid is a globally unique identifier for a BfModel.
  */
 export type BfGid = Nominal<string, "BfGid">;
-/**
- * BfOid is an owner for a BfModel. BfOid maps to BfGids.
- */
-export type BfOid = Nominal<string, "BfOid"> | BfGid;
-/**
- * BfSid is a Source for a BfEdge. BfSid maps to BfGids.
- */
-export type BfSid = Nominal<string, "BfSid"> | BfGid;
-/**
- * BfCid is the creator for a BfModel. BfCid maps to BfGids for accounts only.
- */
-export type BfCid = Nominal<string, "BfCid"> | BfGid;
-/**
- * BfTid is a target for a BfModel. Most frequently used in edges. BfTid maps to BfGids.
- */
-export type BfTid = Nominal<string, "BfTid"> | BfGid;
-
-export type BfAnyid = BfGid | BfOid | BfSid | BfCid | BfTid;
-
 export type BfAccessToken = Nominal<string, "BfAccessToken">;
 export type BfClassName = Nominal<string, "BfClassName">;
 export type Unixtime = Nominal<number, "Unixtime">;
@@ -33,22 +14,6 @@ export type JsUnixtime = Nominal<number, "JsUnixtime">;
 
 export function toBfGid(value: string): BfGid {
   return value as BfGid;
-}
-
-export function toBfOid(value: string): BfOid {
-  return value as BfOid;
-}
-
-export function toBfSid(value: string): BfSid {
-  return value as BfSid;
-}
-
-export function toBfTid(value: string): BfTid {
-  return value as BfTid;
-}
-
-export function toBfCid(value: string): BfCid {
-  return value as BfCid;
 }
 
 export function toUnixtime(value: number): Unixtime {

@@ -22,22 +22,23 @@ export interface BfBaseNodeConstructor<
   TBfInstance extends BfNodeBase<TProps>,
 > {
   findX(
+    this: TThis,
     cv: BfCurrentViewer,
     id: BfGid,
     cache?: BfNodeCache,
-  ): Promise<TBfInstance>;
+  ): Promise<InstanceType<TThis>>;
   findRaw(
     cv: BfCurrentViewer,
     id: BfGid,
     caches?: Array<BfNodeCache>,
-  ): Promise<TBfInstance>;
+  ): Promise<InstanceType<TThis>>;
   query(
     cv: BfCurrentViewer,
     metadata: BfMetadata,
     props: TProps,
     bfGids: Array<BfGid>,
     cache?: BfNodeCache,
-  ): Promise<Array<TBfInstance>>;
+  ): Promise<Array<InstanceType<TThis>>>;
 }
 
 type DefaultProps = Record<string, never>;
@@ -50,17 +51,21 @@ export abstract class BfNodeBase<TProps extends BfNodeBaseProps = DefaultProps> 
     return `${Date.now()}`;
   }
 
-  static generateMetadata(): BfMetadata {
+  static generateMetadata(
+    cv: BfCurrentViewer,
+    metadata?: Partial<BfMetadata>,
+  ): BfMetadata {
     const bfGid = toBfGid(generateUUID());
-    return {
+    const defaults = {
       bfGid: bfGid,
-      bfOid: bfGid,
-      bfCid: bfGid,
-      className: this.name,
+      bfOid: cv.bfOid,
+      bfCid: cv.bfGid,
+      className: this.constructor.name,
       createdAt: new Date(),
       lastUpdated: new Date(),
       sortValue: this.generateSortValue(),
     };
+    return { ...defaults, ...metadata };
   }
 
   static async find<TProps extends BfNodeBaseProps, T extends BfNodeBase<TProps>>(
@@ -114,7 +119,7 @@ export abstract class BfNodeBase<TProps extends BfNodeBaseProps = DefaultProps> 
     metadata?: BfMetadata,
   ) {
     this._metadata = metadata ||
-      (this.constructor as typeof BfNodeBase).generateMetadata();
+      (this.constructor as typeof BfNodeBase).generateMetadata(_currentViewer);
   }
 
   get cv(): BfCurrentViewer {

@@ -9,6 +9,15 @@ export class BfCurrentViewer {
     return new BfCurrentViewer__DANGEROUS__OMNI__();
   }
   clear() {}
+
+  __typename = this.constructor.name;
+
+  protected constructor(
+    readonly creator: ImportMeta, // the import.meta of the module that created the current viewer
+    readonly bfGid: BfGid, // person for whom the access token was created
+    readonly bfOid: BfGid, // always an owner, used to determine access control
+  ) {
+  }
 }
 
 export class BfCurrentViewer__DANGEROUS__OMNI__ extends BfCurrentViewer {

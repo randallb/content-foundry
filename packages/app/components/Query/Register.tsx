@@ -1,56 +1,64 @@
 import { iso } from "packages/app/__generated__/__isograph/iso.ts";
-import { BfDsForm } from "packages/bfDs/components/BfDsForm/BfDsForm.tsx";
-import { BfDsFormTextInput } from "packages/bfDs/components/BfDsForm/BfDsFormTextInput.tsx";
 import { getLogger } from "packages/logger.ts";
-import { BfDsFormSubmitButton } from "packages/bfDs/components/BfDsForm/BfDsFormSubmitButton.tsx";
-import mutation from "packages/app/__generated__/__isograph/Mutation/RegisterMutation/entrypoint.ts";
-import { useMutation } from "packages/app/hooks/isographPrototypes/useMutation.tsx";
-import { useMemo } from "react";
 
-import { startRegistration } from "@simplewebauthn/browser";
-import { useRouter } from "packages/app/contexts/RouterContext.tsx";
-
+import {
+  type PublicKeyCredentialCreationOptionsJSON,
+  startRegistration,
+} from "@simplewebauthn/browser";
+import { BfDsButton } from "packages/bfDs/components/BfDsButton.tsx";
 
 const logger = getLogger(import.meta);
 
-
-
 export const RegistrationForm = iso(`
   field Query.RegistrationForm($code: ID!) @component {
-    registrationOptions(code: $code) {
-      __typename
+    registration(code: $code) {
+      options {
+        challenge
+        rp {
+          name
+          id
+        }
+        user {
+          id
+          name
+          displayName
+        }
+        pubKeyCredParams {
+          type
+          alg
+        }
+        authenticatorSelection {
+          requireResidentKey
+          userVerification
+        }
+        excludeCredentials {
+          id
+        }
+        attestation 
+        extensions {
+          credProps
+        }
+      }
+      person {
+        name
+      }
     }
   }
 `)(function RegistrationForm({ data }) {
-  const initialFormData = useMemo(() => {
-    return {
-      code: "",
-    };
-  }, [])
-  async function register(formData: typeof initialFormData) {
+  const registrationOptions = data.registration?.options;
+  if (!registrationOptions) {
+    return;
+  }
+  async function register() {
+    const optionsJSON =
+      registrationOptions as PublicKeyCredentialCreationOptionsJSON;
+    logger.debug('options json', optionsJSON)
     const result = await startRegistration({
-      optionsJSON: {
-        challenge: "something",
-        rp: {
-          name: "lol",
-        },
-        user: {
-          displayName: "RanDull",
-          id: "something",
-          name: "RanDull",
-        },
-        pubKeyCredParams: [{
-          alg: 256,
-          type: "public-key",
-        }]
-      },
+      optionsJSON,
     });
-    logger.info("commintting here", result)
+    logger.info("commintting here", result);
   }
   return (
-    <BfDsForm initialData={initialFormData} onSubmit={register}>
-      <BfDsFormTextInput id="name" title={data.registrationOptions?.__typename ?? "lol"} />
-      <BfDsFormSubmitButton text="submit" />
-    </BfDsForm>
+    <BfDsButton onClick={register} text="Click to register your passkey" />
   );
 });

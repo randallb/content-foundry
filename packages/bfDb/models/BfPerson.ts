@@ -5,6 +5,7 @@ import { BfErrorNotImplemented } from "packages/BfError.ts";
 import { generateUUID } from "lib/generateUUID.ts";
 
 const logger = getLogger(import.meta);
+logger.setLevel(logger.levels.DEBUG);
 
 export type BfPersonProps = {
   name: string;

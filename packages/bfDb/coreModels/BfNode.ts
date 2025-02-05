@@ -13,6 +13,7 @@ import { getLogger } from "packages/logger.ts";
 import { bfPutItem, type JSONValue } from "packages/bfDb/bfDb.ts";
 
 const logger = getLogger(import.meta);
+logger.setLevel(logger.levels.DEBUG);
 
 type BfNodeDefaultProps = Record<string, never>;
 

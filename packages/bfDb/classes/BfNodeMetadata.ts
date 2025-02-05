@@ -1,4 +1,4 @@
-import type { BfGid, BfSid } from "packages/bfDb/classes/BfNodeIds.ts";
+import type { BfGid, } from "packages/bfDb/classes/BfNodeIds.ts";
 
 export type BfMetadata =
   | BfMetadataNode
