@@ -8,8 +8,10 @@ const queryText = 'query EntrypointLogin  {\
   me {\
     __typename,\
     id,\
-    authenticationOptions {\
+    ... on BfCurrentViewerLoggedOut {\
+      id,\
       __typename,\
+      authenticationOptions,\
     },\
   },\
 }';
@@ -34,14 +36,22 @@ const normalizationAst: NormalizationAst = {
           arguments: null,
         },
         {
-          kind: "Linked",
-          fieldName: "authenticationOptions",
-          arguments: null,
-          concreteType: "RegistrationOptions",
+          kind: "InlineFragment",
+          type: "BfCurrentViewerLoggedOut",
           selections: [
             {
               kind: "Scalar",
+              fieldName: "id",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
               fieldName: "__typename",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "authenticationOptions",
               arguments: null,
             },
           ],

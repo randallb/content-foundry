@@ -4,38 +4,14 @@ import {Query__EntrypointRegister__output_type} from './output_type.ts';
 import readerResolver from './resolver_reader.ts';
 const nestedRefetchQueries: RefetchQueryNormalizationArtifactWrapper[] = [];
 
-const queryText = 'query EntrypointRegister ($code: ID!) {\
-  registration____code___v_code: registration(code: $code) {\
-    options {\
-      attestation,\
-      authenticatorSelection {\
-        requireResidentKey,\
-        userVerification,\
-      },\
-      challenge,\
-      excludeCredentials {\
-        id,\
-      },\
-      extensions {\
-        credProps,\
-      },\
-      pubKeyCredParams {\
-        alg,\
-        type,\
-      },\
-      rp {\
-        id,\
-        name,\
-      },\
-      user {\
-        id,\
-        displayName,\
-        name,\
-      },\
-    },\
-    person {\
+const queryText = 'query EntrypointRegister ($code: String!) {\
+  me {\
+    __typename,\
+    id,\
+    ... on BfCurrentViewerLoggedOut {\
       id,\
-      name,\
+      __typename,\
+      registrationOptions____code___v_code: registrationOptions(code: $code),\
     },\
   },\
 }';
@@ -45,141 +21,23 @@ const normalizationAst: NormalizationAst = {
   selections: [
     {
       kind: "Linked",
-      fieldName: "registration",
-      arguments: [
-        [
-          "code",
-          { kind: "Variable", name: "code" },
-        ],
-      ],
-      concreteType: "Registration",
+      fieldName: "me",
+      arguments: null,
+      concreteType: null,
       selections: [
         {
-          kind: "Linked",
-          fieldName: "options",
+          kind: "Scalar",
+          fieldName: "__typename",
           arguments: null,
-          concreteType: "RegistrationOptions",
-          selections: [
-            {
-              kind: "Scalar",
-              fieldName: "attestation",
-              arguments: null,
-            },
-            {
-              kind: "Linked",
-              fieldName: "authenticatorSelection",
-              arguments: null,
-              concreteType: "AuthenticatorSelection",
-              selections: [
-                {
-                  kind: "Scalar",
-                  fieldName: "requireResidentKey",
-                  arguments: null,
-                },
-                {
-                  kind: "Scalar",
-                  fieldName: "userVerification",
-                  arguments: null,
-                },
-              ],
-            },
-            {
-              kind: "Scalar",
-              fieldName: "challenge",
-              arguments: null,
-            },
-            {
-              kind: "Linked",
-              fieldName: "excludeCredentials",
-              arguments: null,
-              concreteType: "PublicKeyCredentialDescriptorJSON",
-              selections: [
-                {
-                  kind: "Scalar",
-                  fieldName: "id",
-                  arguments: null,
-                },
-              ],
-            },
-            {
-              kind: "Linked",
-              fieldName: "extensions",
-              arguments: null,
-              concreteType: "RegistrationOptionsExtensions",
-              selections: [
-                {
-                  kind: "Scalar",
-                  fieldName: "credProps",
-                  arguments: null,
-                },
-              ],
-            },
-            {
-              kind: "Linked",
-              fieldName: "pubKeyCredParams",
-              arguments: null,
-              concreteType: "RegistrationOptionsPubKeyCredParams",
-              selections: [
-                {
-                  kind: "Scalar",
-                  fieldName: "alg",
-                  arguments: null,
-                },
-                {
-                  kind: "Scalar",
-                  fieldName: "type",
-                  arguments: null,
-                },
-              ],
-            },
-            {
-              kind: "Linked",
-              fieldName: "rp",
-              arguments: null,
-              concreteType: "RegistrationOptionsRp",
-              selections: [
-                {
-                  kind: "Scalar",
-                  fieldName: "id",
-                  arguments: null,
-                },
-                {
-                  kind: "Scalar",
-                  fieldName: "name",
-                  arguments: null,
-                },
-              ],
-            },
-            {
-              kind: "Linked",
-              fieldName: "user",
-              arguments: null,
-              concreteType: "RegistrationOptionsUser",
-              selections: [
-                {
-                  kind: "Scalar",
-                  fieldName: "id",
-                  arguments: null,
-                },
-                {
-                  kind: "Scalar",
-                  fieldName: "displayName",
-                  arguments: null,
-                },
-                {
-                  kind: "Scalar",
-                  fieldName: "name",
-                  arguments: null,
-                },
-              ],
-            },
-          ],
         },
         {
-          kind: "Linked",
-          fieldName: "person",
+          kind: "Scalar",
+          fieldName: "id",
           arguments: null,
-          concreteType: "BfPerson",
+        },
+        {
+          kind: "InlineFragment",
+          type: "BfCurrentViewerLoggedOut",
           selections: [
             {
               kind: "Scalar",
@@ -188,8 +46,18 @@ const normalizationAst: NormalizationAst = {
             },
             {
               kind: "Scalar",
-              fieldName: "name",
+              fieldName: "__typename",
               arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "registrationOptions",
+              arguments: [
+                [
+                  "code",
+                  { kind: "Variable", name: "code" },
+                ],
+              ],
             },
           ],
         },

@@ -1,173 +1,33 @@
 import type {ComponentReaderArtifact, ExtractSecondParam, ReaderAst } from '@isograph/react';
 import { Query__RegistrationForm__param } from './param_type.ts';
-import { RegistrationForm as resolver } from '../../../../components/Query/Register.tsx';
+import { RegistrationForm as resolver } from '../../../../components/Query/RegistrationForm.tsx';
+import BfCurrentViewerLoggedOut__asBfCurrentViewerLoggedOut__resolver_reader from '../../BfCurrentViewerLoggedOut/asBfCurrentViewerLoggedOut/resolver_reader.ts';
 
 const readerAst: ReaderAst<Query__RegistrationForm__param> = [
   {
     kind: "Linked",
-    fieldName: "registration",
+    fieldName: "me",
     alias: null,
-    arguments: [
-      [
-        "code",
-        { kind: "Variable", name: "code" },
-      ],
-    ],
+    arguments: null,
     condition: null,
     selections: [
       {
         kind: "Linked",
-        fieldName: "options",
+        fieldName: "asBfCurrentViewerLoggedOut",
         alias: null,
         arguments: null,
-        condition: null,
+        condition: BfCurrentViewerLoggedOut__asBfCurrentViewerLoggedOut__resolver_reader,
         selections: [
           {
             kind: "Scalar",
-            fieldName: "challenge",
+            fieldName: "registrationOptions",
             alias: null,
-            arguments: null,
-          },
-          {
-            kind: "Linked",
-            fieldName: "rp",
-            alias: null,
-            arguments: null,
-            condition: null,
-            selections: [
-              {
-                kind: "Scalar",
-                fieldName: "name",
-                alias: null,
-                arguments: null,
-              },
-              {
-                kind: "Scalar",
-                fieldName: "id",
-                alias: null,
-                arguments: null,
-              },
+            arguments: [
+              [
+                "code",
+                { kind: "Variable", name: "code" },
+              ],
             ],
-          },
-          {
-            kind: "Linked",
-            fieldName: "user",
-            alias: null,
-            arguments: null,
-            condition: null,
-            selections: [
-              {
-                kind: "Scalar",
-                fieldName: "id",
-                alias: null,
-                arguments: null,
-              },
-              {
-                kind: "Scalar",
-                fieldName: "name",
-                alias: null,
-                arguments: null,
-              },
-              {
-                kind: "Scalar",
-                fieldName: "displayName",
-                alias: null,
-                arguments: null,
-              },
-            ],
-          },
-          {
-            kind: "Linked",
-            fieldName: "pubKeyCredParams",
-            alias: null,
-            arguments: null,
-            condition: null,
-            selections: [
-              {
-                kind: "Scalar",
-                fieldName: "type",
-                alias: null,
-                arguments: null,
-              },
-              {
-                kind: "Scalar",
-                fieldName: "alg",
-                alias: null,
-                arguments: null,
-              },
-            ],
-          },
-          {
-            kind: "Linked",
-            fieldName: "authenticatorSelection",
-            alias: null,
-            arguments: null,
-            condition: null,
-            selections: [
-              {
-                kind: "Scalar",
-                fieldName: "requireResidentKey",
-                alias: null,
-                arguments: null,
-              },
-              {
-                kind: "Scalar",
-                fieldName: "userVerification",
-                alias: null,
-                arguments: null,
-              },
-            ],
-          },
-          {
-            kind: "Linked",
-            fieldName: "excludeCredentials",
-            alias: null,
-            arguments: null,
-            condition: null,
-            selections: [
-              {
-                kind: "Scalar",
-                fieldName: "id",
-                alias: null,
-                arguments: null,
-              },
-            ],
-          },
-          {
-            kind: "Scalar",
-            fieldName: "attestation",
-            alias: null,
-            arguments: null,
-          },
-          {
-            kind: "Linked",
-            fieldName: "extensions",
-            alias: null,
-            arguments: null,
-            condition: null,
-            selections: [
-              {
-                kind: "Scalar",
-                fieldName: "credProps",
-                alias: null,
-                arguments: null,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        kind: "Linked",
-        fieldName: "person",
-        alias: null,
-        arguments: null,
-        condition: null,
-        selections: [
-          {
-            kind: "Scalar",
-            fieldName: "name",
-            alias: null,
-            arguments: null,
           },
         ],
       },
