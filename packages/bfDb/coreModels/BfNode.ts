@@ -10,32 +10,37 @@ import { staticImplements } from "lib/staticImplements.ts";
 import { BfErrorNotImplemented } from "packages/BfError.ts";
 import { BfMetadata } from "packages/bfDb/classes/BfNodeMetadata.ts";
 import { getLogger } from "packages/logger.ts";
-import { bfPutItem, type JSONValue } from "packages/bfDb/bfDb.ts";
+import { bfGetItem, bfPutItem, type JSONValue } from "packages/bfDb/bfDb.ts";
+import { BfErrorNodeNotFound } from "packages/bfDb/classes/BfErrorNode.ts";
 
 const logger = getLogger(import.meta);
-
-type BfNodeDefaultProps = Record<string, never>;
+logger.setLevel(logger.levels.DEBUG);
 
 /**
  * talks to the database with graphql stuff
  */
-@staticImplements<BfBaseNodeConstructor<BfNodeDefaultProps, BfNode>>()
-export class BfNode<TProps extends BfNodeBaseProps = BfNodeDefaultProps>
-  extends BfNodeBase<TProps> {
-  static findX<TProps extends BfNodeBaseProps, T extends BfNodeBase<TProps>>(
-    _cv: BfCurrentViewer,
-    _id: BfGid,
-    _cache?: BfNodeCache,
-  ): Promise<T> {
-    throw new BfErrorNotImplemented();
-  }
+@staticImplements<BfBaseNodeConstructor<BfNodeBaseProps, typeof BfNode>>()
+export class BfNode<TProps extends BfNodeBaseProps = BfNodeBaseProps> extends BfNodeBase<TProps> {
+  static async findX<TBfClass extends typeof BfNode>(
+    this: TBfClass,
+    cv: BfCurrentViewer,
+    id: BfGid,
+    cache?: BfNodeCache,
+  ) {
+    const itemFromCache = cache?.get(id);
+    if (itemFromCache) {
+      return itemFromCache as InstanceType<TBfClass>;
+    }
+    const itemFromDb = await bfGetItem(cv.bfOid, id);
+    logger.debug(itemFromDb);
 
-  static findRaw<TProps extends BfNodeBaseProps, T extends BfNodeBase<TProps>>(
-    _cv: BfCurrentViewer,
-    _id: BfGid,
-    _caches: Array<BfNodeCache> = [],
-  ): Promise<T> {
-    throw new BfErrorNotImplemented();
+    if (!itemFromDb) {
+      logger.debug("couldn't find item", cv.bfOid, id);
+      throw new BfErrorNodeNotFound();
+    }
+    const item = new this(cv, itemFromDb.props, itemFromDb.metadata);
+    cache?.set(id, item);
+    return item as InstanceType<TBfClass>;
   }
 
   static query<TProps extends BfNodeBaseProps, T extends BfNodeBase<TProps>>(
@@ -77,7 +82,21 @@ export class BfNode<TProps extends BfNodeBaseProps = BfNodeDefaultProps>
     return false;
   }
   async load() {
+    const item = await bfGetItem(this.cv.bfOid, this.metadata.bfGid);
     throw new BfErrorNotImplemented();
     return this;
+  }
+
+  async createTargetNode<
+    TProps extends BfNodeBaseProps,
+    TBfClass extends typeof BfNode<TProps>,
+  >(
+    TargetBfClass: TBfClass,
+    props: TProps,
+    metadata?: BfMetadata,
+  ): Promise<InstanceType<TBfClass>> {
+    return new TargetBfClass(this.cv, props, metadata) as InstanceType<
+      TBfClass
+    >;
   }
 }
