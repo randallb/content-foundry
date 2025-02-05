@@ -6,9 +6,11 @@ import entrypointBlogPostModule from "packages/app/__generated__/__isograph/Quer
 import entrypointAdminAppModule from "packages/app/__generated__/__isograph/Query/EntrypointAdminApp/entrypoint.ts";
 import entrypointPersonSettingsModule from "packages/app/__generated__/__isograph/Query/EntrypointPersonSettings/entrypoint.ts";
 import entrypointRegisterModule from "packages/app/__generated__/__isograph/Query/EntrypointRegister/entrypoint.ts"
+import entrypointLoginModule from "packages/app/__generated__/__isograph/Query/EntrypointLogin/entrypoint.ts"
 import type { IsographEntrypoint } from "@isograph/react";
 import { iso } from "packages/app/__generated__/__isograph/iso.ts";
 
+/** hack until Patryck does some stuff */
 function isoEntrypoint(
   entrypointName: string,
 ): IsographEntrypoint<any, RouteEntrypoint> {
@@ -18,6 +20,7 @@ function isoEntrypoint(
     "entrypoint Query.EntrypointAdminApp": entrypointAdminAppModule,
     "entrypoint Query.EntrypointPersonSettings": entrypointPersonSettingsModule,
     "entrypoint Query.EntrypointRegister": entrypointRegisterModule,
+    "entrypoint Query.EntrypointLogin": entrypointLoginModule,
   };
   // @ts-expect-error this is a temporary thing
   return entrypoints[entrypointName];
@@ -63,6 +66,8 @@ const entrypointPersonSettings = isoEntrypoint(
 );
 iso(`entrypoint Query.EntrypointRegister`);
 const entrypointRegister = isoEntrypoint(`entrypoint Query.EntrypointRegister`);
+iso(`entrypoint Query.EntrypointLogin`);
+const entrypointLogin = isoEntrypoint(`entrypoint Query.EntrypointLogin`);
 
 // const appEntrypoint = iso(`entrypoint Query.AppHome`) ?? appEntrypointModule;
 
@@ -72,6 +77,7 @@ export const isographAppRoutes = new Map<string, IsographRoute>([
   ["/blog", entrypointBlog],
   ["/settings", entrypointPersonSettings],
   ["/register", entrypointRegister],
+  ["/login", entrypointLogin]
 ]);
 
 export const toolRoutes: RouteMap = new Map([
