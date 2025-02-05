@@ -26,6 +26,7 @@ export class BfNode<TProps extends BfNodeBaseProps = BfNodeBaseProps> extends Bf
     id: BfGid,
     cache?: BfNodeCache,
   ) {
+    logger.debug(`findX: ${this.name} ${id} ${cv}`);
     const itemFromCache = cache?.get(id);
     if (itemFromCache) {
       return itemFromCache as InstanceType<TBfClass>;
@@ -73,6 +74,7 @@ export class BfNode<TProps extends BfNodeBaseProps = BfNodeBaseProps> extends Bf
   // }
 
   async save() {
+    logger.debug(`Saving ${this}`, this.props, this.metadata)
     await bfPutItem(this.props, this.metadata);
     return this;
   }
