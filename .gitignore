@@ -10,3 +10,5 @@ static/build
 node_modules
 vendor
 .sapling_token
+.git
+.config
