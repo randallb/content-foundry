@@ -10,23 +10,22 @@ const logger = getLogger(import.meta);
 export const PageLogin = iso(`
   field Query.PageLogin @component {
     me {
-       authenticationOptions {
-         __typename
+       asBfCurrentViewerLoggedOut {
+         authenticationOptions
        }
     }
-    
   }
 `)(function PageLogin({ data }) {
   logger.setLevel(logger.levels.DEBUG);
   
   async function login() {
-    const authenticationOptions = data?.me?.authenticationOptions;
-    if (authenticationOptions == null) {
-      throw new BfError("No authentication options found");
-    }
-    await startAuthentication({
-      optionsJSON: authenticationOptions,
-    });
+    // const authenticationOptions = data?.me?.authenticationOptions;
+    // if (authenticationOptions == null) {
+    //   throw new BfError("No authentication options found");
+    // }
+    // await startAuthentication({
+    //   optionsJSON: authenticationOptions,
+    // });
   }
 
   return <BfDsButton onClick={login} text="Login using passkey" />;

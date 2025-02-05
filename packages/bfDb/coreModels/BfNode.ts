@@ -74,6 +74,7 @@ export class BfNode<TProps extends BfNodeBaseProps = BfNodeBaseProps> extends Bf
   // }
 
   async save() {
+    logger.setLevel(logger.levels.DEBUG)
     logger.debug(`Saving ${this}`, this.props, this.metadata)
     await bfPutItem(this.props, this.metadata);
     return this;
