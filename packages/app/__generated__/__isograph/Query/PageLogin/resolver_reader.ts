@@ -11,10 +11,19 @@ const readerAst: ReaderAst<Query__PageLogin__param> = [
     condition: null,
     selections: [
       {
-        kind: "Scalar",
-        fieldName: "__typename",
+        kind: "Linked",
+        fieldName: "authenticationOptions",
         alias: null,
         arguments: null,
+        condition: null,
+        selections: [
+          {
+            kind: "Scalar",
+            fieldName: "__typename",
+            alias: null,
+            arguments: null,
+          },
+        ],
       },
     ],
   },

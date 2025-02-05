@@ -6,8 +6,11 @@ const nestedRefetchQueries: RefetchQueryNormalizationArtifactWrapper[] = [];
 
 const queryText = 'query EntrypointLogin  {\
   me {\
-    id,\
     __typename,\
+    id,\
+    authenticationOptions {\
+      __typename,\
+    },\
   },\
 }';
 
@@ -18,17 +21,30 @@ const normalizationAst: NormalizationAst = {
       kind: "Linked",
       fieldName: "me",
       arguments: null,
-      concreteType: "BfPerson",
+      concreteType: null,
       selections: [
+        {
+          kind: "Scalar",
+          fieldName: "__typename",
+          arguments: null,
+        },
         {
           kind: "Scalar",
           fieldName: "id",
           arguments: null,
         },
         {
-          kind: "Scalar",
-          fieldName: "__typename",
+          kind: "Linked",
+          fieldName: "authenticationOptions",
           arguments: null,
+          concreteType: "RegistrationOptions",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "__typename",
+              arguments: null,
+            },
+          ],
         },
       ],
     },
