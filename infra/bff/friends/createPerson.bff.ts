@@ -3,7 +3,6 @@ import { getLogger } from "packages/logger.ts";
 import { generateBluey } from "lib/generateBluey.ts";
 import { BfCurrentViewer } from "packages/bfDb/classes/BfCurrentViewer.ts";
 import { BfPerson } from "packages/bfDb/models/BfPerson.ts";
-import { BfError } from "packages/BfError.ts";
 const logger = getLogger(import.meta);
 
 register(
@@ -15,15 +14,13 @@ register(
       import.meta,
     );
     const person = await BfPerson.create(cv, { name });
-    if (!person.props.inviteCode) {
-      throw new BfError("No invite code");
-    }
+
     logger.info(generateBluey(
       `Successfully created the user! Go to:
 
       https://${
         Deno.env.get("REPLIT_DEV_DOMAIN")
-      }/register?code=${person.props.inviteCode}`,
+      }/register?code=${person.metadata.bfGid}`,
     ));
     return 0;
   },

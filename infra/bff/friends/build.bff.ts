@@ -28,6 +28,7 @@ const allowedEnvironmentVariables = [
 const allowedNetworkDestionations = [
   "0.0.0.0:8000",
   "openrouter.ai",
+  "api.us-east-1.aws.neon.tech:443",
 ];
 
 const includableDirectories = [
@@ -40,6 +41,10 @@ const readableLocations = [
   "./",
 ];
 
+const allowedBinaries = [
+  "sl",
+];
+
 const denoCompilationCommand = [
   "deno",
   "compile",
@@ -48,6 +53,7 @@ const denoCompilationCommand = [
   `--allow-net=${allowedNetworkDestionations.join(",")}`,
   `--allow-env=${allowedEnvironmentVariables.join(",")}`,
   `--allow-read=${readableLocations}`,
+  `--allow-run=${allowedBinaries.join(",")}`,
   "packages/web/web.tsx",
 ];
 
