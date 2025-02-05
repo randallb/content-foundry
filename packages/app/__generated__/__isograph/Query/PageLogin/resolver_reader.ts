@@ -1,6 +1,7 @@
 import type {ComponentReaderArtifact, ExtractSecondParam, ReaderAst } from '@isograph/react';
 import { Query__PageLogin__param } from './param_type.ts';
 import { PageLogin as resolver } from '../../../../pages/PageLogin.tsx';
+import BfCurrentViewerLoggedOut__asBfCurrentViewerLoggedOut__resolver_reader from '../../BfCurrentViewerLoggedOut/asBfCurrentViewerLoggedOut/resolver_reader.ts';
 
 const readerAst: ReaderAst<Query__PageLogin__param> = [
   {
@@ -12,14 +13,14 @@ const readerAst: ReaderAst<Query__PageLogin__param> = [
     selections: [
       {
         kind: "Linked",
-        fieldName: "authenticationOptions",
+        fieldName: "asBfCurrentViewerLoggedOut",
         alias: null,
         arguments: null,
-        condition: null,
+        condition: BfCurrentViewerLoggedOut__asBfCurrentViewerLoggedOut__resolver_reader,
         selections: [
           {
             kind: "Scalar",
-            fieldName: "__typename",
+            fieldName: "authenticationOptions",
             alias: null,
             arguments: null,
           },

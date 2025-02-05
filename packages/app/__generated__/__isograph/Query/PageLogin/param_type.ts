@@ -2,8 +2,11 @@
 export type Query__PageLogin__param = {
   readonly data: {
     readonly me: ({
-      readonly authenticationOptions: ({
-        readonly __typename: string,
+      /**
+A client pointer for the BfCurrentViewerLoggedOut type.
+      */
+      readonly asBfCurrentViewerLoggedOut: ({
+        readonly authenticationOptions: (string | null),
       } | null),
     } | null),
   },

@@ -1,7 +1,6 @@
 import type { IsographEntrypoint } from '@isograph/react';
 import { type BfBlog__BlogPostList__param } from './BfBlog/BlogPostList/param_type.ts';
 import { type BfBlogPost__BlogPostListItem__param } from './BfBlogPost/BlogPostListItem/param_type.ts';
-import { type BfCurrentViewerLoggedOut__AuthenticationOptions__param } from './BfCurrentViewerLoggedOut/AuthenticationOptions/param_type.ts';
 import { type BfPerson__PersonSettings__param } from './BfPerson/PersonSettings/param_type.ts';
 import { type Mutation__QualityCheckTweet__param } from './Mutation/QualityCheckTweet/param_type.ts';
 import { type Query__AdminApp__param } from './Query/AdminApp/param_type.ts';
@@ -71,10 +70,6 @@ export function iso<T>(
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field BfBlogPost.BlogPostListItem', T>
 ): IdentityWithParamComponent<BfBlogPost__BlogPostListItem__param>;
-
-export function iso<T>(
-  param: T & MatchesWhitespaceAndString<'field BfCurrentViewerLoggedOut.AuthenticationOptions', T>
-): IdentityWithParam<BfCurrentViewerLoggedOut__AuthenticationOptions__param>;
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field BfPerson.PersonSettings', T>

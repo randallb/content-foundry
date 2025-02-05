@@ -4,18 +4,18 @@ import { BfCurrentViewer } from "packages/bfDb/classes/BfCurrentViewer.ts";
 // import type { BfNode } from "packages/bfDb/coreModels/BfNode.ts";
 import type { Connection, ConnectionArguments } from "graphql-relay";
 import type { BfNodeBase, BfNodeBaseProps } from "packages/bfDb/classes/BfNodeBase.ts";
-import type { BfErrorNodeNotFound } from "packages/bfDb/classes/BfErrorNode.ts";
 import { BfErrorNotImplemented } from "packages/BfError.ts";
-import { BfNode } from "packages/bfDb/coreModels/BfNode.ts";
-import { GraphqlNode } from "packages/graphql/types/graphqlBfNode.ts";
+import type { BfNode } from "packages/bfDb/coreModels/BfNode.ts";
+import type { GraphqlNode } from "packages/graphql/types/graphqlBfNode.ts";
 // import { BfBlogPost } from "packages/bfDb/models/BfBlogPost.ts";
-import { BfMetadata } from "packages/bfDb/classes/BfNodeMetadata.ts";
+import type { BfMetadata } from "packages/bfDb/classes/BfNodeMetadata.ts";
 import { BfPerson } from "packages/bfDb/models/BfPerson.ts";
 
 const logger = getLogger(import.meta);
 
 export type Context = {
   [Symbol.dispose]: () => void;
+  getCvForGraphql(): any;
   createTargetNode<TProps extends BfNodeBaseProps, TBfClass extends typeof BfNode<TProps>>(
     sourceNode: BfNode,
     BfClass: TBfClass,
@@ -49,6 +49,10 @@ export async function createContext(request: Request): Promise<Context> {
       cache.clear();
       currentViewer.clear();
       logger.debug("Context disposed");
+    },
+
+    getCvForGraphql() {
+      return currentViewer.toGraphql();
     },
 
     async createTargetNode<TProps extends BfNodeBaseProps = BfNodeBaseProps, TBfClass extends typeof BfNode<TProps> = typeof BfNode<TProps>>(
