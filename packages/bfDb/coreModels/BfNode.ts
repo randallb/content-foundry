@@ -14,7 +14,6 @@ import { bfGetItem, bfPutItem, type JSONValue } from "packages/bfDb/bfDb.ts";
 import { BfErrorNodeNotFound } from "packages/bfDb/classes/BfErrorNode.ts";
 
 const logger = getLogger(import.meta);
-logger.setLevel(logger.levels.DEBUG);
 
 /**
  * talks to the database with graphql stuff

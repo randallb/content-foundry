@@ -9,7 +9,6 @@ import {
 } from "@simplewebauthn/server";
 
 const logger = getLogger(import.meta);
-logger.setLevel(logger.levels.DEBUG);
 
 export type BfPersonProps = {
   name: string;
