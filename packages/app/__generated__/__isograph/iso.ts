@@ -1,6 +1,7 @@
 import type { IsographEntrypoint } from '@isograph/react';
 import { type BfBlog__BlogPostList__param } from './BfBlog/BlogPostList/param_type.ts';
 import { type BfBlogPost__BlogPostListItem__param } from './BfBlogPost/BlogPostListItem/param_type.ts';
+import { type BfCurrentViewerLoggedOut__AuthenticationOptions__param } from './BfCurrentViewerLoggedOut/AuthenticationOptions/param_type.ts';
 import { type BfPerson__PersonSettings__param } from './BfPerson/PersonSettings/param_type.ts';
 import { type Mutation__QualityCheckTweet__param } from './Mutation/QualityCheckTweet/param_type.ts';
 import { type Query__AdminApp__param } from './Query/AdminApp/param_type.ts';
@@ -10,7 +11,6 @@ import { type Query__EntrypointAdminApp__param } from './Query/EntrypointAdminAp
 import { type Query__EntrypointBlogPost__param } from './Query/EntrypointBlogPost/param_type.ts';
 import { type Query__EntrypointBlog__param } from './Query/EntrypointBlog/param_type.ts';
 import { type Query__EntrypointLogin__param } from './Query/EntrypointLogin/param_type.ts';
-import { type Query__EntrypointPersonSettings__param } from './Query/EntrypointPersonSettings/param_type.ts';
 import { type Query__EntrypointRegister__param } from './Query/EntrypointRegister/param_type.ts';
 import { type Query__PageLogin__param } from './Query/PageLogin/param_type.ts';
 import { type Query__QualityCheckTweetForm__param } from './Query/QualityCheckTweetForm/param_type.ts';
@@ -73,6 +73,10 @@ export function iso<T>(
 ): IdentityWithParamComponent<BfBlogPost__BlogPostListItem__param>;
 
 export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field BfCurrentViewerLoggedOut.AuthenticationOptions', T>
+): IdentityWithParam<BfCurrentViewerLoggedOut__AuthenticationOptions__param>;
+
+export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field BfPerson.PersonSettings', T>
 ): IdentityWithParamComponent<BfPerson__PersonSettings__param>;
 
@@ -107,10 +111,6 @@ export function iso<T>(
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Query.EntrypointLogin', T>
 ): IdentityWithParam<Query__EntrypointLogin__param>;
-
-export function iso<T>(
-  param: T & MatchesWhitespaceAndString<'field Query.EntrypointPersonSettings', T>
-): IdentityWithParam<Query__EntrypointPersonSettings__param>;
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Query.EntrypointRegister', T>
@@ -150,10 +150,6 @@ export function iso<T>(
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'entrypoint Query.EntrypointLogin', T>
-): void;
-
-export function iso<T>(
-  param: T & MatchesWhitespaceAndString<'entrypoint Query.EntrypointPersonSettings', T>
 ): void;
 
 export function iso<T>(
