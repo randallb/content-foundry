@@ -3,7 +3,6 @@ import { type BfBlog__BlogPostList__param } from './BfBlog/BlogPostList/param_ty
 import { type BfBlogPost__BlogPostListItem__param } from './BfBlogPost/BlogPostListItem/param_type.ts';
 import { type BfPerson__PersonSettings__param } from './BfPerson/PersonSettings/param_type.ts';
 import { type Mutation__QualityCheckTweet__param } from './Mutation/QualityCheckTweet/param_type.ts';
-import { type Mutation__RegisterMutation__param } from './Mutation/RegisterMutation/param_type.ts';
 import { type Query__AdminApp__param } from './Query/AdminApp/param_type.ts';
 import { type Query__AppHome__param } from './Query/AppHome/param_type.ts';
 import { type Query__Blog__param } from './Query/Blog/param_type.ts';
@@ -80,10 +79,6 @@ export function iso<T>(
 ): IdentityWithParamComponent<Mutation__QualityCheckTweet__param>;
 
 export function iso<T>(
-  param: T & MatchesWhitespaceAndString<'field Mutation.RegisterMutation', T>
-): IdentityWithParam<Mutation__RegisterMutation__param>;
-
-export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Query.AdminApp', T>
 ): IdentityWithParamComponent<Query__AdminApp__param>;
 
@@ -125,10 +120,6 @@ export function iso<T>(
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'entrypoint Mutation.QualityCheckTweet', T>
-): void;
-
-export function iso<T>(
-  param: T & MatchesWhitespaceAndString<'entrypoint Mutation.RegisterMutation', T>
 ): void;
 
 export function iso<T>(
