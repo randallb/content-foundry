@@ -13,6 +13,8 @@ async function openSapling() {
     "sl",
     "web",
     "--json",
+    "--no-open",
+    "-f"
   ]);
   const json = JSON.parse(output);
   const url = new URL(json.url);
@@ -30,6 +32,8 @@ async function openSapling() {
       urls: [url],
     }),
   });
+
+  
 
   logger.info(
     generateBluey(
