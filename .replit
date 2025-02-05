@@ -35,17 +35,17 @@ task = "shell.exec"
 args = "./build/web"
 
 [[workflows.workflow]]
-name = "Jupyter"
-mode = "sequential"
+name = "Dev tools"
+mode = "parallel"
 author = 33272860
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "deno jupyter --install"
+args = "sl web -f --no-open"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "jupyter notebook --config ./infra/jupyter/config.py"
+args = "deno jupyter --install && jupyter notebook --config ./infra/jupyter/config.py"
 
 [[workflows.workflow]]
 name = "Commit"
