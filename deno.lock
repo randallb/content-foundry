@@ -41,7 +41,9 @@
     "npm:chalk@^5.4.1": "5.4.1",
     "npm:esbuild@~0.24.2": "0.24.2",
     "npm:graphql-relay@~0.10.2": "0.10.2_graphql@16.10.0",
+    "npm:graphql-type-json@~0.3.2": "0.3.2_graphql@16.10.0",
     "npm:graphql-yoga@^5.10.10": "5.10.10_graphql@16.10.0",
+    "npm:graphql@^16.10.0": "16.10.0",
     "npm:loglevel-plugin-prefix@~0.8.4": "0.8.4",
     "npm:loglevel@^1.9.2": "1.9.2",
     "npm:marked@*": "15.0.6",
@@ -644,6 +646,12 @@
         "graphql"
       ]
     },
+    "graphql-type-json@0.3.2_graphql@16.10.0": {
+      "integrity": "sha512-J+vjof74oMlCWXSvt0DOf2APEdZOCdubEvGDUAlqH//VBYcOYsGgRW7Xzorr44LvkjiuvecWc8fChxuZZbChtg==",
+      "dependencies": [
+        "graphql"
+      ]
+    },
     "graphql-yoga@5.10.10_graphql@16.10.0": {
       "integrity": "sha512-0KF0mxKeedMBYOSVLbJh7GJJwrObhBktr77SuDdZPmVA+OtdC9Xef+gYHsk7EQDeBPodgsA99pmd/tL9j0d4zg==",
       "dependencies": [
@@ -864,7 +872,9 @@
         "npm:chalk@^5.4.1",
         "npm:esbuild@~0.24.2",
         "npm:graphql-relay@~0.10.2",
+        "npm:graphql-type-json@~0.3.2",
         "npm:graphql-yoga@^5.10.10",
+        "npm:graphql@^16.10.0",
         "npm:loglevel-plugin-prefix@~0.8.4",
         "npm:loglevel@^1.9.2",
         "npm:marked@^15.0.6",
