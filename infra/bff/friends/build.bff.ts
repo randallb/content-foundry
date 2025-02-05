@@ -25,10 +25,18 @@ const allowedEnvironmentVariables = [
   "USER",
 ];
 
+const DATABASE_STRING = Deno.env.get("DATABASE_URL") ?? "";
+const DATABASE_URL = new URL(DATABASE_STRING);
+const dbDomain = DATABASE_URL.hostname;
+const neonApiParts = dbDomain.split(".")
+neonApiParts[0] = "api";
+const neonApiDomain = neonApiParts.join(".");
+
 const allowedNetworkDestionations = [
   "0.0.0.0:8000",
   "openrouter.ai",
-  "api.us-east-1.aws.neon.tech:443",
+  dbDomain,
+  neonApiDomain,
 ];
 
 const includableDirectories = [
