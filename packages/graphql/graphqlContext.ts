@@ -16,8 +16,8 @@ const logger = getLogger(import.meta);
 
 export type Context = {
   [Symbol.dispose]: () => void;
-  __DANGEROUS__createUnattached<TProps extends BfNodeBaseProps, TClass extends typeof BfNodeBase<TProps>>(
-    BfClass: TClass,
+  create<TProps extends BfNodeBaseProps>(
+    BfClass: typeof BfNode<TProps>,
     props: TProps,
     metadata?: BfMetadata,
   ): Promise<InstanceType<TClass>>;
@@ -41,9 +41,9 @@ export type Context = {
   ): Promise<Connection<GraphqlNode>>;
 };
 
-export async function createContext(request: Request): Promise<Context> {
+export async function createContext(_: Request): Promise<Context> {
   const cache = new Map<string, Map<BfGid, BfNodeBase>>();
-  const currentViewer = await BfCurrentViewer.createFromRequest(import.meta, request);
+  const currentViewer = new BfCurrentViewer();
 
   logger.debug("context Creating");
   const ctx: Context = {
@@ -54,9 +54,9 @@ export async function createContext(request: Request): Promise<Context> {
       logger.debug("Context disposed");
     },
 
-    async __DANGEROUS__createUnattached(
-      BfClass,
-      props,
+    create<TProps extends BfNodeBaseProps>(
+      BfClass: typeof BfNode<TProps>,
+      props: TProps,
       metadata?: BfMetadata,
     ) {
       let innerCache = cache.get(BfClass.name);

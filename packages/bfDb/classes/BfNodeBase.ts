@@ -12,17 +12,14 @@ const logger = getLogger(import.meta);
 
 export type BfNodeBaseProps = Record<string, JSONValue>;
 
-export type BfNodeCache<
-  TProps extends BfNodeBaseProps = DefaultProps,
-  T extends typeof BfNodeBase<TProps> = typeof BfNodeBase,
-> = Map<
+export type BfNodeCache<TProps extends BfNodeBaseProps = DefaultProps, T extends typeof BfNodeBase<TProps> = typeof BfNodeBase> = Map<
   BfGid | string,
   InstanceType<T>
 >;
 
 export interface BfBaseNodeConstructor<
   TProps extends BfNodeBaseProps,
-  TThis extends typeof BfNodeBase<TProps>,
+  TBfInstance extends BfNodeBase<TProps>,
 > {
   findX(
     this: TThis,
@@ -46,9 +43,7 @@ export interface BfBaseNodeConstructor<
 
 type DefaultProps = Record<string, never>;
 
-export abstract class BfNodeBase<
-  TProps extends BfNodeBaseProps = DefaultProps,
-> {
+export abstract class BfNodeBase<TProps extends BfNodeBaseProps = DefaultProps> {
   __typename = this.constructor.name;
   _metadata: BfMetadata;
 
@@ -73,10 +68,7 @@ export abstract class BfNodeBase<
     return { ...defaults, ...metadata };
   }
 
-  static async find<
-    TProps extends BfNodeBaseProps,
-    T extends BfNodeBase<TProps>,
-  >(
+  static async find<TProps extends BfNodeBaseProps, T extends BfNodeBase<TProps>>(
     cv: BfCurrentViewer,
     id: BfGid,
     cache?: BfNodeCache,
@@ -103,10 +95,7 @@ export abstract class BfNodeBase<
     return null;
   }
 
-  static async __DANGEROUS__createUnattached<
-    TProps extends BfNodeBaseProps,
-    TThis extends typeof BfNodeBase<TProps>,
-  >(
+  static async create<TProps extends BfNodeBaseProps, TThis extends typeof BfNodeBase<TProps>>(
     this: TThis,
     cv: BfCurrentViewer,
     props: TProps,

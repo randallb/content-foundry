@@ -14,8 +14,8 @@ register(
     const cv = BfCurrentViewer.__DANGEROUS_USE_IN_SCRIPTS_ONLY__createOmni(
       import.meta,
     );
-    const person = await BfPerson.__DANGEROUS__createUnattached(cv, { name });
-    if (!person.metadata.bfGid) {
+    const person = await BfPerson.create(cv, { name });
+    if (!person.props.inviteCode) {
       throw new BfError("No invite code");
     }
     logger.info(generateBluey(
@@ -23,7 +23,7 @@ register(
 
       https://${
         Deno.env.get("REPLIT_DEV_DOMAIN")
-      }/register?code=${person.metadata.bfGid}`,
+      }/register?code=${person.props.inviteCode}`,
     ));
     return 0;
   },
