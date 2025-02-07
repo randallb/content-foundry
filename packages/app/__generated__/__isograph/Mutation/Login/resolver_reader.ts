@@ -1,8 +1,8 @@
 import type {ComponentReaderArtifact, ExtractSecondParam, ReaderAst } from '@isograph/react';
-import { Query__QualityCheckTweetForm__param } from './param_type.ts';
-import { QualityCheckTweetForm as resolver } from '../../../../components/QualityCheck/QualityCheckTweetForm.tsx';
+import { Mutation__Login__param } from './param_type.ts';
+import { LoginMutation as resolver } from '../../../../mutations/LoginMutation.tsx';
 
-const readerAst: ReaderAst<Query__QualityCheckTweetForm__param> = [
+const readerAst: ReaderAst<Mutation__Login__param> = [
   {
     kind: "Scalar",
     fieldName: "__typename",
@@ -12,11 +12,11 @@ const readerAst: ReaderAst<Query__QualityCheckTweetForm__param> = [
 ];
 
 const artifact: ComponentReaderArtifact<
-  Query__QualityCheckTweetForm__param,
+  Mutation__Login__param,
   ExtractSecondParam<typeof resolver>
 > = {
   kind: "ComponentReaderArtifact",
-  componentName: "Query.QualityCheckTweetForm",
+  componentName: "Mutation.Login",
   resolver,
   readerAst,
   hasUpdatable: false,

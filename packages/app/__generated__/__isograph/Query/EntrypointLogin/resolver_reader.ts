@@ -1,16 +1,14 @@
 import type { EagerReaderArtifact, ReaderAst } from '@isograph/react';
 import { Query__EntrypointLogin__param } from './param_type.ts';
 import { Query__EntrypointLogin__output_type } from './output_type.ts';
-import { EntrypointRegister as resolver } from '../../../../entrypoints/EntrypointLogin.ts';
-import Query__PageLogin__resolver_reader from '../../Query/PageLogin/resolver_reader.ts';
+import { EntrypointLogin as resolver } from '../../../../entrypoints/EntrypointLogin.ts';
 
 const readerAst: ReaderAst<Query__EntrypointLogin__param> = [
   {
-    kind: "Resolver",
-    alias: "PageLogin",
+    kind: "Scalar",
+    fieldName: "__typename",
+    alias: null,
     arguments: null,
-    readerArtifact: Query__PageLogin__resolver_reader,
-    usedRefetchQueries: [],
   },
 ];
 

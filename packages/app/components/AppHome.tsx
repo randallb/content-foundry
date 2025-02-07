@@ -7,8 +7,8 @@ const logger = getLogger(import.meta);
 iso(`entrypoint Query.AppHome`)
 export const AppHome = iso(`
   field Query.AppHome @component {
-    QualityCheckTweetForm
+    __typename
   }
 `)(function AppHome({ data }) {
-  return <data.QualityCheckTweetForm />;
+  return ""
 });

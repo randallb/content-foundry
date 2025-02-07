@@ -1,10 +1,10 @@
 import { iso } from "packages/app/__generated__/__isograph/iso.ts";
 import type { RouteEntrypoint } from "packages/app/routes.ts";
 
-export const EntrypointRegister = iso(`
+export const EntrypointLogin = iso(`
   field Query.EntrypointLogin {
-    PageLogin
+    __typename
   }
-`)(function EntrypointRegister({ data }): RouteEntrypoint {
-  return { Body: data.PageLogin, title: "Login" };
+`)(function EntrypointLogin({ data }): RouteEntrypoint {
+  return { Body: () => null, title: "Login" };
 })

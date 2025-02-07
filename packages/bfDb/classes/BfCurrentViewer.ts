@@ -1,14 +1,36 @@
 import { getLogger } from "packages/logger.ts";
-import { BfGid, toBfGid } from "packages/bfDb/classes/BfNodeIds.ts";
+import { type BfGid, toBfGid } from "packages/bfDb/classes/BfNodeIds.ts";
+import {
+  AuthenticationResponseJSON,
+  type PublicKeyCredentialRequestOptionsJSON,
+  verifyAuthenticationResponse,
+} from "@simplewebauthn/server";
+import { BfPerson } from "packages/bfDb/models/BfPerson.ts";
+import { generateUUID } from "lib/generateUUID.ts";
 
 const logger = getLogger(import.meta);
 
 export abstract class BfCurrentViewer {
-  __typename: string;
+  __typename;
+  get id() {
+    return `${this.constructor.name}#${this.bfGid}⚡️${this.bfOid}`;
+  }
   static async createFromRequest(importMeta: ImportMeta, _request: Request) {
     const cv = BfCurrentViewerLoggedOut
       .__PROBABLY_DONT_USE_THIS_VERY_OFTEN__create(importMeta);
     return cv;
+  }
+
+  static async createFromLoginOptions(
+    importMeta: ImportMeta,
+    options: AuthenticationResponseJSON,
+    responseHeaders: Headers,
+  ) {
+    return await BfCurrentViewerLoggedIn.createFromLoginOptions(
+      importMeta,
+      options,
+      responseHeaders,
+    );
   }
   static __DANGEROUS_USE_IN_SCRIPTS_ONLY__createOmni(importMeta: ImportMeta) {
     logger.warn(`Creating omnivc from: ${importMeta.url}`);
@@ -26,8 +48,17 @@ export abstract class BfCurrentViewer {
       toBfGid(bfGid),
       toBfGid(bfOid),
     );
-
-
+  }
+  static __DANGEROUS_USE_IN_REGISTRATION_ONLY__createCvForRegistration(
+    importMeta: ImportMeta,
+    bfGid: string | BfGid = generateUUID(),
+  ) {
+    return BfCurrentViewerForRegistration
+      .__PROBABLY_DONT_USE_THIS_VERY_OFTEN__create(
+        importMeta,
+        toBfGid(bfGid),
+        toBfGid(bfGid),
+      );
   }
 
   static createLoggedOut(
@@ -53,7 +84,7 @@ export abstract class BfCurrentViewer {
   }
 
   toString() {
-    return `${this.constructor.name}#${this.bfGid}⚡️${this.bfOid}`;
+    return this.id;
   }
 }
 
@@ -68,6 +99,7 @@ export class BfCurrentViewerLoggedOut extends BfCurrentViewer {
     return new this(creator);
   }
 }
+
 class BfCurrentViewerLoggedIn extends BfCurrentViewer {
   static __PROBABLY_DONT_USE_THIS_VERY_OFTEN__create(
     creator: ImportMeta,
@@ -76,7 +108,39 @@ class BfCurrentViewerLoggedIn extends BfCurrentViewer {
   ) {
     return new this(creator, bfGid, bfOid);
   }
+
+  static override async createFromLoginOptions(
+    creator: ImportMeta,
+    response: AuthenticationResponseJSON,
+    responseHeaders: Headers,
+  ) {
+    const bfGid = toBfGid(response.id);
+    const cv = BfCurrentViewer
+      .__DANGEROUS_USE_IN_REGISTRATION_ONLY__createCvForRegistration(
+        creator,
+      );
+    const isVerified = await BfPerson.verifyLogin(cv, response);
+
+    if (!isVerified) {
+      responseHeaders.set("Set-Cookie", "bfToken=; Max-Age=0");
+      return BfCurrentViewerLoggedOut
+        .__PROBABLY_DONT_USE_THIS_VERY_OFTEN__create(creator);
+    }
+    const nextCv = new this(
+      creator,
+      bfGid,
+      bfGid,
+    );
+    responseHeaders.set("Set-Cookie", `bfToken=${nextCv.token}; Max-Age=3600`);
+
+    return nextCv;
+  }
+  get token() {
+    return "BAD ONE";
+  }
 }
+
+export class BfCurrentViewerForRegistration extends BfCurrentViewerLoggedIn {}
 
 class BfCurrentViewer__DANGEROUS__OMNI__ extends BfCurrentViewer {
   static __PROBABLY_DONT_USE_THIS_VERY_OFTEN__create(creator: ImportMeta) {
