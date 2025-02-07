@@ -41,7 +41,6 @@ export const RegisterButton = iso(`
     }
     if (hasEmail === false && email) {
       const register = () => {
-        logger.setLevel(logger.levels.DEBUG);
         loadFragmentReference({
           email,
         }, {
@@ -63,14 +62,11 @@ export const RegisterButton = iso(`
                   logger.setLevel(logger.levels.DEBUG);
                   logger.debug("Completed registration.");
                   setIsInFlight(false);
-                  logger.resetLevel();
                 },
               });
             } else {
               setIsInFlight(false);
             }
-
-            logger.resetLevel();
           },
         });
       };
