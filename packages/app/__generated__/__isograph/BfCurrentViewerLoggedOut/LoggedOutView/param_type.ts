@@ -1,8 +1,7 @@
 
-export type BfPerson__PersonSettings__param = {
+export type BfCurrentViewerLoggedOut__LoggedOutView__param = {
   readonly data: {
     readonly __typename: string,
-    readonly name: (string | null),
   },
   readonly parameters: Record<PropertyKey, never>,
 };

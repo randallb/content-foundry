@@ -1,5 +1,5 @@
 
-export type Query__AdminApp__param = {
+export type BfCurrentViewerLoggedIn__LoggedInView__param = {
   readonly data: {
     readonly __typename: string,
   },

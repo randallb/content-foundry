@@ -64,12 +64,16 @@ interface BfCurrentViewer implements Node {
   id: ID!
 }
 
+type BfCurrentViewerLoggedIn implements BfCurrentViewer & Node {
+  """Unique identifier for the resource"""
+  id: ID!
+}
+
 type BfCurrentViewerLoggedOut implements BfCurrentViewer & Node {
   authenticationOptions: JSONString
 
   """Unique identifier for the resource"""
   id: ID!
-  registrationOptions(code: String!): JSONString
 }
 
 interface BfNode implements Node {
@@ -91,7 +95,9 @@ A scalar that only accepts a valid JSON string. It returns the same valid JSON s
 scalar JSONString
 
 type Mutation {
+  login(options: JSONString!): BfCurrentViewer
   qualityCheckTweet(systemPrompt: String, taskPrompt: String, tweet: String): Recommendations
+  register(registrationResponse: JSONString!): BfCurrentViewer
 }
 
 interface Node {
@@ -128,6 +134,7 @@ type Query {
   bfNode(id: ID): BfNode
   blog: BfBlog
   me: BfCurrentViewer
+  registrationOptions: JSONString
 }
 
 type RecommendationItem {

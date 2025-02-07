@@ -69,6 +69,9 @@ export interface NexusGenObjects {
     cursor: string; // String!
     node?: NexusGenRootTypes['BfBlogPost'] | null; // BfBlogPost
   }
+  BfCurrentViewerLoggedIn: { // root type
+    id: string; // ID!
+  }
   BfCurrentViewerLoggedOut: { // root type
     id: string; // ID!
   }
@@ -96,7 +99,7 @@ export interface NexusGenObjects {
 }
 
 export interface NexusGenInterfaces {
-  BfCurrentViewer: core.Discriminate<'BfCurrentViewerLoggedOut', 'required'>;
+  BfCurrentViewer: core.Discriminate<'BfCurrentViewerLoggedIn', 'required'> | core.Discriminate<'BfCurrentViewerLoggedOut', 'required'>;
   BfNode: GraphqlBfNode;
   Node: GraphqlNode;
 }
@@ -133,17 +136,21 @@ export interface NexusGenFieldTypes {
     cursor: string; // String!
     node: NexusGenRootTypes['BfBlogPost'] | null; // BfBlogPost
   }
+  BfCurrentViewerLoggedIn: { // field return type
+    id: string; // ID!
+  }
   BfCurrentViewerLoggedOut: { // field return type
     authenticationOptions: NexusGenScalars['JSONString'] | null; // JSONString
     id: string; // ID!
-    registrationOptions: NexusGenScalars['JSONString'] | null; // JSONString
   }
   BfPerson: { // field return type
     id: string; // ID!
     name: string | null; // String
   }
   Mutation: { // field return type
+    login: NexusGenRootTypes['BfCurrentViewer'] | null; // BfCurrentViewer
     qualityCheckTweet: NexusGenRootTypes['Recommendations'] | null; // Recommendations
+    register: NexusGenRootTypes['BfCurrentViewer'] | null; // BfCurrentViewer
   }
   PageInfo: { // field return type
     endCursor: string | null; // String
@@ -155,6 +162,7 @@ export interface NexusGenFieldTypes {
     bfNode: NexusGenRootTypes['BfNode'] | null; // BfNode
     blog: NexusGenRootTypes['BfBlog'] | null; // BfBlog
     me: NexusGenRootTypes['BfCurrentViewer'] | null; // BfCurrentViewer
+    registrationOptions: NexusGenScalars['JSONString'] | null; // JSONString
   }
   RecommendationItem: { // field return type
     confidence: number | null; // Float
@@ -201,17 +209,21 @@ export interface NexusGenFieldTypeNames {
     cursor: 'String'
     node: 'BfBlogPost'
   }
+  BfCurrentViewerLoggedIn: { // field return type name
+    id: 'ID'
+  }
   BfCurrentViewerLoggedOut: { // field return type name
     authenticationOptions: 'JSONString'
     id: 'ID'
-    registrationOptions: 'JSONString'
   }
   BfPerson: { // field return type name
     id: 'ID'
     name: 'String'
   }
   Mutation: { // field return type name
+    login: 'BfCurrentViewer'
     qualityCheckTweet: 'Recommendations'
+    register: 'BfCurrentViewer'
   }
   PageInfo: { // field return type name
     endCursor: 'String'
@@ -223,6 +235,7 @@ export interface NexusGenFieldTypeNames {
     bfNode: 'BfNode'
     blog: 'BfBlog'
     me: 'BfCurrentViewer'
+    registrationOptions: 'JSONString'
   }
   RecommendationItem: { // field return type name
     confidence: 'Float'
@@ -253,16 +266,17 @@ export interface NexusGenArgTypes {
       last?: number | null; // Int
     }
   }
-  BfCurrentViewerLoggedOut: {
-    registrationOptions: { // args
-      code: string; // String!
-    }
-  }
   Mutation: {
+    login: { // args
+      options: NexusGenScalars['JSONString']; // JSONString!
+    }
     qualityCheckTweet: { // args
       systemPrompt?: string | null; // String
       taskPrompt?: string | null; // String
       tweet?: string | null; // String
+    }
+    register: { // args
+      registrationResponse: NexusGenScalars['JSONString']; // JSONString!
     }
   }
   Query: {
@@ -273,14 +287,15 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
-  BfCurrentViewer: "BfCurrentViewerLoggedOut"
+  BfCurrentViewer: "BfCurrentViewerLoggedIn" | "BfCurrentViewerLoggedOut"
   BfNode: "BfBlog" | "BfBlogPost" | "BfPerson"
-  Node: "BfBlog" | "BfBlogPost" | "BfCurrentViewerLoggedOut" | "BfPerson"
+  Node: "BfBlog" | "BfBlogPost" | "BfCurrentViewerLoggedIn" | "BfCurrentViewerLoggedOut" | "BfPerson"
 }
 
 export interface NexusGenTypeInterfaces {
   BfBlog: "BfNode" | "Node"
   BfBlogPost: "BfNode" | "Node"
+  BfCurrentViewerLoggedIn: "BfCurrentViewer" | "Node"
   BfCurrentViewerLoggedOut: "BfCurrentViewer" | "Node"
   BfPerson: "BfNode" | "Node"
   BfCurrentViewer: "Node"

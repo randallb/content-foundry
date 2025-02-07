@@ -1,17 +1,21 @@
 import type {IsographEntrypoint, NormalizationAst, RefetchQueryNormalizationArtifactWrapper} from '@isograph/react';
-import {Query__EntrypointRegister__param} from './param_type.ts';
-import {Query__EntrypointRegister__output_type} from './output_type.ts';
+import {Query__EntrypointContentFoundryApp__param} from './param_type.ts';
+import {Query__EntrypointContentFoundryApp__output_type} from './output_type.ts';
 import readerResolver from './resolver_reader.ts';
 const nestedRefetchQueries: RefetchQueryNormalizationArtifactWrapper[] = [];
 
-const queryText = 'query EntrypointRegister ($code: String!) {\
+const queryText = 'query EntrypointContentFoundryApp  {\
+  __typename,\
   me {\
     __typename,\
     id,\
+    ... on BfCurrentViewerLoggedIn {\
+      id,\
+      __typename,\
+    },\
     ... on BfCurrentViewerLoggedOut {\
       id,\
       __typename,\
-      registrationOptions____code___v_code: registrationOptions(code: $code),\
     },\
   },\
 }';
@@ -19,6 +23,11 @@ const queryText = 'query EntrypointRegister ($code: String!) {\
 const normalizationAst: NormalizationAst = {
   kind: "NormalizationAst",
   selections: [
+    {
+      kind: "Scalar",
+      fieldName: "__typename",
+      arguments: null,
+    },
     {
       kind: "Linked",
       fieldName: "me",
@@ -37,6 +46,22 @@ const normalizationAst: NormalizationAst = {
         },
         {
           kind: "InlineFragment",
+          type: "BfCurrentViewerLoggedIn",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "id",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "__typename",
+              arguments: null,
+            },
+          ],
+        },
+        {
+          kind: "InlineFragment",
           type: "BfCurrentViewerLoggedOut",
           selections: [
             {
@@ -49,16 +74,6 @@ const normalizationAst: NormalizationAst = {
               fieldName: "__typename",
               arguments: null,
             },
-            {
-              kind: "Scalar",
-              fieldName: "registrationOptions",
-              arguments: [
-                [
-                  "code",
-                  { kind: "Variable", name: "code" },
-                ],
-              ],
-            },
           ],
         },
       ],
@@ -66,8 +81,8 @@ const normalizationAst: NormalizationAst = {
   ],
 };
 const artifact: IsographEntrypoint<
-  Query__EntrypointRegister__param,
-  Query__EntrypointRegister__output_type
+  Query__EntrypointContentFoundryApp__param,
+  Query__EntrypointContentFoundryApp__output_type
 > = {
   kind: "Entrypoint",
   networkRequestInfo: {
