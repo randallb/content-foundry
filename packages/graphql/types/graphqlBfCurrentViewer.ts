@@ -70,11 +70,11 @@ export const graphqlBfCurrentViewerRegisterMutation = mutationField(
   {
     type: graphqlBfCurrentViewerType,
     args: {
-      registrationResponse: nonNull(arg({ type: graphqlJSONStringScalarType })),
+      attResp: nonNull(arg({ type: graphqlJSONStringScalarType })),
     },
-    async resolve(parent, { registrationResponse }, ctx) {
+    async resolve(parent, { attResp }, ctx) {
       const registrationResponseJSON: RegistrationResponseJSON = JSON.parse(
-        registrationResponse,
+        attResp,
       );
       const person = await BfPerson.register(registrationResponseJSON);
 

@@ -1,11 +1,13 @@
 import { iso } from "packages/app/__generated__/__isograph/iso.ts";
 import { BfDsButton } from "packages/bfDs/components/BfDsButton.tsx";
 import entrypoint from "packages/app/__generated__/__isograph/Query/RegistrationOptions/entrypoint.ts";
-import { useImperativeReference, useResult } from "@isograph/react";
+import mutation from "packages/app/__generated__/__isograph/Mutation/Register/entrypoint.ts";
+import { useImperativeReference } from "@isograph/react";
 import { getLogger } from "packages/logger.ts";
-import { startRegistration } from '@simplewebauthn/browser';
+import { startRegistration } from "@simplewebauthn/browser";
 
 import { useState } from "react";
+import { useMutation } from "packages/app/hooks/isographPrototypes/useMutation.tsx";
 
 const logger = getLogger(import.meta);
 
@@ -15,6 +17,7 @@ export const RegisterButton = iso(`
   }
 `)(function RegisterButton({ data }) {
   const { loadFragmentReference } = useImperativeReference(entrypoint);
+  const { commit } = useMutation(mutation);
   const [isInFlight, setIsInFlight] = useState(false);
   function register() {
     setIsInFlight(true);
@@ -22,16 +25,27 @@ export const RegisterButton = iso(`
     loadFragmentReference({}, {
       onComplete: async (optionsJSON) => {
         logger.debug("received result", optionsJSON);
-        let attResp;
+        let attRespJSON;
         try {
-          attResp = await startRegistration({ optionsJSON });
-          logger.debug("start this thing nao omfg", attResp);
+          attRespJSON = await startRegistration({ optionsJSON });
+          logger.debug("start this thing nao omfg", attRespJSON);
         } catch (e) {
           logger.error(e);
-        } finally {
+        }
+        if (attRespJSON) {
+          const attResp = JSON.stringify(attRespJSON);
+          commit({ attResp }, {
+            onComplete: () => {
+              logger.setLevel(logger.levels.DEBUG);
+              setIsInFlight(true);
+              logger.debug("Completed registration.");
+              logger.resetLevel();
+            },
+          });
+        } else {
           setIsInFlight(false);
         }
-          
+
         logger.resetLevel();
       },
     });
