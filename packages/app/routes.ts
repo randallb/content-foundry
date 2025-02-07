@@ -1,11 +1,8 @@
-import { PageMarketing } from "packages/app/pages/PageMarketing.tsx";
 import { PageUIDemo } from "packages/app/pages/PageUIDemo.tsx";
 
 import entrypointBlogModule from "packages/app/__generated__/__isograph/Query/EntrypointBlog/entrypoint.ts";
 import entrypointBlogPostModule from "packages/app/__generated__/__isograph/Query/EntrypointBlogPost/entrypoint.ts";
-import entrypointAdminAppModule from "packages/app/__generated__/__isograph/Query/EntrypointAdminApp/entrypoint.ts";
-import entrypointRegisterModule from "packages/app/__generated__/__isograph/Query/EntrypointRegister/entrypoint.ts"
-import entrypointLoginModule from "packages/app/__generated__/__isograph/Query/EntrypointLogin/entrypoint.ts"
+import entrypointContentFoundryAppModule from "packages/app/__generated__/__isograph/Query/EntrypointContentFoundryApp/entrypoint.ts";
 import type { IsographEntrypoint } from "@isograph/react";
 import { iso } from "packages/app/__generated__/__isograph/iso.ts";
 
@@ -16,9 +13,7 @@ function isoEntrypoint(
   const entrypoints = {
     "entrypoint Query.EntrypointBlog": entrypointBlogModule,
     "entrypoint Query.EntrypointBlogPost": entrypointBlogPostModule,
-    "entrypoint Query.EntrypointAdminApp": entrypointAdminAppModule,
-    "entrypoint Query.EntrypointRegister": entrypointRegisterModule,
-    "entrypoint Query.EntrypointLogin": entrypointLoginModule,
+    "entrypoint Query.EntrypointContentFoundryApp": entrypointContentFoundryAppModule,
   };
   // @ts-expect-error this is a temporary thing
   return entrypoints[entrypointName];
@@ -41,7 +36,6 @@ export type RouteGuts = {
 export type RouteMap = Map<string, RouteGuts>;
 
 export const appRoutes: RouteMap = new Map([
-  ["/", { Component: PageMarketing }],
   ["/ui", { Component: PageUIDemo }],
 ]);
 
@@ -56,21 +50,15 @@ iso(`entrypoint Query.EntrypointBlog`);
 const entrypointBlog = isoEntrypoint(`entrypoint Query.EntrypointBlog`);
 iso(`entrypoint Query.EntrypointBlogPost`);
 const entrypointBlogPost = isoEntrypoint(`entrypoint Query.EntrypointBlogPost`);
-iso(`entrypoint Query.EntrypointAdminApp`);
-const entrypointAdminApp = isoEntrypoint(`entrypoint Query.EntrypointAdminApp`);
-iso(`entrypoint Query.EntrypointRegister`);
-const entrypointRegister = isoEntrypoint(`entrypoint Query.EntrypointRegister`);
-iso(`entrypoint Query.EntrypointLogin`);
-const entrypointLogin = isoEntrypoint(`entrypoint Query.EntrypointLogin`);
+iso(`entrypoint Query.EntrypointContentFoundryApp`);
+const entrypointContentFoundryApp = isoEntrypoint(`entrypoint Query.EntrypointContentFoundryApp`);
 
 // const appEntrypoint = iso(`entrypoint Query.AppHome`) ?? appEntrypointModule;
 
 export const isographAppRoutes = new Map<string, IsographRoute>([
-  ["/admin", entrypointAdminApp],
+  ["/", entrypointContentFoundryApp],
   ["/blog/:slug", entrypointBlogPost],
   ["/blog", entrypointBlog],
-  ["/register", entrypointRegister],
-  ["/login", entrypointLogin]
 ]);
 
 export const toolRoutes: RouteMap = new Map([

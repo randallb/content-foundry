@@ -1,8 +1,8 @@
 import type {ComponentReaderArtifact, ExtractSecondParam, ReaderAst } from '@isograph/react';
-import { Query__AdminApp__param } from './param_type.ts';
-import { AdminApp as resolver } from '../../../../components/AdminApp/AdminApp.tsx';
+import { BfCurrentViewerLoggedIn__LoggedInView__param } from './param_type.ts';
+import { LoggedInView as resolver } from '../../../../components/BfCurrentViewer/BfCurrentViewerLoggedIn/LoggedInView.tsx';
 
-const readerAst: ReaderAst<Query__AdminApp__param> = [
+const readerAst: ReaderAst<BfCurrentViewerLoggedIn__LoggedInView__param> = [
   {
     kind: "Scalar",
     fieldName: "__typename",
@@ -12,11 +12,11 @@ const readerAst: ReaderAst<Query__AdminApp__param> = [
 ];
 
 const artifact: ComponentReaderArtifact<
-  Query__AdminApp__param,
+  BfCurrentViewerLoggedIn__LoggedInView__param,
   ExtractSecondParam<typeof resolver>
 > = {
   kind: "ComponentReaderArtifact",
-  componentName: "Query.AdminApp",
+  componentName: "BfCurrentViewerLoggedIn.LoggedInView",
   resolver,
   readerAst,
   hasUpdatable: false,

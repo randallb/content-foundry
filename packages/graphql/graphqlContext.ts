@@ -10,6 +10,7 @@ import type { GraphqlNode } from "packages/graphql/types/graphqlBfNode.ts";
 // import { BfBlogPost } from "packages/bfDb/models/BfBlogPost.ts";
 import type { BfMetadata } from "packages/bfDb/classes/BfNodeMetadata.ts";
 import { BfPerson } from "packages/bfDb/models/BfPerson.ts";
+import { AuthenticationResponseJSON, PublicKeyCredentialCreationOptionsJSON } from "@simplewebauthn/server";
 
 const logger = getLogger(import.meta);
 
@@ -31,6 +32,7 @@ export type Context = {
     id: BfGid,
   ): Promise<InstanceType<TClass>>;
   findCurrentUser(): Promise<BfPerson | null>;
+  login(options: AuthenticationResponseJSON): Promise<BfCurrentViewer>;
   queryTargetsConnection<T, U extends typeof BfNodeBase>(
     source: T,
     BfClass: U,
@@ -40,7 +42,12 @@ export type Context = {
 
 export async function createContext(request: Request): Promise<Context> {
   const cache = new Map<string, Map<BfGid, BfNodeBase>>();
-  const currentViewer = await BfCurrentViewer.createFromRequest(import.meta, request);
+  let currentViewer = await BfCurrentViewer.createFromRequest(import.meta, request);
+  const responseHeaders = new Headers();
+  async function login(options: AuthenticationResponseJSON) {
+    currentViewer = await BfCurrentViewer.createFromLoginOptions(import.meta, options, responseHeaders);
+    return currentViewer;
+  }
 
   logger.debug("context Creating");
   const ctx: Context = {
@@ -50,6 +57,7 @@ export async function createContext(request: Request): Promise<Context> {
       currentViewer.clear();
       logger.debug("Context disposed");
     },
+    // responseHeaders,
 
     getCvForGraphql() {
       return currentViewer.toGraphql();
@@ -85,7 +93,6 @@ export async function createContext(request: Request): Promise<Context> {
     },
 
     async findX(BfClass, id) {
-      // @ts-expect-error findx isn't typed properly yet
       const item = await BfClass.findX(
         currentViewer,
         id,
@@ -98,6 +105,8 @@ export async function createContext(request: Request): Promise<Context> {
       const currentViewerPerson = await BfPerson.findCurrentViewer(currentViewer);
       return currentViewerPerson;
     },
+
+    login,
 
     async queryTargetsConnection(source, BfClass, args) {
       throw new BfErrorNotImplemented();
