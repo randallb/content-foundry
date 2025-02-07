@@ -18,7 +18,7 @@ const allowedEnvironmentVariables = [
   "OPEN_ROUTER_API_KEY",
   "REPL_HOME",
   "REPLIT_DEV_DOMAIN",
-  "RP_NAME",
+  "RPID",
   "TEAMCITY_VERSION",
   "TERM",
   "TF_BUILD",
