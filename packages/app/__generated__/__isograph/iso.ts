@@ -2,7 +2,11 @@ import type { IsographEntrypoint } from '@isograph/react';
 import { type BfBlog__BlogPostList__param } from './BfBlog/BlogPostList/param_type.ts';
 import { type BfBlogPost__BlogPostListItem__param } from './BfBlogPost/BlogPostListItem/param_type.ts';
 import { type BfCurrentViewerLoggedIn__LoggedInView__param } from './BfCurrentViewerLoggedIn/LoggedInView/param_type.ts';
+import { type BfCurrentViewerLoggedOut__DemoButton__param } from './BfCurrentViewerLoggedOut/DemoButton/param_type.ts';
 import { type BfCurrentViewerLoggedOut__LoggedOutView__param } from './BfCurrentViewerLoggedOut/LoggedOutView/param_type.ts';
+import { type BfCurrentViewerLoggedOut__LoginButton__param } from './BfCurrentViewerLoggedOut/LoginButton/param_type.ts';
+import { type BfCurrentViewerLoggedOut__RegisterButton__param } from './BfCurrentViewerLoggedOut/RegisterButton/param_type.ts';
+import { type BfCurrentViewerLoggedOut__WelcomeVideo__param } from './BfCurrentViewerLoggedOut/WelcomeVideo/param_type.ts';
 import { type Mutation__QualityCheckTweet__param } from './Mutation/QualityCheckTweet/param_type.ts';
 import { type Query__AppHome__param } from './Query/AppHome/param_type.ts';
 import { type Query__Blog__param } from './Query/Blog/param_type.ts';
@@ -13,6 +17,7 @@ import { type Query__EntrypointContentFoundryApp__param } from './Query/Entrypoi
 import { type Query__EntrypointLogin__param } from './Query/EntrypointLogin/param_type.ts';
 import { type Query__PageLogin__param } from './Query/PageLogin/param_type.ts';
 import { type Query__QualityCheckTweetForm__param } from './Query/QualityCheckTweetForm/param_type.ts';
+import { type Query__RegistrationOptions__param } from './Query/RegistrationOptions/param_type.ts';
 
 // This is the type given to regular client fields.
 // This means that the type of the exported iso literal is exactly
@@ -75,8 +80,24 @@ export function iso<T>(
 ): IdentityWithParamComponent<BfCurrentViewerLoggedIn__LoggedInView__param>;
 
 export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field BfCurrentViewerLoggedOut.DemoButton', T>
+): IdentityWithParamComponent<BfCurrentViewerLoggedOut__DemoButton__param>;
+
+export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field BfCurrentViewerLoggedOut.LoggedOutView', T>
 ): IdentityWithParamComponent<BfCurrentViewerLoggedOut__LoggedOutView__param>;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field BfCurrentViewerLoggedOut.LoginButton', T>
+): IdentityWithParamComponent<BfCurrentViewerLoggedOut__LoginButton__param>;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field BfCurrentViewerLoggedOut.RegisterButton', T>
+): IdentityWithParamComponent<BfCurrentViewerLoggedOut__RegisterButton__param>;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field BfCurrentViewerLoggedOut.WelcomeVideo', T>
+): IdentityWithParamComponent<BfCurrentViewerLoggedOut__WelcomeVideo__param>;
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Mutation.QualityCheckTweet', T>
@@ -119,6 +140,10 @@ export function iso<T>(
 ): IdentityWithParamComponent<Query__QualityCheckTweetForm__param>;
 
 export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field Query.RegistrationOptions', T>
+): IdentityWithParam<Query__RegistrationOptions__param>;
+
+export function iso<T>(
   param: T & MatchesWhitespaceAndString<'entrypoint Mutation.QualityCheckTweet', T>
 ): void;
 
@@ -136,6 +161,10 @@ export function iso<T>(
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'entrypoint Query.EntrypointContentFoundryApp', T>
+): void;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'entrypoint Query.RegistrationOptions', T>
 ): void;
 
 export function iso(_isographLiteralText: string):
