@@ -19,7 +19,6 @@ export const LoginButton = iso(`
     __typename
   }
 `)(function LoginButton({ data }, { hasEmail, email, isInFlight: parentInFlight }: Props) {
-  logger.setLevel(logger.levels.DEBUG);
   logger.debug("hasEmail", hasEmail, "email", email, "parentInFlight", parentInFlight)
   const { commit: getLoginOptions } = useMutation(mutation);
   const [isInFlight, setIsInFlight] = useState(false);

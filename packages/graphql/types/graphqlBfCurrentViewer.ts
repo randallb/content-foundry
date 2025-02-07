@@ -95,7 +95,6 @@ export const graphqlBfCurrentViewerCheckEmailMutation = mutationField("checkEmai
     email: nonNull(stringArg()),
   },
   resolve: async (_, { email }, ctx) => {
-    logger.setLevel(logger.levels.DEBUG);
     try {
       const cv = BfCurrentViewer.__DANGEROUS_USE_IN_REGISTRATION_ONLY__createCvForRegistration(import.meta, email)
       const person = await BfPerson.findByEmail(cv, email);
