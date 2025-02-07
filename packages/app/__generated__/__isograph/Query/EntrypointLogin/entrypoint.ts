@@ -1,14 +1,18 @@
 import type {IsographEntrypoint, NormalizationAst, RefetchQueryNormalizationArtifactWrapper} from '@isograph/react';
-import {Query__EntrypointPersonSettings__param} from './param_type.ts';
-import {Query__EntrypointPersonSettings__output_type} from './output_type.ts';
+import {Query__EntrypointLogin__param} from './param_type.ts';
+import {Query__EntrypointLogin__output_type} from './output_type.ts';
 import readerResolver from './resolver_reader.ts';
 const nestedRefetchQueries: RefetchQueryNormalizationArtifactWrapper[] = [];
 
-const queryText = 'query EntrypointPersonSettings  {\
+const queryText = 'query EntrypointLogin  {\
   me {\
-    id,\
     __typename,\
-    name,\
+    id,\
+    ... on BfCurrentViewerLoggedOut {\
+      id,\
+      __typename,\
+      authenticationOptions,\
+    },\
   },\
 }';
 
@@ -19,13 +23,8 @@ const normalizationAst: NormalizationAst = {
       kind: "Linked",
       fieldName: "me",
       arguments: null,
-      concreteType: "BfPerson",
+      concreteType: null,
       selections: [
-        {
-          kind: "Scalar",
-          fieldName: "id",
-          arguments: null,
-        },
         {
           kind: "Scalar",
           fieldName: "__typename",
@@ -33,16 +32,37 @@ const normalizationAst: NormalizationAst = {
         },
         {
           kind: "Scalar",
-          fieldName: "name",
+          fieldName: "id",
           arguments: null,
+        },
+        {
+          kind: "InlineFragment",
+          type: "BfCurrentViewerLoggedOut",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "id",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "__typename",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "authenticationOptions",
+              arguments: null,
+            },
+          ],
         },
       ],
     },
   ],
 };
 const artifact: IsographEntrypoint<
-  Query__EntrypointPersonSettings__param,
-  Query__EntrypointPersonSettings__output_type
+  Query__EntrypointLogin__param,
+  Query__EntrypointLogin__output_type
 > = {
   kind: "Entrypoint",
   networkRequestInfo: {

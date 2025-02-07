@@ -33,7 +33,6 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
-  PublicKeyCredentialHint: "client-device" | "hybrid" | "security-key"
 }
 
 export interface NexusGenScalars {
@@ -42,14 +41,11 @@ export interface NexusGenScalars {
   Float: number
   Boolean: boolean
   ID: string
+  JSON: any
+  JSONString: any
 }
 
 export interface NexusGenObjects {
-  AuthenticatorSelection: { // root type
-    requireResidentKey: boolean; // Boolean!
-    residentKey: string; // String!
-    userVerification: string; // String!
-  }
   BfBlog: { // root type
     id: string; // ID!
     name?: string | null; // String
@@ -73,6 +69,12 @@ export interface NexusGenObjects {
     cursor: string; // String!
     node?: NexusGenRootTypes['BfBlogPost'] | null; // BfBlogPost
   }
+  BfCurrentViewerLoggedIn: { // root type
+    id: string; // ID!
+  }
+  BfCurrentViewerLoggedOut: { // root type
+    id: string; // ID!
+  }
   BfPerson: { // root type
     id: string; // ID!
     name?: string | null; // String
@@ -84,11 +86,6 @@ export interface NexusGenObjects {
     hasPreviousPage: boolean; // Boolean!
     startCursor?: string | null; // String
   }
-  PublicKeyCredentialDescriptorJSON: { // root type
-    id: string; // String!
-    transports?: Array<string | null> | null; // [String]
-    type: string; // String!
-  }
   Query: {};
   RecommendationItem: { // root type
     confidence?: number | null; // Float
@@ -99,41 +96,10 @@ export interface NexusGenObjects {
   Recommendations: { // root type
     recommendations?: Array<NexusGenRootTypes['RecommendationItem'] | null> | null; // [RecommendationItem]
   }
-  Registration: { // root type
-    options?: NexusGenRootTypes['RegistrationOptions'] | null; // RegistrationOptions
-    person?: NexusGenRootTypes['BfPerson'] | null; // BfPerson
-  }
-  RegistrationOptions: { // root type
-    attestation: string; // String!
-    authenticatorSelection: NexusGenRootTypes['AuthenticatorSelection']; // AuthenticatorSelection!
-    challenge: string; // String!
-    excludeCredentials: NexusGenRootTypes['PublicKeyCredentialDescriptorJSON'][]; // [PublicKeyCredentialDescriptorJSON!]!
-    extensions: NexusGenRootTypes['RegistrationOptionsExtensions']; // RegistrationOptionsExtensions!
-    hints: NexusGenEnums['PublicKeyCredentialHint'][]; // [PublicKeyCredentialHint!]!
-    pubKeyCredParams: NexusGenRootTypes['RegistrationOptionsPubKeyCredParams'][]; // [RegistrationOptionsPubKeyCredParams!]!
-    rp: NexusGenRootTypes['RegistrationOptionsRp']; // RegistrationOptionsRp!
-    timeout: number; // Int!
-    user: NexusGenRootTypes['RegistrationOptionsUser']; // RegistrationOptionsUser!
-  }
-  RegistrationOptionsExtensions: { // root type
-    credProps: boolean; // Boolean!
-  }
-  RegistrationOptionsPubKeyCredParams: { // root type
-    alg: number; // Int!
-    type: string; // String!
-  }
-  RegistrationOptionsRp: { // root type
-    id: string; // ID!
-    name: string; // String!
-  }
-  RegistrationOptionsUser: { // root type
-    displayName: string; // String!
-    id: string; // ID!
-    name: string; // String!
-  }
 }
 
 export interface NexusGenInterfaces {
+  BfCurrentViewer: core.Discriminate<'BfCurrentViewerLoggedIn', 'required'> | core.Discriminate<'BfCurrentViewerLoggedOut', 'required'>;
   BfNode: GraphqlBfNode;
   Node: GraphqlNode;
 }
@@ -143,14 +109,9 @@ export interface NexusGenUnions {
 
 export type NexusGenRootTypes = NexusGenInterfaces & NexusGenObjects
 
-export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
+export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
-  AuthenticatorSelection: { // field return type
-    requireResidentKey: boolean; // Boolean!
-    residentKey: string; // String!
-    userVerification: string; // String!
-  }
   BfBlog: { // field return type
     id: string; // ID!
     name: string | null; // String
@@ -175,12 +136,21 @@ export interface NexusGenFieldTypes {
     cursor: string; // String!
     node: NexusGenRootTypes['BfBlogPost'] | null; // BfBlogPost
   }
+  BfCurrentViewerLoggedIn: { // field return type
+    id: string; // ID!
+  }
+  BfCurrentViewerLoggedOut: { // field return type
+    authenticationOptions: NexusGenScalars['JSONString'] | null; // JSONString
+    id: string; // ID!
+  }
   BfPerson: { // field return type
     id: string; // ID!
     name: string | null; // String
   }
   Mutation: { // field return type
+    login: NexusGenRootTypes['BfCurrentViewer'] | null; // BfCurrentViewer
     qualityCheckTweet: NexusGenRootTypes['Recommendations'] | null; // Recommendations
+    register: NexusGenRootTypes['BfCurrentViewer'] | null; // BfCurrentViewer
   }
   PageInfo: { // field return type
     endCursor: string | null; // String
@@ -188,16 +158,11 @@ export interface NexusGenFieldTypes {
     hasPreviousPage: boolean; // Boolean!
     startCursor: string | null; // String
   }
-  PublicKeyCredentialDescriptorJSON: { // field return type
-    id: string; // String!
-    transports: Array<string | null> | null; // [String]
-    type: string; // String!
-  }
   Query: { // field return type
     bfNode: NexusGenRootTypes['BfNode'] | null; // BfNode
     blog: NexusGenRootTypes['BfBlog'] | null; // BfBlog
-    me: NexusGenRootTypes['BfPerson'] | null; // BfPerson
-    registration: NexusGenRootTypes['Registration'] | null; // Registration
+    me: NexusGenRootTypes['BfCurrentViewer'] | null; // BfCurrentViewer
+    registrationOptions: NexusGenScalars['JSONString'] | null; // JSONString
   }
   RecommendationItem: { // field return type
     confidence: number | null; // Float
@@ -208,37 +173,8 @@ export interface NexusGenFieldTypes {
   Recommendations: { // field return type
     recommendations: Array<NexusGenRootTypes['RecommendationItem'] | null> | null; // [RecommendationItem]
   }
-  Registration: { // field return type
-    options: NexusGenRootTypes['RegistrationOptions'] | null; // RegistrationOptions
-    person: NexusGenRootTypes['BfPerson'] | null; // BfPerson
-  }
-  RegistrationOptions: { // field return type
-    attestation: string; // String!
-    authenticatorSelection: NexusGenRootTypes['AuthenticatorSelection']; // AuthenticatorSelection!
-    challenge: string; // String!
-    excludeCredentials: NexusGenRootTypes['PublicKeyCredentialDescriptorJSON'][]; // [PublicKeyCredentialDescriptorJSON!]!
-    extensions: NexusGenRootTypes['RegistrationOptionsExtensions']; // RegistrationOptionsExtensions!
-    hints: NexusGenEnums['PublicKeyCredentialHint'][]; // [PublicKeyCredentialHint!]!
-    pubKeyCredParams: NexusGenRootTypes['RegistrationOptionsPubKeyCredParams'][]; // [RegistrationOptionsPubKeyCredParams!]!
-    rp: NexusGenRootTypes['RegistrationOptionsRp']; // RegistrationOptionsRp!
-    timeout: number; // Int!
-    user: NexusGenRootTypes['RegistrationOptionsUser']; // RegistrationOptionsUser!
-  }
-  RegistrationOptionsExtensions: { // field return type
-    credProps: boolean; // Boolean!
-  }
-  RegistrationOptionsPubKeyCredParams: { // field return type
-    alg: number; // Int!
-    type: string; // String!
-  }
-  RegistrationOptionsRp: { // field return type
+  BfCurrentViewer: { // field return type
     id: string; // ID!
-    name: string; // String!
-  }
-  RegistrationOptionsUser: { // field return type
-    displayName: string; // String!
-    id: string; // ID!
-    name: string; // String!
   }
   BfNode: { // field return type
     id: string; // ID!
@@ -249,11 +185,6 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
-  AuthenticatorSelection: { // field return type name
-    requireResidentKey: 'Boolean'
-    residentKey: 'String'
-    userVerification: 'String'
-  }
   BfBlog: { // field return type name
     id: 'ID'
     name: 'String'
@@ -278,12 +209,21 @@ export interface NexusGenFieldTypeNames {
     cursor: 'String'
     node: 'BfBlogPost'
   }
+  BfCurrentViewerLoggedIn: { // field return type name
+    id: 'ID'
+  }
+  BfCurrentViewerLoggedOut: { // field return type name
+    authenticationOptions: 'JSONString'
+    id: 'ID'
+  }
   BfPerson: { // field return type name
     id: 'ID'
     name: 'String'
   }
   Mutation: { // field return type name
+    login: 'BfCurrentViewer'
     qualityCheckTweet: 'Recommendations'
+    register: 'BfCurrentViewer'
   }
   PageInfo: { // field return type name
     endCursor: 'String'
@@ -291,16 +231,11 @@ export interface NexusGenFieldTypeNames {
     hasPreviousPage: 'Boolean'
     startCursor: 'String'
   }
-  PublicKeyCredentialDescriptorJSON: { // field return type name
-    id: 'String'
-    transports: 'String'
-    type: 'String'
-  }
   Query: { // field return type name
     bfNode: 'BfNode'
     blog: 'BfBlog'
-    me: 'BfPerson'
-    registration: 'Registration'
+    me: 'BfCurrentViewer'
+    registrationOptions: 'JSONString'
   }
   RecommendationItem: { // field return type name
     confidence: 'Float'
@@ -311,37 +246,8 @@ export interface NexusGenFieldTypeNames {
   Recommendations: { // field return type name
     recommendations: 'RecommendationItem'
   }
-  Registration: { // field return type name
-    options: 'RegistrationOptions'
-    person: 'BfPerson'
-  }
-  RegistrationOptions: { // field return type name
-    attestation: 'String'
-    authenticatorSelection: 'AuthenticatorSelection'
-    challenge: 'String'
-    excludeCredentials: 'PublicKeyCredentialDescriptorJSON'
-    extensions: 'RegistrationOptionsExtensions'
-    hints: 'PublicKeyCredentialHint'
-    pubKeyCredParams: 'RegistrationOptionsPubKeyCredParams'
-    rp: 'RegistrationOptionsRp'
-    timeout: 'Int'
-    user: 'RegistrationOptionsUser'
-  }
-  RegistrationOptionsExtensions: { // field return type name
-    credProps: 'Boolean'
-  }
-  RegistrationOptionsPubKeyCredParams: { // field return type name
-    alg: 'Int'
-    type: 'String'
-  }
-  RegistrationOptionsRp: { // field return type name
+  BfCurrentViewer: { // field return type name
     id: 'ID'
-    name: 'String'
-  }
-  RegistrationOptionsUser: { // field return type name
-    displayName: 'String'
-    id: 'ID'
-    name: 'String'
   }
   BfNode: { // field return type name
     id: 'ID'
@@ -361,31 +267,38 @@ export interface NexusGenArgTypes {
     }
   }
   Mutation: {
+    login: { // args
+      options: NexusGenScalars['JSONString']; // JSONString!
+    }
     qualityCheckTweet: { // args
       systemPrompt?: string | null; // String
       taskPrompt?: string | null; // String
       tweet?: string | null; // String
+    }
+    register: { // args
+      registrationResponse: NexusGenScalars['JSONString']; // JSONString!
     }
   }
   Query: {
     bfNode: { // args
       id?: string | null; // ID
     }
-    registration: { // args
-      code: string; // ID!
-    }
   }
 }
 
 export interface NexusGenAbstractTypeMembers {
+  BfCurrentViewer: "BfCurrentViewerLoggedIn" | "BfCurrentViewerLoggedOut"
   BfNode: "BfBlog" | "BfBlogPost" | "BfPerson"
-  Node: "BfBlog" | "BfBlogPost" | "BfPerson"
+  Node: "BfBlog" | "BfBlogPost" | "BfCurrentViewerLoggedIn" | "BfCurrentViewerLoggedOut" | "BfPerson"
 }
 
 export interface NexusGenTypeInterfaces {
   BfBlog: "BfNode" | "Node"
   BfBlogPost: "BfNode" | "Node"
+  BfCurrentViewerLoggedIn: "BfCurrentViewer" | "Node"
+  BfCurrentViewerLoggedOut: "BfCurrentViewer" | "Node"
   BfPerson: "BfNode" | "Node"
+  BfCurrentViewer: "Node"
   BfNode: "Node"
 }
 
@@ -393,7 +306,7 @@ export type NexusGenObjectNames = keyof NexusGenObjects;
 
 export type NexusGenInputNames = never;
 
-export type NexusGenEnumNames = keyof NexusGenEnums;
+export type NexusGenEnumNames = never;
 
 export type NexusGenInterfaceNames = keyof NexusGenInterfaces;
 
