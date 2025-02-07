@@ -3,15 +3,15 @@ import { getLogger } from "packages/logger.ts";
 import { BfCurrentViewer } from "packages/bfDb/classes/BfCurrentViewer.ts";
 import { BfError } from "packages/BfError.ts";
 import {
-  AuthenticationResponseJSON,
+  type AuthenticationResponseJSON,
   generateAuthenticationOptions,
   generateRegistrationOptions,
   type RegistrationResponseJSON,
   verifyAuthenticationResponse,
   verifyRegistrationResponse,
-  WebAuthnCredential,
+  type WebAuthnCredential,
 } from "@simplewebauthn/server";
-import { type BfGid, toBfGid } from "packages/bfDb/classes/BfNodeIds.ts";
+import { toBfGid } from "packages/bfDb/classes/BfNodeIds.ts";
 import { BfErrorNodeNotFound } from "packages/bfDb/classes/BfErrorNode.ts";
 import type { JSONValue } from "packages/bfDb/bfDb.ts";
 
@@ -23,7 +23,7 @@ export type BfPersonProps = {
   credential?: Record<string, JSONValue>;
 };
 
-const rpID = Deno.env.get("REPLIT_DEV_DOMAIN");
+const rpID = Deno.env.get("RPID") ?? Deno.env.get("REPLIT_DEV_DOMAIN");
 
 /**
  * @class
