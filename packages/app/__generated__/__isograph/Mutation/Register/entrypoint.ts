@@ -4,8 +4,8 @@ import {Mutation__Register__output_type} from './output_type.ts';
 import readerResolver from './resolver_reader.ts';
 const nestedRefetchQueries: RefetchQueryNormalizationArtifactWrapper[] = [];
 
-const queryText = 'mutation Register ($attResp: JSONString!) {\
-  register____attResp___v_attResp: register(attResp: $attResp) {\
+const queryText = 'mutation Register ($attResp: JSONString!, $email: String!) {\
+  register____attResp___v_attResp____email___v_email: register(attResp: $attResp, email: $email) {\
     __typename,\
     id,\
     ... on BfCurrentViewerLoggedIn {\
@@ -25,6 +25,11 @@ const normalizationAst: NormalizationAst = {
         [
           "attResp",
           { kind: "Variable", name: "attResp" },
+        ],
+
+        [
+          "email",
+          { kind: "Variable", name: "email" },
         ],
       ],
       concreteType: null,

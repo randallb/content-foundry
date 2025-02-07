@@ -6,8 +6,8 @@ const logger = getLogger(import.meta);
 
 iso(`entrypoint Mutation.Register`);
 export const RegisterMutation = iso(`
-  field Mutation.Register($attResp: JSONString!) @component {
-    register(attResp: $attResp) {
+  field Mutation.Register($attResp: JSONString!, $email: String!) @component {
+    register(attResp: $attResp, email: $email) {
       asBfCurrentViewerLoggedIn {
       __typename
       }
