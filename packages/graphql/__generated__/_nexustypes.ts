@@ -276,7 +276,7 @@ export interface NexusGenArgTypes {
       tweet?: string | null; // String
     }
     register: { // args
-      registrationResponse: NexusGenScalars['JSONString']; // JSONString!
+      attResp: NexusGenScalars['JSONString']; // JSONString!
     }
   }
   Query: {

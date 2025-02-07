@@ -97,7 +97,7 @@ scalar JSONString
 type Mutation {
   login(options: JSONString!): BfCurrentViewer
   qualityCheckTweet(systemPrompt: String, taskPrompt: String, tweet: String): Recommendations
-  register(registrationResponse: JSONString!): BfCurrentViewer
+  register(attResp: JSONString!): BfCurrentViewer
 }
 
 interface Node {
