@@ -1,5 +1,5 @@
 
-export type Query__QualityCheckTweetForm__param = {
+export type Mutation__Login__param = {
   readonly data: {
     readonly __typename: string,
   },

@@ -1,10 +1,10 @@
 import type {IsographEntrypoint, NormalizationAst, RefetchQueryNormalizationArtifactWrapper} from '@isograph/react';
-import {Query__EntrypointLogin__param} from './param_type.ts';
-import {Query__EntrypointLogin__output_type} from './output_type.ts';
+import {Mutation__Login__param} from './param_type.ts';
+import {Mutation__Login__output_type} from './output_type.ts';
 import readerResolver from './resolver_reader.ts';
 const nestedRefetchQueries: RefetchQueryNormalizationArtifactWrapper[] = [];
 
-const queryText = 'query EntrypointLogin  {\
+const queryText = 'mutation Login  {\
   __typename,\
 }';
 
@@ -19,8 +19,8 @@ const normalizationAst: NormalizationAst = {
   ],
 };
 const artifact: IsographEntrypoint<
-  Query__EntrypointLogin__param,
-  Query__EntrypointLogin__output_type
+  Mutation__Login__param,
+  Mutation__Login__output_type
 > = {
   kind: "Entrypoint",
   networkRequestInfo: {
@@ -28,7 +28,7 @@ const artifact: IsographEntrypoint<
     queryText,
     normalizationAst,
   },
-  concreteType: "Query",
+  concreteType: "Mutation",
   readerWithRefetchQueries: {
     kind: "ReaderWithRefetchQueries",
     nestedRefetchQueries,

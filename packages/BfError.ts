@@ -1,6 +1,11 @@
+import { GraphQLError } from "graphql";
+
 export class BfError extends Error {
   override message = this.constructor.name;
 };
+
+export class GraphqlBfError extends GraphQLError {}
+
 export class BfErrorNotImplemented extends BfError {
   override message = "Not implemented";
 };
