@@ -9,7 +9,7 @@ import { staticImplements } from "lib/staticImplements.ts";
 import { BfErrorNotImplemented } from "packages/BfError.ts";
 import { BfMetadata } from "packages/bfDb/classes/BfNodeMetadata.ts";
 import { getLogger } from "packages/logger.ts";
-import { bfGetItem, bfPutItem, type JSONValue } from "packages/bfDb/bfDb.ts";
+import { bfGetItem, bfPutItem, bfQueryItems, type JSONValue } from "packages/bfDb/bfDb.ts";
 import { BfErrorNodeNotFound } from "packages/bfDb/classes/BfErrorNode.ts";
 
 const logger = getLogger(import.meta);
@@ -47,18 +47,23 @@ export class BfNode<TProps extends BfNodeBaseProps = BfNodeBaseProps>
     return item as InstanceType<TThis>;
   }
 
-  static override query<
+  static override async query<
     TProps extends BfNodeBaseProps,
     TThis extends typeof BfNodeBase<TProps>,
   >(
     this: TThis,
-    _cv: BfCurrentViewer,
-    _metadata: BfMetadata,
-    _props: TProps,
-    _bfGids: Array<BfGid>,
-    _cache: BfNodeCache,
+    cv: BfCurrentViewer,
+    metadata: Partial<BfMetadata>,
+    props?: Partial<TProps>,
+    bfGids?: Array<BfGid>,
+    cache?: BfNodeCache,
   ): Promise<Array<InstanceType<TThis>>> {
-    throw new BfErrorNotImplemented();
+    const items = await bfQueryItems(metadata, props, bfGids);
+    return items.map(item => {
+      const instance = new this(cv, item.props as TProps, item.metadata);
+      cache?.set(item.metadata.bfGid, instance);
+      return instance as InstanceType<TThis>;
+    });
   }
 
   constructor(
