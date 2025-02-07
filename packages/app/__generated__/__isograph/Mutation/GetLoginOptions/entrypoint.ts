@@ -1,11 +1,11 @@
 import type {IsographEntrypoint, NormalizationAst, RefetchQueryNormalizationArtifactWrapper} from '@isograph/react';
-import {Query__RegistrationOptions__param} from './param_type.ts';
-import {Query__RegistrationOptions__output_type} from './output_type.ts';
+import {Mutation__GetLoginOptions__param} from './param_type.ts';
+import {Mutation__GetLoginOptions__output_type} from './output_type.ts';
 import readerResolver from './resolver_reader.ts';
 const nestedRefetchQueries: RefetchQueryNormalizationArtifactWrapper[] = [];
 
-const queryText = 'query RegistrationOptions  {\
-  registrationOptions,\
+const queryText = 'mutation GetLoginOptions ($email: String!) {\
+  getLoginOptions____email___v_email: getLoginOptions(email: $email),\
 }';
 
 const normalizationAst: NormalizationAst = {
@@ -13,14 +13,19 @@ const normalizationAst: NormalizationAst = {
   selections: [
     {
       kind: "Scalar",
-      fieldName: "registrationOptions",
-      arguments: null,
+      fieldName: "getLoginOptions",
+      arguments: [
+        [
+          "email",
+          { kind: "Variable", name: "email" },
+        ],
+      ],
     },
   ],
 };
 const artifact: IsographEntrypoint<
-  Query__RegistrationOptions__param,
-  Query__RegistrationOptions__output_type
+  Mutation__GetLoginOptions__param,
+  Mutation__GetLoginOptions__output_type
 > = {
   kind: "Entrypoint",
   networkRequestInfo: {
@@ -28,7 +33,7 @@ const artifact: IsographEntrypoint<
     queryText,
     normalizationAst,
   },
-  concreteType: "Query",
+  concreteType: "Mutation",
   readerWithRefetchQueries: {
     kind: "ReaderWithRefetchQueries",
     nestedRefetchQueries,

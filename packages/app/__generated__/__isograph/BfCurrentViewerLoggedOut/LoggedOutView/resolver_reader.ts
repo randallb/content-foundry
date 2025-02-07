@@ -2,8 +2,7 @@ import type {ComponentReaderArtifact, ExtractSecondParam, ReaderAst } from '@iso
 import { BfCurrentViewerLoggedOut__LoggedOutView__param } from './param_type.ts';
 import { LoggedOutView as resolver } from '../../../../components/BfCurrentViewer/BfCurrentViewerLoggedOut/LoggedOutView.tsx';
 import BfCurrentViewerLoggedOut__DemoButton__resolver_reader from '../../BfCurrentViewerLoggedOut/DemoButton/resolver_reader.ts';
-import BfCurrentViewerLoggedOut__LoginButton__resolver_reader from '../../BfCurrentViewerLoggedOut/LoginButton/resolver_reader.ts';
-import BfCurrentViewerLoggedOut__RegisterButton__resolver_reader from '../../BfCurrentViewerLoggedOut/RegisterButton/resolver_reader.ts';
+import BfCurrentViewerLoggedOut__LoginAndRegisterForm__resolver_reader from '../../BfCurrentViewerLoggedOut/LoginAndRegisterForm/resolver_reader.ts';
 import BfCurrentViewerLoggedOut__WelcomeVideo__resolver_reader from '../../BfCurrentViewerLoggedOut/WelcomeVideo/resolver_reader.ts';
 
 const readerAst: ReaderAst<BfCurrentViewerLoggedOut__LoggedOutView__param> = [
@@ -23,16 +22,9 @@ const readerAst: ReaderAst<BfCurrentViewerLoggedOut__LoggedOutView__param> = [
   },
   {
     kind: "Resolver",
-    alias: "LoginButton",
+    alias: "LoginAndRegisterForm",
     arguments: null,
-    readerArtifact: BfCurrentViewerLoggedOut__LoginButton__resolver_reader,
-    usedRefetchQueries: [],
-  },
-  {
-    kind: "Resolver",
-    alias: "RegisterButton",
-    arguments: null,
-    readerArtifact: BfCurrentViewerLoggedOut__RegisterButton__resolver_reader,
+    readerArtifact: BfCurrentViewerLoggedOut__LoginAndRegisterForm__resolver_reader,
     usedRefetchQueries: [],
   },
 ];

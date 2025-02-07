@@ -33,11 +33,13 @@ export type Context = {
   ): Promise<InstanceType<TClass>>;
   findCurrentUser(): Promise<BfPerson | null>;
   login(options: AuthenticationResponseJSON): Promise<BfCurrentViewer>;
+  getRequestHeader(name: string): string | null;
   queryTargetsConnection<T, U extends typeof BfNodeBase>(
     source: T,
     BfClass: U,
     args: ConnectionArguments,
   ): Promise<Connection<GraphqlNode>>;
+  setRegisteringUser(person: BfPerson): void;
 };
 
 export async function createContext(request: Request): Promise<Context> {
@@ -56,6 +58,12 @@ export async function createContext(request: Request): Promise<Context> {
       cache.clear();
       currentViewer.clear();
       logger.debug("Context disposed");
+    },
+    setRegisteringUser(person: BfPerson) {
+      responseHeaders.set('Set-Cookie', `BF_REGISTERING_USER_ID=${person.metadata.bfGid}; Path=/; HttpOnly; Max-Age=60`);
+    },
+    getRequestHeader(name: string) {
+      return request.headers.get(name);
     },
     // responseHeaders,
 

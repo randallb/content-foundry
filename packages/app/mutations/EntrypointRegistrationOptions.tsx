@@ -4,10 +4,10 @@ import { getLogger } from "packages/logger.ts";
 
 const logger = getLogger(import.meta);
 
-iso(`entrypoint Query.RegistrationOptions`);
+iso(`entrypoint Mutation.RegistrationOptions`);
 export const RegistrationOptions = iso(`
-  field Query.RegistrationOptions {
-    registrationOptions
+  field Mutation.RegistrationOptions($email: String!) {
+    registrationOptions(email: $email)
   }
 `)(function RegistrationOptions({ data }) {
   if (data?.registrationOptions == null) {

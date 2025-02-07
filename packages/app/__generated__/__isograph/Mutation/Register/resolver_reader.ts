@@ -13,6 +13,11 @@ const readerAst: ReaderAst<Mutation__Register__param> = [
         "attResp",
         { kind: "Variable", name: "attResp" },
       ],
+
+      [
+        "email",
+        { kind: "Variable", name: "email" },
+      ],
     ],
     condition: null,
     selections: [

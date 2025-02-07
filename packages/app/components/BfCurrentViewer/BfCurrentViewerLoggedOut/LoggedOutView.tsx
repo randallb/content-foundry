@@ -4,8 +4,7 @@ export const LoggedOutView = iso(`
   field BfCurrentViewerLoggedOut.LoggedOutView @component {
     WelcomeVideo
     DemoButton
-    LoginButton
-    RegisterButton
+    LoginAndRegisterForm
   }
 `)(function LoggedOutView({ data }) {
   return (
@@ -14,8 +13,7 @@ export const LoggedOutView = iso(`
       <p>This is text.</p>
       <data.WelcomeVideo />
       <data.DemoButton />
-      <data.LoginButton />
-      <data.RegisterButton />
+      <data.LoginAndRegisterForm />
     </div>
   );
 });

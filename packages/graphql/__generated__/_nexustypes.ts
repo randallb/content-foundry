@@ -140,7 +140,6 @@ export interface NexusGenFieldTypes {
     id: string; // ID!
   }
   BfCurrentViewerLoggedOut: { // field return type
-    authenticationOptions: NexusGenScalars['JSONString'] | null; // JSONString
     id: string; // ID!
   }
   BfPerson: { // field return type
@@ -148,9 +147,12 @@ export interface NexusGenFieldTypes {
     name: string | null; // String
   }
   Mutation: { // field return type
+    checkEmail: boolean | null; // Boolean
+    getLoginOptions: NexusGenScalars['JSONString'] | null; // JSONString
     login: NexusGenRootTypes['BfCurrentViewer'] | null; // BfCurrentViewer
     qualityCheckTweet: NexusGenRootTypes['Recommendations'] | null; // Recommendations
     register: NexusGenRootTypes['BfCurrentViewer'] | null; // BfCurrentViewer
+    registrationOptions: NexusGenScalars['JSONString'] | null; // JSONString
   }
   PageInfo: { // field return type
     endCursor: string | null; // String
@@ -162,7 +164,6 @@ export interface NexusGenFieldTypes {
     bfNode: NexusGenRootTypes['BfNode'] | null; // BfNode
     blog: NexusGenRootTypes['BfBlog'] | null; // BfBlog
     me: NexusGenRootTypes['BfCurrentViewer'] | null; // BfCurrentViewer
-    registrationOptions: NexusGenScalars['JSONString'] | null; // JSONString
   }
   RecommendationItem: { // field return type
     confidence: number | null; // Float
@@ -213,7 +214,6 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
   }
   BfCurrentViewerLoggedOut: { // field return type name
-    authenticationOptions: 'JSONString'
     id: 'ID'
   }
   BfPerson: { // field return type name
@@ -221,9 +221,12 @@ export interface NexusGenFieldTypeNames {
     name: 'String'
   }
   Mutation: { // field return type name
+    checkEmail: 'Boolean'
+    getLoginOptions: 'JSONString'
     login: 'BfCurrentViewer'
     qualityCheckTweet: 'Recommendations'
     register: 'BfCurrentViewer'
+    registrationOptions: 'JSONString'
   }
   PageInfo: { // field return type name
     endCursor: 'String'
@@ -235,7 +238,6 @@ export interface NexusGenFieldTypeNames {
     bfNode: 'BfNode'
     blog: 'BfBlog'
     me: 'BfCurrentViewer'
-    registrationOptions: 'JSONString'
   }
   RecommendationItem: { // field return type name
     confidence: 'Float'
@@ -267,6 +269,12 @@ export interface NexusGenArgTypes {
     }
   }
   Mutation: {
+    checkEmail: { // args
+      email: string; // String!
+    }
+    getLoginOptions: { // args
+      email: string; // String!
+    }
     login: { // args
       options: NexusGenScalars['JSONString']; // JSONString!
     }
@@ -277,6 +285,10 @@ export interface NexusGenArgTypes {
     }
     register: { // args
       attResp: NexusGenScalars['JSONString']; // JSONString!
+      email: string; // String!
+    }
+    registrationOptions: { // args
+      email: string; // String!
     }
   }
   Query: {

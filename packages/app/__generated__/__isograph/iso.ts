@@ -4,21 +4,22 @@ import { type BfBlogPost__BlogPostListItem__param } from './BfBlogPost/BlogPostL
 import { type BfCurrentViewerLoggedIn__LoggedInView__param } from './BfCurrentViewerLoggedIn/LoggedInView/param_type.ts';
 import { type BfCurrentViewerLoggedOut__DemoButton__param } from './BfCurrentViewerLoggedOut/DemoButton/param_type.ts';
 import { type BfCurrentViewerLoggedOut__LoggedOutView__param } from './BfCurrentViewerLoggedOut/LoggedOutView/param_type.ts';
+import { type BfCurrentViewerLoggedOut__LoginAndRegisterForm__param } from './BfCurrentViewerLoggedOut/LoginAndRegisterForm/param_type.ts';
 import { type BfCurrentViewerLoggedOut__LoginButton__param } from './BfCurrentViewerLoggedOut/LoginButton/param_type.ts';
 import { type BfCurrentViewerLoggedOut__RegisterButton__param } from './BfCurrentViewerLoggedOut/RegisterButton/param_type.ts';
 import { type BfCurrentViewerLoggedOut__WelcomeVideo__param } from './BfCurrentViewerLoggedOut/WelcomeVideo/param_type.ts';
+import { type Mutation__CheckEmail__param } from './Mutation/CheckEmail/param_type.ts';
+import { type Mutation__GetLoginOptions__param } from './Mutation/GetLoginOptions/param_type.ts';
 import { type Mutation__QualityCheckTweet__param } from './Mutation/QualityCheckTweet/param_type.ts';
 import { type Mutation__Register__param } from './Mutation/Register/param_type.ts';
+import { type Mutation__RegistrationOptions__param } from './Mutation/RegistrationOptions/param_type.ts';
 import { type Query__AppHome__param } from './Query/AppHome/param_type.ts';
 import { type Query__Blog__param } from './Query/Blog/param_type.ts';
 import { type Query__ContentFoundryApp__param } from './Query/ContentFoundryApp/param_type.ts';
 import { type Query__EntrypointBlogPost__param } from './Query/EntrypointBlogPost/param_type.ts';
 import { type Query__EntrypointBlog__param } from './Query/EntrypointBlog/param_type.ts';
 import { type Query__EntrypointContentFoundryApp__param } from './Query/EntrypointContentFoundryApp/param_type.ts';
-import { type Query__EntrypointLogin__param } from './Query/EntrypointLogin/param_type.ts';
-import { type Query__PageLogin__param } from './Query/PageLogin/param_type.ts';
 import { type Query__QualityCheckTweetForm__param } from './Query/QualityCheckTweetForm/param_type.ts';
-import { type Query__RegistrationOptions__param } from './Query/RegistrationOptions/param_type.ts';
 
 // This is the type given to regular client fields.
 // This means that the type of the exported iso literal is exactly
@@ -89,6 +90,10 @@ export function iso<T>(
 ): IdentityWithParamComponent<BfCurrentViewerLoggedOut__LoggedOutView__param>;
 
 export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field BfCurrentViewerLoggedOut.LoginAndRegisterForm', T>
+): IdentityWithParamComponent<BfCurrentViewerLoggedOut__LoginAndRegisterForm__param>;
+
+export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field BfCurrentViewerLoggedOut.LoginButton', T>
 ): IdentityWithParamComponent<BfCurrentViewerLoggedOut__LoginButton__param>;
 
@@ -101,12 +106,24 @@ export function iso<T>(
 ): IdentityWithParamComponent<BfCurrentViewerLoggedOut__WelcomeVideo__param>;
 
 export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field Mutation.CheckEmail', T>
+): IdentityWithParam<Mutation__CheckEmail__param>;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field Mutation.GetLoginOptions', T>
+): IdentityWithParam<Mutation__GetLoginOptions__param>;
+
+export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Mutation.QualityCheckTweet', T>
 ): IdentityWithParamComponent<Mutation__QualityCheckTweet__param>;
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Mutation.Register', T>
 ): IdentityWithParamComponent<Mutation__Register__param>;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field Mutation.RegistrationOptions', T>
+): IdentityWithParam<Mutation__RegistrationOptions__param>;
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Query.AppHome', T>
@@ -133,20 +150,16 @@ export function iso<T>(
 ): IdentityWithParam<Query__EntrypointContentFoundryApp__param>;
 
 export function iso<T>(
-  param: T & MatchesWhitespaceAndString<'field Query.EntrypointLogin', T>
-): IdentityWithParam<Query__EntrypointLogin__param>;
-
-export function iso<T>(
-  param: T & MatchesWhitespaceAndString<'field Query.PageLogin', T>
-): IdentityWithParamComponent<Query__PageLogin__param>;
-
-export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Query.QualityCheckTweetForm', T>
 ): IdentityWithParamComponent<Query__QualityCheckTweetForm__param>;
 
 export function iso<T>(
-  param: T & MatchesWhitespaceAndString<'field Query.RegistrationOptions', T>
-): IdentityWithParam<Query__RegistrationOptions__param>;
+  param: T & MatchesWhitespaceAndString<'entrypoint Mutation.CheckEmail', T>
+): void;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'entrypoint Mutation.GetLoginOptions', T>
+): void;
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'entrypoint Mutation.QualityCheckTweet', T>
@@ -154,6 +167,10 @@ export function iso<T>(
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'entrypoint Mutation.Register', T>
+): void;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'entrypoint Mutation.RegistrationOptions', T>
 ): void;
 
 export function iso<T>(
@@ -170,10 +187,6 @@ export function iso<T>(
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'entrypoint Query.EntrypointContentFoundryApp', T>
-): void;
-
-export function iso<T>(
-  param: T & MatchesWhitespaceAndString<'entrypoint Query.RegistrationOptions', T>
 ): void;
 
 export function iso(_isographLiteralText: string):
