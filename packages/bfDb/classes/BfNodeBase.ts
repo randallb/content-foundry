@@ -6,6 +6,7 @@ import { generateUUID } from "lib/generateUUID.ts";
 import { getLogger } from "packages/logger.ts";
 import type { JSONValue } from "packages/bfDb/bfDb.ts";
 import type { BfNode } from "packages/bfDb/coreModels/BfNode.ts";
+import { BfError, BfErrorNotImplemented } from "packages/BfError.ts";
 
 const logger = getLogger(import.meta);
 
@@ -18,29 +19,9 @@ export type BfNodeCache<
   BfGid | string,
   InstanceType<T>
 >;
-
-export interface BfBaseNodeConstructor<
-  TProps extends BfNodeBaseProps,
-  TThis extends typeof BfNodeBase<TProps>,
-> {
-  findX(
-    this: TThis,
-    cv: BfCurrentViewer,
-    id: BfGid,
-    cache?: BfNodeCache,
-  ): Promise<InstanceType<TThis>>;
-  query(
-    cv: BfCurrentViewer,
-    metadata: BfMetadata,
-    props: TProps,
-    bfGids: Array<BfGid>,
-    cache?: BfNodeCache,
-  ): Promise<Array<InstanceType<TThis>>>;
-}
-
 type DefaultProps = Record<string, never>;
 
-export abstract class BfNodeBase<
+export class BfNodeBase<
   TProps extends BfNodeBaseProps = DefaultProps,
 > {
   __typename = this.constructor.name;
@@ -59,7 +40,7 @@ export abstract class BfNodeBase<
       bfGid: bfGid,
       bfOid: cv.bfOid,
       bfCid: cv.bfGid,
-      className: this.constructor.name,
+      className: this.name,
       createdAt: new Date(),
       lastUpdated: new Date(),
       sortValue: this.generateSortValue(),
@@ -67,21 +48,47 @@ export abstract class BfNodeBase<
     return { ...defaults, ...metadata };
   }
 
-  static async find<
+  static async findX<
     TProps extends BfNodeBaseProps,
-    T extends BfNodeBase<TProps>,
+    TThis extends typeof BfNodeBase<TProps>,
   >(
+    this: TThis,
     cv: BfCurrentViewer,
     id: BfGid,
     cache?: BfNodeCache,
-  ) {
+  ): Promise<InstanceType<TThis>> {
+    throw new BfErrorNotImplemented("Not implemented");
+  }
+
+  static query<
+    TProps extends BfNodeBaseProps,
+    TThis extends typeof BfNodeBase<TProps>,
+  >(
+    this: TThis,
+    _cv: BfCurrentViewer,
+    _metadata: BfMetadata,
+    _props: TProps,
+    _bfGids: Array<BfGid>,
+    _cache: BfNodeCache,
+  ): Promise<Array<InstanceType<TThis>>> {
+    throw new BfErrorNotImplemented();
+  }
+
+  static async find<
+    TProps extends BfNodeBaseProps,
+    TThis extends typeof BfNodeBase<TProps>,
+  >(
+    this: TThis,
+    cv: BfCurrentViewer,
+    id: BfGid,
+    cache?: BfNodeCache,
+  ): Promise<InstanceType<TThis> | null> {
     const cachedItem = cache?.get(id);
     if (cachedItem) {
-      return cachedItem;
+      return cachedItem as InstanceType<TThis>;
     }
     try {
-      // @ts-expect-error findX is on the static constructor, not this side.
-      const result = await this.findX(cv, id, cache) as T;
+      const result = await this.findX(cv, id, cache) as InstanceType<TThis>;
       if (result) {
         if (cache) {
           cache.set(id, result);
@@ -97,19 +104,20 @@ export abstract class BfNodeBase<
     return null;
   }
 
-  static async create<
+  static async __DANGEROUS__createUnattached<
     TProps extends BfNodeBaseProps,
     TThis extends typeof BfNodeBase<TProps>,
   >(
     this: TThis,
     cv: BfCurrentViewer,
     props: TProps,
-    metadata?: BfMetadata,
+    metadata?: Partial<BfMetadata>,
     cache?: BfNodeCache,
   ): Promise<InstanceType<TThis>> {
-    logger.debug(`Creating ${this.name} with props ${JSON.stringify(props)}`);
-    // @ts-expect-error new-ing an abstract class is a type error.
-    const newNode = new this(cv, props, metadata);
+    logger.debug(
+      `Creating unattached ${this.name} with props ${JSON.stringify(props)}`,
+    );
+    const newNode = new this(cv, props, metadata) as InstanceType<TThis>;
     await newNode.beforeCreate();
     await newNode.save();
     await newNode.afterCreate();
@@ -118,13 +126,18 @@ export abstract class BfNodeBase<
     return newNode;
   }
 
+  /**
+   * Don't use the constructor outside of BfNodeBase-ish classes please. Use create instead.
+   */
   constructor(
-    private _currentViewer: BfCurrentViewer,
-    private _props: TProps,
-    metadata?: BfMetadata,
+    protected _currentViewer: BfCurrentViewer,
+    protected _props: TProps,
+    metadata?: Partial<BfMetadata>,
   ) {
-    this._metadata = metadata ||
-      (this.constructor as typeof BfNodeBase).generateMetadata(_currentViewer);
+    this._metadata = (this.constructor as typeof BfNodeBase).generateMetadata(
+      _currentViewer,
+      metadata,
+    );
   }
 
   get cv(): BfCurrentViewer {
@@ -137,6 +150,14 @@ export abstract class BfNodeBase<
 
   get props(): TProps {
     return this._props;
+  }
+
+  set props(props: TProps) {
+    this._props = props;
+  }
+
+  isDirty(): boolean {
+    return true;
   }
 
   toGraphql() {
@@ -156,14 +177,29 @@ export abstract class BfNodeBase<
     };
   }
 
-  abstract save(): Promise<this>;
-  abstract delete(): Promise<boolean>;
-  abstract load(): Promise<this>;
-  abstract createTargetNode<TProps extends BfNodeBaseProps, TBfClass extends typeof BfNode<TProps>>(
+  toString() {
+    return `${this.constructor.name}#${this.metadata.bfGid}⚡️${this.metadata.bfOid}`;
+  }
+
+  save(): Promise<this> {
+    throw new BfErrorNotImplemented();
+  }
+  delete(): Promise<boolean> {
+    throw new BfErrorNotImplemented();
+  }
+  load(): Promise<this> {
+    throw new BfErrorNotImplemented();
+  }
+  createTargetNode<
+    TProps extends BfNodeBaseProps,
+    TBfClass extends typeof BfNode<TProps>,
+  >(
     TargetBfClass: TBfClass,
     props: TProps,
     metadata?: BfMetadata,
-  ): Promise<InstanceType<TBfClass>>;
+  ): Promise<InstanceType<TBfClass>> {
+    throw new BfErrorNotImplemented();
+  }
 
   /** CALLBACKS */
 
@@ -187,90 +223,3 @@ export abstract class BfNodeBase<
 
   /** /CALLBACKS */
 }
-
-/**
- * Base class for all BfNode classes. Covers all the required fields and methods.
- * Basically abstract, but can't be because of type stuff.
- */
-// @staticImplements<BfNodeConstructor>()
-// export class BfNodeBase<TProps> implements BfNodeClass {
-//   props: TProps;
-//   metadata: BfMetadata;
-//   currentViewer: BfCurrentViewer;
-
-//   /** DEFAULT METHODS */
-
-//   static generateMetadata(): BfMetadata {
-//     throw new BfErrorNotImplemented();
-//   }
-
-//   static generateSortValue(): string {
-//     return `${Date.now()}`;
-//   }
-
-//   toString(): string {
-//     return `${this.constructor.name}#${this.metadata.bfGid}`;
-//   }
-
-//   constructor(cv: BfCurrentViewer, props: TProps, metadata?: BfMetadataNode) {
-//     this.props = props;
-//     this.metadata = metadata ?? (this.constructor as typeof BfNodeBase).generateMetadata()
-//     this.currentViewer = cv;
-//   }
-
-//   static async find<TThis extends typeof BfNodeBase>(
-//     this: TThis,
-//     cv: BfCurrentViewer,
-//     id: BfGid | string,
-//     cache?: BfNodeCache<TThis>,
-//   ): Promise<InstanceType<TThis> | null> {
-//     const cachedItem = cache?.get(id);
-//     if (cachedItem) {
-//       return cachedItem;
-//     }
-//     try {
-//       return await this.findX(cv, id, cache);
-//     } catch (e) {
-//       const catchableError = e instanceof BfErrorNodeNotFound;
-//       if (catchableError) {
-//         return null;
-//       }
-//       throw e;
-//     }
-//   }
-//   /** /DEFAULT METHODS */
-
-//   /** ABSTRACT METHODS */
-//   static async findX<TThis extends typeof BfNodeBase>(
-//     cv: BfCurrentViewer,
-//     id: BfGid | string,
-//     cache?: BfNodeCache<TThis>,
-//   ): Promise<InstanceType<TThis>> {
-//     const cachedItem = cache?.get(id);
-//     if (cachedItem) {
-//       return cachedItem;
-//     }
-//     throw new BfErrorExampleImplementation();
-//   }
-
-//   static query<TProps, TThis extends typeof BfNodeBase>(
-//     this: TThis,
-//     cv: BfCurrentViewer,
-//     metadata: BfMetadata,
-//     props: TProps,
-//     bfGids: Array<BfGid>,
-//     cache?: BfNodeCache<TThis>,
-//   ): Promise<Array<InstanceType<TThis>>> {
-//     throw new BfErrorNotImplemented();
-//   }
-
-//   static create<TProps, TThis extends typeof BfNodeBase>(
-//     this: TThis,
-//     cv: BfCurrentViewer,
-//     props: TProps,
-//     metadata: BfMetadata,
-//     cache?: BfNodeCache<TThis>,
-//   ): Promise<InstanceType<TThis>> {
-//     throw new BfErrorNotImplemented();
-//   }
-// }

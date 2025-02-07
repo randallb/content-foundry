@@ -11,11 +11,3 @@ export const graphqlBfPerson = objectType({
     t.string("name");
   },
 });
-
-export const graphqlMeQuery = queryField("me", {
-  type: graphqlBfPerson,
-  resolve: async (parent, args, ctx, info) => {
-    const person = await ctx.findCurrentUser();
-    return person?.toGraphql();
-  },
-});

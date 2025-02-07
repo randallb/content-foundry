@@ -3,12 +3,6 @@
 ### Do not make changes to this file directly
 
 
-type AuthenticatorSelection {
-  requireResidentKey: Boolean!
-  residentKey: String!
-  userVerification: String!
-}
-
 type BfBlog implements BfNode & Node {
   """Unique identifier for the resource"""
   id: ID!
@@ -65,6 +59,23 @@ type BfBlogPostEdge {
   node: BfBlogPost
 }
 
+interface BfCurrentViewer implements Node {
+  """Unique identifier for the resource"""
+  id: ID!
+}
+
+type BfCurrentViewerLoggedIn implements BfCurrentViewer & Node {
+  """Unique identifier for the resource"""
+  id: ID!
+}
+
+type BfCurrentViewerLoggedOut implements BfCurrentViewer & Node {
+  authenticationOptions: JSONString
+
+  """Unique identifier for the resource"""
+  id: ID!
+}
+
 interface BfNode implements Node {
   """Unique identifier for the resource"""
   id: ID!
@@ -76,8 +87,17 @@ type BfPerson implements BfNode & Node {
   name: String
 }
 
+scalar JSON
+
+"""
+A scalar that only accepts a valid JSON string. It returns the same valid JSON string on output.
+"""
+scalar JSONString
+
 type Mutation {
+  login(options: JSONString!): BfCurrentViewer
   qualityCheckTweet(systemPrompt: String, taskPrompt: String, tweet: String): Recommendations
+  register(registrationResponse: JSONString!): BfCurrentViewer
 }
 
 interface Node {
@@ -110,23 +130,11 @@ type PageInfo {
   startCursor: String
 }
 
-type PublicKeyCredentialDescriptorJSON {
-  id: String!
-  transports: [String]
-  type: String!
-}
-
-enum PublicKeyCredentialHint {
-  client_device
-  hybrid
-  security_key
-}
-
 type Query {
   bfNode(id: ID): BfNode
   blog: BfBlog
-  me: BfPerson
-  registration(code: ID!): Registration
+  me: BfCurrentViewer
+  registrationOptions: JSONString
 }
 
 type RecommendationItem {
@@ -139,42 +147,4 @@ type RecommendationItem {
 type Recommendations {
   """A list of recommendations"""
   recommendations: [RecommendationItem]
-}
-
-type Registration {
-  options: RegistrationOptions
-  person: BfPerson
-}
-
-type RegistrationOptions {
-  attestation: String!
-  authenticatorSelection: AuthenticatorSelection!
-  challenge: String!
-  excludeCredentials: [PublicKeyCredentialDescriptorJSON!]!
-  extensions: RegistrationOptionsExtensions!
-  hints: [PublicKeyCredentialHint!]!
-  pubKeyCredParams: [RegistrationOptionsPubKeyCredParams!]!
-  rp: RegistrationOptionsRp!
-  timeout: Int!
-  user: RegistrationOptionsUser!
-}
-
-type RegistrationOptionsExtensions {
-  credProps: Boolean!
-}
-
-type RegistrationOptionsPubKeyCredParams {
-  alg: Int!
-  type: String!
-}
-
-type RegistrationOptionsRp {
-  id: ID!
-  name: String!
-}
-
-type RegistrationOptionsUser {
-  displayName: String!
-  id: ID!
-  name: String!
 }
