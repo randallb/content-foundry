@@ -28,7 +28,7 @@ const allowedEnvironmentVariables = [
 const DATABASE_STRING = Deno.env.get("DATABASE_URL") ?? "";
 const DATABASE_URL = new URL(DATABASE_STRING);
 const dbDomain = DATABASE_URL.hostname;
-const neonApiParts = dbDomain.split(".")
+const neonApiParts = dbDomain.split(".");
 neonApiParts[0] = "api";
 const neonApiDomain = neonApiParts.join(".");
 
@@ -66,10 +66,16 @@ const denoCompilationCommand = [
 ];
 
 register("build", "Builds the current project", async () => {
-  return await runShellCommand(["./packages/graphql/graphqlServer.ts"]) ||
-    await runShellCommand(
-      ["deno", "run", "-A", "npm:@isograph/compiler"],
-      "packages/app",
-    ) || await runShellCommand(denoCompilationCommand) ||
-    await runShellCommand(["./infra/appBuild/appBuild.ts"]);
+  const result = await runShellCommand(["./packages/graphql/graphqlServer.ts"]);
+  if (result) return result;
+  const isographResult = await runShellCommand(
+    ["deno", "run", "-A", "npm:@isograph/compiler"],
+    "packages/app",
+  );
+  if (isographResult) return result;
+  const denoCompile = runShellCommand(denoCompilationCommand);
+  const jsCompile = runShellCommand(["./infra/appBuild/appBuild.ts"]);
+  const [denoResult, jsResult] = await Promise.all([denoCompile, jsCompile]);
+
+  return denoResult || jsResult;
 });
