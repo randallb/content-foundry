@@ -2,8 +2,20 @@ import { iso } from "packages/app/__generated__/__isograph/iso.ts";
 
 export const LoggedOutView = iso(`
   field BfCurrentViewerLoggedOut.LoggedOutView @component {
-    __typename
+    WelcomeVideo
+    DemoButton
+    LoginButton
+    RegisterButton
   }
 `)(function LoggedOutView({ data }) {
-  return <h1>Logged out view!</h1>
+  return (
+    <div>
+      <h1>Welcome to Content Foundry</h1>
+      <p>This is text.</p>
+      <data.WelcomeVideo />
+      <data.DemoButton />
+      <data.LoginButton />
+      <data.RegisterButton />
+    </div>
+  );
 });
