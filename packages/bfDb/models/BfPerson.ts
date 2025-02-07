@@ -36,20 +36,21 @@ export class BfPerson extends BfNode<BfPersonProps> {
     return this.findX(cv, cv.bfGid);
   }
 
-  static async generateRegistrationOptionsForGraphql() {
+  static async generateRegistrationOptionsForGraphql(email: string) {
     logger.debug("Generating registration options for graphql");
 
     const cv = BfCurrentViewer
       .__DANGEROUS_USE_IN_REGISTRATION_ONLY__createCvForRegistration(
         import.meta,
+        email, // Pass email as the BfGid
       );
 
     const person = await BfPerson.__DANGEROUS__createUnattached(cv, {
-      name: "Content Foundry Anon",
+      name: email
     });
 
     const userID = new Uint8Array(
-      new TextEncoder().encode(person.metadata.bfGid),
+      new TextEncoder().encode(email),
     );
     if (!rpID || !userID) {
       throw new BfError("Can't generate registration options for graphql");
@@ -70,18 +71,19 @@ export class BfPerson extends BfNode<BfPersonProps> {
     person.props = { registrationOptions };
     await person.save();
 
-    return result;
+    return { regOptions: result, person };
   }
 
   static async register(
     registrationOptions: RegistrationResponseJSON,
+    email: string,
   ) {
     const currentViewer = BfCurrentViewer
       .__DANGEROUS_USE_IN_REGISTRATION_ONLY__createCvForRegistration(
         import.meta,
-        registrationOptions.id,
+        email,
       );
-    const person = await BfPerson.findCurrentViewer(currentViewer);
+    const person = await BfPerson.findByEmail(currentViewer, email);
     if (!rpID) {
       throw new BfError("Implement RPID please!");
     }
@@ -94,7 +96,7 @@ export class BfPerson extends BfNode<BfPersonProps> {
     const verification = await verifyRegistrationResponse({
       response: registrationOptions,
       expectedChallenge: priorOptions.challenge as string,
-      expectedOrigin: rpID,
+      expectedOrigin: `https://${rpID}`,
       expectedRPID: rpID,
     });
 
@@ -110,17 +112,25 @@ export class BfPerson extends BfNode<BfPersonProps> {
     person.props = {
       credential,
     };
+    const cv = await BfCurrentViewer.createFromCredential(
+      import.meta,
+      credential,
+    );
+    logger.setLevel(logger.levels.DEBUG);
+    logger.debug("before", person.props)
     await person.save();
+    logger.debug("after", person.props)
     return person;
   }
 
-  static async generateAuthenticationOptionsForGraphql() {
+  static async generateAuthenticationOptionsForGraphql(email: string) {
     if (!rpID) {
       throw new BfError("Can't generate authentication options for graphql");
     }
 
     const result = await generateAuthenticationOptions({
       rpID,
+      allowCredentials: [],
     });
 
     return result;
@@ -152,5 +162,15 @@ export class BfPerson extends BfNode<BfPersonProps> {
       logger.error(e);
     }
     return verification?.verified ?? false;
+  }
+  static async findByEmail(
+    cv: BfCurrentViewer,
+    email: string,
+  ): Promise<BfPerson | null> {
+    const results = await this.query(
+      cv,
+      { bfCid: toBfGid(email) },
+    );
+    return results[0];
   }
 }
