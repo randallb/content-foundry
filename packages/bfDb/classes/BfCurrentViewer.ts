@@ -69,6 +69,13 @@ export abstract class BfCurrentViewer {
       importMeta,
     );
   }
+  static createFromCredential(importMeta: ImportMeta, credential: PublicKeyCredential) {
+    return BfCurrentViewerLoggedIn
+      .__PROBABLY_DONT_USE_THIS_VERY_OFTEN__createFromCredential(
+        importMeta,
+        credential,
+      );
+  }
   clear() {}
 
   protected constructor(
@@ -134,6 +141,10 @@ class BfCurrentViewerLoggedIn extends BfCurrentViewer {
     responseHeaders.set("Set-Cookie", `bfToken=${nextCv.token}; Max-Age=3600`);
 
     return nextCv;
+  }
+
+  static __PROBABLY_DONT_USE_THIS_VERY_OFTEN__createFromCredential(creator: ImportMeta, credential: PublicKeyCredential) {
+    
   }
   get token() {
     return "BAD ONE";
