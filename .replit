@@ -41,11 +41,7 @@ author = 33272860
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "sl web -f --no-open"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "deno jupyter --install && jupyter notebook --config ./infra/jupyter/config.py"
+args = "bff devTools"
 
 [[workflows.workflow]]
 name = "Commit"
