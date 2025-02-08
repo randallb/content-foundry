@@ -1,10 +1,6 @@
 import { iso } from "packages/app/__generated__/__isograph/iso.ts";
 import { BfDsInput } from "packages/bfDs/components/BfDsInput.tsx";
-import { 
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDebouncedFunction } from "packages/app/hooks/useDebouncedFunction.ts";
 import checkEmailMutation from "packages/app/__generated__/__isograph/Mutation/CheckEmail/entrypoint.ts";
 import { getLogger } from "packages/logger.ts";
@@ -37,34 +33,49 @@ export const LoginAndRegisterForm = iso(`
       setHasEmail(undefined);
       return;
     }
-    
+
     setIsInFlight(true);
     // Abort previous request if exists
     abortControllerRef.current?.abort();
     // Create new controller for this request
     abortControllerRef.current = new AbortController();
-    
-    commit({email}, {
+
+    commit({ email }, {
       // @ts-expect-error lets try it anyway
       signal: abortControllerRef.current.signal,
       onComplete(hasEmail) {
         setIsInFlight(false);
         setHasEmail(hasEmail);
         logger.debug("Got check email response", data);
-      }
-    })
+      },
+    });
   }, [email]);
   return (
     <>
-      <BfDsInput
-        autoFocus={true}
-        label="Email"
-        name="email"
-        placeholder="randall@contentfoundry.com"
-        onChange={(e) => debouncedSetEmail(e.currentTarget.value)}
+      <div className="center">
+        <BfDsInput
+          autoFocus={true}
+          label="Email"
+          name="email"
+          placeholder="randall@contentfoundry.com"
+          onChange={(e) => debouncedSetEmail(e.currentTarget.value)}
+          xstyle={{ width: "80%" }}
+        />
+      </div>
+      <data.RegisterButton
+        hasEmail={hasEmail}
+        email={email}
+        isInFlight={isInFlight}
       />
-      <data.LoginButton hasEmail={hasEmail} email={email} isInFlight={isInFlight} />
-      <data.RegisterButton hasEmail={hasEmail} email={email} isInFlight={isInFlight} />
+      <hr />
+      <div className="center">
+        Already have an account?
+      </div>
+      <data.LoginButton
+        hasEmail={hasEmail}
+        email={email}
+        isInFlight={isInFlight}
+      />
     </>
   );
 });

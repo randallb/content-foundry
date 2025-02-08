@@ -16,7 +16,10 @@ export function CfLogo(
       y="0px"
       viewBox="0 0 820 74.2"
       xmlSpace="preserve"
+      role="img"
+      aria-label="Content Foundry"
     >
+      <title>Content Foundry</title>
       <path
         fill={foundryColor}
         d="M506.9,73.4c-20,0-36.3-16.3-36.3-36.3c0-20,16.3-36.3,36.3-36.3s36.3,16.3,36.3,36.3C543.2,57.1,527,73.4,506.9,73.4z

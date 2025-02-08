@@ -12,6 +12,11 @@ body {
   color: var(--text);
 }
 
+hr {
+  border: 1px solid var(--borderDark);
+  width: 100%;
+}
+
 #tooltip-root,
 #modal-root {
   position: absolute;
@@ -69,6 +74,9 @@ a.dark:visited {
 .thin {
   font-weight: 100;
   opacity: 0.5
+}
+.center {
+  text-align: center;
 }
 
 /* Flexbox */

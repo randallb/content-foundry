@@ -5,7 +5,5 @@ export const WelcomeVideo = iso(`
     __typename
   }
 `)(function WelcomeVideo({ data }) {
-  return (
-    <h2>I'm a video player</h2>
-  );
+  return <div className="videoPlayer">I'm a video player</div>;
 });
