@@ -42,9 +42,9 @@ export async function runShellCommand(
   }
 
   if (success) {
-    console.log(`Command succeeded: ${commandArray.join(" ")}`);
+    logger.info(`Command succeeded: ${commandArray.join(" ")}`);
   } else {
-    console.error(`Command failed with code ${code}: ${commandArray.join(" ")}`);
+    logger.error(`Command failed with code ${code}: ${commandArray.join(" ")}`);
   }
 
   return code;
@@ -59,7 +59,7 @@ export async function runShellCommandWithOutput(
     ...Deno.env.toObject(),
     ...additionalEnv,
   };
-  console.log(`Running command: ${commandArray.join(" ")}`);
+  logger.info(`Running command: ${commandArray.join(" ")}`);
   let stopSpinner;
   if (useSpinner) {
     stopSpinner = startSpinner();
