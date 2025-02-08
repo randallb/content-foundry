@@ -1,7 +1,10 @@
-import { register } from "infra/bff/bff.ts";
+// In infra/bff/shellBase.ts (or a shared module)
 import startSpinner from "lib/terminalSpinner.ts";
 import { getLogger } from "packages/logger.ts";
 const logger = getLogger(import.meta);
+
+// Global array to track running child processes
+export const runningProcesses: Deno.ChildProcess[] = [];
 
 export async function runShellCommand(
   commandArray: Array<string>,
@@ -14,7 +17,7 @@ export async function runShellCommand(
     ...additionalEnv,
   };
   logger.info(`Running command: ${commandArray.join(" ")}`);
-  let stopSpinner;
+  let stopSpinner: (() => void) | undefined;
   if (useSpinner) {
     stopSpinner = startSpinner();
   }
@@ -30,17 +33,18 @@ export async function runShellCommand(
   });
 
   const process = cmd.spawn();
+  // Save the process so we can kill it later
+  runningProcesses.push(process);
+
   const { code, success } = await process.output();
-  stopSpinner ? stopSpinner() : null;
+  if (stopSpinner) {
+    stopSpinner();
+  }
 
   if (success) {
-    // deno-lint-ignore no-console
     console.log(`Command succeeded: ${commandArray.join(" ")}`);
   } else {
-    // deno-lint-ignore no-console
-    console.error(
-      `Command failed with code ${code}: ${commandArray.join(" ")}`,
-    );
+    console.error(`Command failed with code ${code}: ${commandArray.join(" ")}`);
   }
 
   return code;
@@ -55,7 +59,6 @@ export async function runShellCommandWithOutput(
     ...Deno.env.toObject(),
     ...additionalEnv,
   };
-  // deno-lint-ignore no-console
   console.log(`Running command: ${commandArray.join(" ")}`);
   let stopSpinner;
   if (useSpinner) {
@@ -72,8 +75,11 @@ export async function runShellCommandWithOutput(
   });
 
   const process = cmd.spawn();
+  runningProcesses.push(process);
   const { stdout } = await process.output();
-  stopSpinner ? stopSpinner() : null;
+  if (stopSpinner) {
+    stopSpinner();
+  }
   return new TextDecoder().decode(stdout);
 }
 

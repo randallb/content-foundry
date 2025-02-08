@@ -4,11 +4,12 @@ build/**
 !node_modules
 nix_system
 .direnv
+attached_assets/
 static/build
 .cache
 .local
 node_modules
 vendor
-.git
 .config
 .git
+.sl
