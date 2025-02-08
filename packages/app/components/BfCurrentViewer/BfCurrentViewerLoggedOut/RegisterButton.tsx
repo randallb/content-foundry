@@ -8,6 +8,7 @@ import { startRegistration } from "@simplewebauthn/browser";
 
 import { useState } from "react";
 import { useMutation } from "packages/app/hooks/isographPrototypes/useMutation.tsx";
+import { BfDsTooltip } from "packages/bfDs/components/BfDsTooltip.tsx";
 
 const logger = getLogger(import.meta);
 
@@ -30,6 +31,8 @@ export const RegisterButton = iso(`
     const { commit } = useMutation(mutation);
     const [isInFlight, setIsInFlight] = useState(false);
     const showSpinner = parentIsInFlight || isInFlight;
+
+    // BUG: This is a data leak
     if (hasEmail) {
       return (
         <BfDsButton
@@ -39,52 +42,55 @@ export const RegisterButton = iso(`
         />
       );
     }
-    if (hasEmail === false && email) {
-      const register = () => {
-        loadFragmentReference({
-          email,
-        }, {
-          onComplete: async (optionsJSON) => {
-            logger.debug("received result", optionsJSON);
-            let attRespJSON;
-            try {
-              attRespJSON = await startRegistration({ optionsJSON });
-              logger.debug("start this thing nao omfg", attRespJSON);
-            } catch (e) {
-              logger.error(e);
-            }
-            if (attRespJSON) {
-              const attResp = JSON.stringify(attRespJSON);
-              logger.debug("attResp", attRespJSON, attResp);
-              setIsInFlight(true);
-              commit({ attResp, email }, {
-                onComplete: () => {
-                  logger.setLevel(logger.levels.DEBUG);
-                  logger.debug("Completed registration.");
-                  setIsInFlight(false);
-                },
-              });
-            } else {
-              setIsInFlight(false);
-            }
-          },
-        });
-      };
-      return (
-        <BfDsButton
-          text="Register"
-          showSpinner={showSpinner}
-          onClick={register}
-        />
-      );
-    }
+
+    const register = () => {
+      if (!email) return;
+      loadFragmentReference({
+        email,
+      }, {
+        onComplete: async (optionsJSON) => {
+          logger.debug("received result", optionsJSON);
+          let attRespJSON;
+          try {
+            attRespJSON = await startRegistration({ optionsJSON });
+            logger.debug("start this thing nao omfg", attRespJSON);
+          } catch (e) {
+            logger.error(e);
+          }
+          if (attRespJSON) {
+            const attResp = JSON.stringify(attRespJSON);
+            logger.debug("attResp", attRespJSON, attResp);
+            setIsInFlight(true);
+            commit({ attResp, email }, {
+              onComplete: () => {
+                logger.setLevel(logger.levels.DEBUG);
+                logger.debug("Completed registration.");
+                setIsInFlight(false);
+              },
+            });
+          } else {
+            setIsInFlight(false);
+          }
+        },
+      });
+    };
+    const enableRegister = hasEmail === false && email;
+
     return (
-      <BfDsButton
-        text="Register"
-        showSpinner={showSpinner}
-        disabled={true}
-        tooltip="Enter an email to register"
-      />
+      <BfDsTooltip
+        text={enableRegister ? "Register" : "Enter an email to register"}
+      >
+        <div className="center">
+          <BfDsButton
+            kind="secondary"
+            text="Register"
+            onClick={register}
+            showSpinner={showSpinner}
+            disabled={!enableRegister}
+            xstyle={{ width: "80%" }}
+          />
+        </div>
+      </BfDsTooltip>
     );
   },
 );
