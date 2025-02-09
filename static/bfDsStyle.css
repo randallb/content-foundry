@@ -564,6 +564,7 @@ div#toast-root {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
 }
 .dropzone.dragged {
   border-color: var(--secondaryColor);
