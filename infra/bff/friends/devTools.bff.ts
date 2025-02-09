@@ -123,33 +123,36 @@ register(
     "Run development tools (Sapling web interface and Jupyter notebook)",
     async () => {
       // Check GitHub auth status first
-      try {
+
         const authStatus = await runShellCommandWithOutput([
           "gh",
           "auth",
           "status",
         ]);
+        
         logger.log("GitHub auth status:", authStatus);
-      } catch {
-        // Setup GitHub auth first
-        const ghCommand = new Deno.Command("gh", {
-          args: [
-            "auth",
-            "login",
-            "--hostname",
-            "github.com",
-            "--web",
-            "--git-protocol",
-            "https",
-          ],
-          stdin: "piped",
-        });
-        const ghProcess = ghCommand.spawn();
-        const writer = ghProcess.stdin.getWriter();
-        await writer.write(new TextEncoder().encode("y\n"));
-        await writer.close();
-        await ghProcess.status;
-      }
+        if (!authStatus) {
+          logger.log(`Not authenticated. ${authStatus} Let's log in.`)
+          // Setup GitHub auth first
+          const ghCommand = new Deno.Command("gh", {
+            args: [
+              "auth",
+              "login",
+              "--hostname",
+              "github.com",
+              "--web",
+              "--git-protocol",
+              "https",
+            ],
+            stdin: "piped",
+          });
+          const ghProcess = ghCommand.spawn();
+          const writer = ghProcess.stdin.getWriter();
+          await writer.write(new TextEncoder().encode("y\n"));
+          await writer.close();
+          await ghProcess.status;
+        }
+        
 
       logger.log("Starting Jupyter and Sapling web interface...");
 
