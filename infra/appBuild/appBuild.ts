@@ -75,8 +75,7 @@ export async function build(
   const output = await esbuild.build({
     plugins: [
       ...denoPlugins(),
-      // denoPlugin,
-      // denoFileResolver,
+      denoFileResolver,
       // slimRelay,
     ],
     treeShaking: true,

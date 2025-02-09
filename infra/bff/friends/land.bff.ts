@@ -45,7 +45,9 @@ register(
   "land",
   "Pull code from sapling, install deps, and create a git commit",
   async () => {
-    // First pull the latest code
+
+
+    // Then pull the latest code
     logger.info("Pulling latest code from sapling...");
     const pullResult = await runShellCommand([
       "sl",
@@ -55,6 +57,19 @@ register(
     if (pullResult !== 0) {
       logger.error("Failed to pull latest code");
       return pullResult;
+    } 
+    // Try to goto remote/main with clean state
+    logger.info("Going to remote/main with clean state...");
+    const gotoResult = await runShellCommand([
+      "sl",
+      "goto",
+      "remote/main",
+      "--clean",
+    ]);
+
+    if (gotoResult !== 0) {
+      logger.error("Failed to goto remote/main");
+      return gotoResult;
     }
 
     // Install dependencies
