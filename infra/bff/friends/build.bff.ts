@@ -16,6 +16,7 @@ const allowedEnvironmentVariables = [
   "OPENAI_ORG_ID",
   "OPENAI_PROJECT_ID",
   "OPEN_ROUTER_API_KEY",
+  "POSTHOG_API_KEY",
   "REPL_HOME",
   "REPLIT_DEV_DOMAIN",
   "RPID",
