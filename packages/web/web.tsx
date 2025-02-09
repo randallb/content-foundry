@@ -118,6 +118,7 @@ for (const entry of appRoutes.entries()) {
       queryParams,
       routeParams,
       path,
+      posthogKey: Deno.env.get("POSTHOG_API_KEY") ?? "",
     };
 
     const serverEnvironment: ServerProps = {
@@ -162,6 +163,7 @@ for (const [path, entrypoint] of isographAppRoutes.entries()) {
       queryParams,
       routeParams,
       path,
+      posthogKey: Deno.env.get("POSTHOG_API_KEY") ?? "",
     };
 
     const serverEnvironment: ServerProps = {
