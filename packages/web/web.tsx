@@ -199,7 +199,12 @@ for (const [path, entrypoint] of isographAppRoutes.entries()) {
 }
 
 routes.set("/static/:filename+", function staticHandler(req) {
-  return serveDir(req, { headers: ["Cache-Control", "must-revalidate"] });
+  return serveDir(req, { 
+    headers: [
+      "Cache-Control: public, must-revalidate",
+      "ETag: true"
+    ]
+  });
 });
 
 routes.set("/graphql", graphQLHandler);
