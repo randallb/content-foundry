@@ -13,3 +13,4 @@ vendor
 .config
 .git
 .sl
+.config/sapling
