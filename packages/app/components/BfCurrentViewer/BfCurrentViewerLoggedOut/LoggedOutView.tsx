@@ -23,7 +23,7 @@ export const LoggedOutView = iso(`
         </div>
       </div>
       <div className="loginBox">
-        <p>This is text.</p>
+        <p>We're building.</p>
         <data.WelcomeVideo />
         {shouldRenderDemoButton && <data.DemoButton />}
         <data.LoginAndRegisterForm />
