@@ -1,34 +1,164 @@
 import { getLogger } from "packages/logger.ts";
 import { type BfGid, toBfGid } from "packages/bfDb/classes/BfNodeIds.ts";
-import {
+import type {
   AuthenticationResponseJSON,
-  type PublicKeyCredentialRequestOptionsJSON,
-  verifyAuthenticationResponse,
+  RegistrationResponseJSON,
+  WebAuthnCredential,
 } from "@simplewebauthn/server";
+import { Buffer } from "node:buffer";
 import { BfPerson } from "packages/bfDb/models/BfPerson.ts";
 import { generateUUID } from "lib/generateUUID.ts";
+import jwt from "jsonwebtoken";
+
+const JWT_SECRET = Buffer.from("content-foundry-secret-key");
+const JWT_EXPIRES_IN = "1h";
+const REFRESH_TOKEN_EXPIRES_IN = "7d"; // Example refresh token expiration
+
+function generateToken(sub: string, expiresIn: string): string {
+  return jwt.sign({ sub }, JWT_SECRET, { expiresIn } as jwt.SignOptions);
+}
+
+export type StorableCredential = Omit<WebAuthnCredential, "publicKey"> & {
+  publicKey: string;
+  backedUp: boolean;
+};
+
+function generateTokens(
+  sub: string,
+): { accessToken: string; refreshToken: string } {
+  const accessToken = generateToken(sub, JWT_EXPIRES_IN);
+  const refreshToken = generateToken(sub, REFRESH_TOKEN_EXPIRES_IN);
+  return { accessToken, refreshToken };
+}
+
+function verifyAccessToken(token: string): { sub: string } | null {
+  try {
+    return jwt.verify(token, JWT_SECRET) as { sub: string };
+  } catch {
+    return null;
+  }
+}
+
+function verifyRefreshToken(token: string): { sub: string } | null {
+  try {
+    return jwt.verify(token, JWT_SECRET) as { sub: string };
+  } catch {
+    return null;
+  }
+}
 
 const logger = getLogger(import.meta);
 
 export abstract class BfCurrentViewer {
   __typename;
+
+  static setLoginSuccessHeaders(responseHeaders: Headers, bfGid: string) {
+    const { accessToken, refreshToken } = generateTokens(bfGid);
+    responseHeaders.set(
+      "Set-Cookie",
+      `bfgat=${accessToken}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=900`,
+    );
+    responseHeaders.set(
+      "Set-Cookie",
+      `bfgrt=${refreshToken}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${604800}`,
+    ); //7 days in seconds
+  }
+
   get id() {
     return `${this.constructor.name}#${this.bfGid}⚡️${this.bfOid}`;
   }
-  static async createFromRequest(importMeta: ImportMeta, _request: Request) {
-    const cv = BfCurrentViewerLoggedOut
-      .__PROBABLY_DONT_USE_THIS_VERY_OFTEN__create(importMeta);
-    return cv;
+  static async createFromRequest(
+    importMeta: ImportMeta,
+    request: Request,
+    responseHeaders: Headers,
+  ) {
+    logger.debug("Creating viewer from request");
+    const accessToken = request.headers.get("Cookie")?.match(/bfgat=([^;]+)/)
+      ?.[1];
+    const refreshToken = request.headers.get("Cookie")?.match(/bfgrt=([^;]+)/)
+      ?.[1];
+
+    logger.debug("Found tokens", {
+      hasAccessToken: !!accessToken,
+      hasRefreshToken: !!refreshToken,
+    });
+    let tokenResult = accessToken ? verifyAccessToken(accessToken) : null;
+    logger.debug("Verified access token result", {
+      hasTokenResult: !!tokenResult,
+    });
+
+    if (!tokenResult && refreshToken) {
+      const refreshResult = verifyRefreshToken(refreshToken);
+      if (refreshResult) {
+        // Generate new tokens if refresh token is valid
+        const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+          generateTokens(refreshResult.sub);
+        responseHeaders.set(
+          "Set-Cookie",
+          `bfgat=${newAccessToken}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=900`,
+        );
+        responseHeaders.set(
+          "Set-Cookie",
+          `bfgrt=${newRefreshToken}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${604800}`,
+        ); //7 days in seconds
+
+        tokenResult = refreshResult;
+      }
+    }
+
+    const userLoggedIn = !!tokenResult;
+
+    if (!userLoggedIn) {
+      responseHeaders.set(
+        "Set-Cookie",
+        "bfgat=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0",
+      );
+      responseHeaders.set(
+        "Set-Cookie",
+        "bfgrt=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0",
+      );
+    }
+
+    if (userLoggedIn) {
+      const userId = tokenResult!.sub;
+      const cv = BfCurrentViewerLoggedIn
+        .__PROBABLY_DONT_USE_THIS_VERY_OFTEN__create(
+          importMeta,
+          toBfGid(userId),
+          toBfGid(userId),
+        );
+
+      return cv;
+    }
+    return BfCurrentViewerLoggedOut.__PROBABLY_DONT_USE_THIS_VERY_OFTEN__create(
+      importMeta,
+    );
   }
 
   static async createFromLoginOptions(
     importMeta: ImportMeta,
+    email: string,
     options: AuthenticationResponseJSON,
     responseHeaders: Headers,
   ) {
     return await BfCurrentViewerLoggedIn.createFromLoginOptions(
       importMeta,
+      email,
       options,
+      responseHeaders,
+    );
+  }
+
+  static async createFromRegistrationResponse(
+    importMeta: ImportMeta,
+    registrationResponseJSON: RegistrationResponseJSON,
+    email: string,
+    responseHeaders: Headers,
+  ) {
+    return await BfCurrentViewerLoggedIn.createFromRegistrationResponse(
+      importMeta,
+      registrationResponseJSON,
+      email,
       responseHeaders,
     );
   }
@@ -51,29 +181,32 @@ export abstract class BfCurrentViewer {
   }
   static __DANGEROUS_USE_IN_REGISTRATION_ONLY__createCvForRegistration(
     importMeta: ImportMeta,
-    bfGid: string | BfGid = generateUUID(),
+    email: string,
   ) {
     return BfCurrentViewerForRegistration
       .__PROBABLY_DONT_USE_THIS_VERY_OFTEN__create(
         importMeta,
-        toBfGid(bfGid),
-        toBfGid(bfGid),
+        toBfGid(email),
       );
   }
 
   static createLoggedOut(
     importMeta: ImportMeta,
   ) {
-    logger.warn(`Creating Logged in user: ${importMeta.url}`);
+    logger.warn(`Creating Logged in user: ${import.meta.url}`);
     return BfCurrentViewerLoggedOut.__PROBABLY_DONT_USE_THIS_VERY_OFTEN__create(
       importMeta,
     );
   }
-  static createFromCredential(importMeta: ImportMeta, credential: PublicKeyCredential) {
+  static __DANGEROUS__createFromEmail(
+    importMeta: ImportMeta,
+    email: string,
+  ) {
     return BfCurrentViewerLoggedIn
-      .__PROBABLY_DONT_USE_THIS_VERY_OFTEN__createFromCredential(
+      .__PROBABLY_DONT_USE_THIS_VERY_OFTEN__create(
         importMeta,
-        credential,
+        toBfGid(email),
+        toBfGid(email),
       );
   }
   clear() {}
@@ -118,40 +251,81 @@ class BfCurrentViewerLoggedIn extends BfCurrentViewer {
 
   static override async createFromLoginOptions(
     creator: ImportMeta,
+    email: string,
     response: AuthenticationResponseJSON,
     responseHeaders: Headers,
   ) {
-    const bfGid = toBfGid(response.id);
     const cv = BfCurrentViewer
       .__DANGEROUS_USE_IN_REGISTRATION_ONLY__createCvForRegistration(
         creator,
+        email,
       );
-    const isVerified = await BfPerson.verifyLogin(cv, response);
+    const person = await BfPerson.verifyLogin(cv, email, response);
 
-    if (!isVerified) {
-      responseHeaders.set("Set-Cookie", "bfToken=; Max-Age=0");
+    if (!person) {
+      responseHeaders.set(
+        "Set-Cookie",
+        "bfgat=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0",
+      );
+      responseHeaders.set(
+        "Set-Cookie",
+        "bfgrt=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0",
+      );
       return BfCurrentViewerLoggedOut
         .__PROBABLY_DONT_USE_THIS_VERY_OFTEN__create(creator);
     }
     const nextCv = new this(
       creator,
-      bfGid,
-      bfGid,
+      person.metadata.bfGid,
+      person.metadata.bfOid,
     );
-    responseHeaders.set("Set-Cookie", `bfToken=${nextCv.token}; Max-Age=3600`);
-
+    BfCurrentViewer.setLoginSuccessHeaders(
+      responseHeaders,
+      person.metadata.bfGid,
+    );
     return nextCv;
   }
+  static override async createFromRegistrationResponse(
+    creator: ImportMeta,
+    registrationResponseJSON: RegistrationResponseJSON,
+    email: string,
+    responseHeaders: Headers,
+  ) {
+    const bfGid = toBfGid(email);
 
-  static __PROBABLY_DONT_USE_THIS_VERY_OFTEN__createFromCredential(creator: ImportMeta, credential: PublicKeyCredential) {
-    
-  }
-  get token() {
-    return "BAD ONE";
+    const person = await BfPerson.register(registrationResponseJSON, email);
+
+    if (!person) {
+      responseHeaders.set(
+        "Set-Cookie",
+        "bfgat=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0",
+      );
+      responseHeaders.set(
+        "Set-Cookie",
+        "bfgrt=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0",
+      );
+      return BfCurrentViewerLoggedOut
+        .__PROBABLY_DONT_USE_THIS_VERY_OFTEN__create(creator);
+    }
+    const nextCv = new this(
+      creator,
+      person.metadata.bfGid,
+      person.metadata.bfOid,
+    );
+    BfCurrentViewer.setLoginSuccessHeaders(responseHeaders, bfGid);
+    return nextCv;
   }
 }
 
-export class BfCurrentViewerForRegistration extends BfCurrentViewerLoggedIn {}
+export class BfCurrentViewerForRegistration extends BfCurrentViewerLoggedIn {
+  static override __PROBABLY_DONT_USE_THIS_VERY_OFTEN__create(
+    creator: ImportMeta,
+    emailString: string,
+  ) {
+    const bfGid = toBfGid(emailString);
+    return new this(creator, bfGid, bfGid);
+  }
+}
 
 class BfCurrentViewer__DANGEROUS__OMNI__ extends BfCurrentViewer {
   static __PROBABLY_DONT_USE_THIS_VERY_OFTEN__create(creator: ImportMeta) {

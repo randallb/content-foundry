@@ -3,7 +3,7 @@ import { BfDsInput } from "packages/bfDs/components/BfDsInput.tsx";
 import { BfDsPill } from "packages/bfDs/components/BfDsPill.tsx";
 import { BfDsIcon } from "packages/bfDs/components/BfDsIcon.tsx";
 import { getLogger } from "packages/logger.ts";
-const logger = getLogger(import.meta)
+const logger = getLogger(import.meta);
 
 interface TagInputProps {
   label: string;

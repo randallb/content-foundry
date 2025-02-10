@@ -134,10 +134,10 @@ const demoData: Array<DemoData> = [
       </div>
     ),
   },
-    {
-      name: "Tooltips",
-      component: <Tooltips />,
-    },
+  {
+    name: "Tooltips",
+    component: <Tooltips />,
+  },
   //   {
   //     name: "Kitchen sink",
   //     component: <KitchenSink />,

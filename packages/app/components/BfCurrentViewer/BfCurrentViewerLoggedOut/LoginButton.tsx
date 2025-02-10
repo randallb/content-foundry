@@ -5,6 +5,7 @@ import { getLogger } from "packages/logger.ts";
 import { startAuthentication } from "@simplewebauthn/browser";
 import { useMutation } from "packages/app/hooks/isographPrototypes/useMutation.tsx";
 import mutation from "packages/app/__generated__/__isograph/Mutation/GetLoginOptions/entrypoint.ts";
+import completeLoginMutation from "packages/app/__generated__/__isograph/Mutation/Login/entrypoint.ts";
 import { BfDsTooltip } from "packages/bfDs/components/BfDsTooltip.tsx";
 
 const logger = getLogger(import.meta);
@@ -33,6 +34,7 @@ export const LoginButton = iso(`
       parentInFlight,
     );
     const { commit: getLoginOptions } = useMutation(mutation);
+    const { commit: login } = useMutation(completeLoginMutation);
     const [isInFlight, setIsInFlight] = useState(false);
 
     const handleLogin = () => {
@@ -47,13 +49,19 @@ export const LoginButton = iso(`
           email,
         }, {
           onComplete: async (data) => {
-            logger.setLevel(logger.levels.DEBUG);
             logger.debug("Got authentication options", data);
 
-            const options = JSON.parse(data);
-            const authResp = await startAuthentication(options);
+            const optionsJSON = JSON.parse(data);
+            const authRespJSON = await startAuthentication({ optionsJSON });
+            const authResp = JSON.stringify(authRespJSON);
             logger.debug("Got authentication response", authResp);
-            setIsInFlight(false);
+            login({ email, authResp }, {
+              onComplete: (data) => {
+                logger.debug("Got login response", data);
+                globalThis.location.reload();
+                setIsInFlight(false);
+              },
+            });
           },
         });
       } catch (error) {

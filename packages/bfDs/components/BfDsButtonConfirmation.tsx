@@ -1,5 +1,8 @@
 import * as React from "react";
-import { BfDsButton, type ButtonSizeType } from "packages/bfDs/components/BfDsButton.tsx";
+import {
+  BfDsButton,
+  type ButtonSizeType,
+} from "packages/bfDs/components/BfDsButton.tsx";
 import {
   BfDsIcon,
   type BfDsIconType,
@@ -54,8 +57,8 @@ export function BfDsButtonConfirmation({
   const handleConfirm = () => {
     setShowConfirmation(false);
     onConfirm();
-  }
-  
+  };
+
   let iconSize: IconSizeType;
   let iconSizeSelected;
   switch (size) {
@@ -128,7 +131,6 @@ export function Example() {
   return (
     <BfDsButtonConfirmation
       icon="trash"
-
       onConfirm={() => logger.info("deleted")}
     />
   );

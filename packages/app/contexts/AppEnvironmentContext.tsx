@@ -74,13 +74,13 @@ export function AppEnvironmentProvider(
     <AppEnvironmentContext.Provider value={appEnvironment}>
       <IsographEnvironmentProvider environment={isographEnvironment}>
         {/* <PostHogProvider client={posthogClient}> */}
-          <RouterProvider
-            routeParams={routeParams}
-            queryParams={queryParams}
-            initialPath={initialPath}
-          >
-            {children}
-          </RouterProvider>
+        <RouterProvider
+          routeParams={routeParams}
+          queryParams={queryParams}
+          initialPath={initialPath}
+        >
+          {children}
+        </RouterProvider>
         {/* </PostHogProvider> */}
       </IsographEnvironmentProvider>
     </AppEnvironmentContext.Provider>

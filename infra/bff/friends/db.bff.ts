@@ -1,5 +1,9 @@
 import { register } from "infra/bff/bff.ts";
-import { __DANGEROUSLY_DESTROY_THE_DATABASE__, cleanModelsExcept, upsertBfDb } from "packages/bfDb/bfDbUtils.ts";
+import {
+  __DANGEROUSLY_DESTROY_THE_DATABASE__,
+  cleanModelsExcept,
+  upsertBfDb,
+} from "packages/bfDb/bfDbUtils.ts";
 
 register(
   "db:reset",
@@ -20,7 +24,7 @@ register(
   "db:clean",
   "Deletes edges and nodes except for the default ones",
   async () => {
-    await cleanModelsExcept()
+    await cleanModelsExcept();
     return 0;
   },
 );

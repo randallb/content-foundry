@@ -63,7 +63,6 @@ export const RegisterButton = iso(`
             setIsInFlight(true);
             commit({ attResp, email }, {
               onComplete: () => {
-                logger.setLevel(logger.levels.DEBUG);
                 logger.debug("Completed registration.");
                 setIsInFlight(false);
               },

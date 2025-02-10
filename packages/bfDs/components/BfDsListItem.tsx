@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { BfDsIcon, type BfDsIconType } from "packages/bfDs/components/BfDsIcon.tsx";
+import {
+  BfDsIcon,
+  type BfDsIconType,
+} from "packages/bfDs/components/BfDsIcon.tsx";
 import { classnames } from "lib/classnames.ts";
 import { BfDsToggle } from "packages/bfDs/components/BfDsToggle.tsx";
 
@@ -38,7 +41,7 @@ export function BfDsListItem(
 ) {
   const [expand, setExpand] = useState(false);
   function handleClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    if ((e.target as HTMLElement).closest('.ignore-internal-click')) {
+    if ((e.target as HTMLElement).closest(".ignore-internal-click")) {
       return;
     }
     if (expandedContent) {

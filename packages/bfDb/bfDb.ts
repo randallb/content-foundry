@@ -6,10 +6,7 @@ import type {
   BfMetadataDefault,
 } from "packages/bfDb/classes/BfNodeMetadata.ts";
 import { BfErrorDb } from "packages/bfDb/classes/BfErrorDb.ts";
-import {
-  type BfGid,
-  toBfGid,
-} from "packages/bfDb/classes/BfNodeIds.ts";
+import { type BfGid, toBfGid } from "packages/bfDb/classes/BfNodeIds.ts";
 import type { BfError } from "packages/BfError.ts";
 
 const logger = getLogger(import.meta);

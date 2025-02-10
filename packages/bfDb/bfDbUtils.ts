@@ -165,7 +165,8 @@ export async function cleanModelsExcept(
   modelNames = ["BfPerson", "BfAccount", "BfOrganization", "BfGoogleAuth"],
 ) {
   const dryRun = false;
-  const databaseUrl = Deno.env.get("DATABASE_URL") ?? Deno.env.get("DATABASE_URL");
+  const databaseUrl = Deno.env.get("DATABASE_URL") ??
+    Deno.env.get("DATABASE_URL");
   if (!databaseUrl) {
     throw new BfErrorDb("DATABASE_URL is not set");
   }
@@ -187,7 +188,11 @@ export async function cleanModelsExcept(
   `;
 
   logger.warn(
-    `Removing all model classes except ${modelNames.map(n => `'${n}'`).join(", ")} from ${rows.length} nodes and edges from database ${databaseUrl.split("@")[1]}`,
+    `Removing all model classes except ${
+      modelNames.map((n) => `'${n}'`).join(", ")
+    } from ${rows.length} nodes and edges from database ${
+      databaseUrl.split("@")[1]
+    }`,
   );
 
   if (dryRun) {
@@ -205,6 +210,8 @@ export async function cleanModelsExcept(
   `;
 
   logger.warn(
-    `Removed all model classes except ${modelNames.map(n => `'${n}'`).join(", ")} from nodes and edges`,
+    `Removed all model classes except ${
+      modelNames.map((n) => `'${n}'`).join(", ")
+    } from nodes and edges`,
   );
 }

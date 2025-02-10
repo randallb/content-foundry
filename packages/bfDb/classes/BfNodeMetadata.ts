@@ -20,7 +20,7 @@ export type BfMetadataNode = {
 
 export type BfMetadataEdge = BfMetadataNode & {
   /** Source ID */
-  bfSid: BfGid; 
+  bfSid: BfGid;
   bfSClassName: string;
   /** Target ID */
   bfTid: BfGid;
