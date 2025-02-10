@@ -1,8 +1,7 @@
-
 import {
   FeatureFlagsEnabled,
-  FeatureFlagsVariant,
   featureFlagsEnabled,
+  FeatureFlagsVariant,
   featureFlagsVariant,
 } from "packages/featureFlags/featureFlagsList.ts";
 
@@ -37,7 +36,9 @@ export function getFeatureFlagVariant<T extends keyof FeatureFlagsVariant>(
   if (frontendClient) {
     const key = frontendClient.getFeatureFlag(variant);
     if (key) {
-      return frontendClient.getFeatureFlagPayload(variant) as FeatureFlagsVariant[T];
+      return frontendClient.getFeatureFlagPayload(
+        variant,
+      ) as FeatureFlagsVariant[T];
     }
   }
 

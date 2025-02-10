@@ -45,7 +45,9 @@ const buttonElements = [
   },
   {
     name: "Button with copy",
-    component: <BfDsCopyButton buttonText="Copy me!" textToCopy="How 'bout that'" />,
+    component: (
+      <BfDsCopyButton buttonText="Copy me!" textToCopy="How 'bout that'" />
+    ),
   },
 ];
 const buttonElementsWithIcons = [

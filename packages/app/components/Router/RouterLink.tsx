@@ -1,8 +1,13 @@
 import { useRouter } from "packages/app/contexts/RouterContext.tsx";
 
-type LinkProps = {
-  to: string;
-} & React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>;
+type LinkProps =
+  & {
+    to: string;
+  }
+  & React.DetailedHTMLProps<
+    React.AnchorHTMLAttributes<HTMLAnchorElement>,
+    HTMLAnchorElement
+  >;
 
 export function RouterLink({ to, children, ...props }: LinkProps) {
   const { navigate } = useRouter();

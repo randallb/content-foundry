@@ -11,6 +11,7 @@ and try to apply these principles:
 - Use destructuring for object properties
 - Use arrow functions for callbacks
 - Don't use the typescript syntax [], use Array\<type\> instead
+- Use CONST_VALUES instead of magic strings whenever possible.
 
 ## Isograph whenever possible
 - If you're writing app level components, you should be using isograph.
@@ -52,3 +53,6 @@ and try to apply these principles:
 - Use Sapling for version control
 - Use conventional commit messages
 - Keep commits focused and atomic
+
+## Debug logger practices
+- Don't commit logger.setLevel calls

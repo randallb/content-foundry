@@ -20,7 +20,6 @@ export const useClickOutside = (
     portal,
   }: Options = {},
 ) => {
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;

@@ -89,8 +89,10 @@ export function matchRouteWithParams(
     const currentPathParts = path.split("/");
 
     // Check if path parts length matches (accounting for optional parameters)
-    if (!pathTemplateParts.some(p => p.endsWith("?")) && 
-        pathTemplateParts.length !== currentPathParts.length) {
+    if (
+      !pathTemplateParts.some((p) => p.endsWith("?")) &&
+      pathTemplateParts.length !== currentPathParts.length
+    ) {
       return defaultParams;
     }
 
@@ -128,7 +130,14 @@ export function matchRouteWithParams(
     }
 
     const route = appRoutes.get(pathTemplate);
-    return { match: true, params, route, queryParams, routeParams: params, pathTemplate };
+    return {
+      match: true,
+      params,
+      route,
+      queryParams,
+      routeParams: params,
+      pathTemplate,
+    };
   }).find((route) => route.match === true);
 
   logger.debug("match result:", match);

@@ -31,9 +31,11 @@ export function addTools(routes: Map<string, Handler>) {
   });
 
   routes.set("/tools/sapling-open", async () => {
-    const { stdout } = await (new Deno.Command("sl", {args: ["web", "--json", "--no-open"]})).output();
+    const { stdout } =
+      await (new Deno.Command("sl", { args: ["web", "--json", "--no-open"] }))
+        .output();
     const stdoutText = new TextDecoder().decode(stdout);
-    const json = JSON.parse(stdoutText)
+    const json = JSON.parse(stdoutText);
     const token = json.token;
     if (!token) {
       throw new BfError("Sapling token not found");

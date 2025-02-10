@@ -19,6 +19,6 @@ export const ContentFoundryApp = iso(`
   const Component = data?.me?.asBfCurrentViewerLoggedIn?.LoggedInView ??
     data?.me?.asBfCurrentViewerLoggedOut?.LoggedOutView ?? (() =>
       "Who are you even");
- 
+
   return <Component />;
 });

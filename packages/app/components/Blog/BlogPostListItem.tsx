@@ -12,7 +12,7 @@ export const BlogPostListItem = iso(`
   }
 `)(function BlogPostListItem({ data }) {
   const perf = performance.now();
-  const html = marked(data.content ?? "", {async: false});
+  const html = marked(data.content ?? "", { async: false });
   const total = performance.now() - perf;
   if (total > 100) {
     logger.warn(`Markdown parsing took ${total}ms.`);

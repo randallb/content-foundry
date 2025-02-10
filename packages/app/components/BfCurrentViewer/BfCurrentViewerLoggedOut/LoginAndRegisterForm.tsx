@@ -28,7 +28,6 @@ export const LoginAndRegisterForm = iso(`
 
   const debouncedSetEmail = useDebouncedFunction(setEmail, 300);
   useEffect(() => {
-    logger.setLevel(logger.levels.DEBUG);
     if (!email) {
       setHasEmail(undefined);
       return;
