@@ -151,7 +151,7 @@ export interface NexusGenFieldTypes {
     getLoginOptions: NexusGenScalars['JSONString'] | null; // JSONString
     login: NexusGenRootTypes['BfCurrentViewer'] | null; // BfCurrentViewer
     qualityCheckTweet: NexusGenRootTypes['Recommendations'] | null; // Recommendations
-    register: NexusGenRootTypes['BfCurrentViewer'] | null; // BfCurrentViewer
+    register: NexusGenRootTypes['BfCurrentViewerLoggedIn'] | null; // BfCurrentViewerLoggedIn
     registrationOptions: NexusGenScalars['JSONString'] | null; // JSONString
   }
   PageInfo: { // field return type
@@ -225,7 +225,7 @@ export interface NexusGenFieldTypeNames {
     getLoginOptions: 'JSONString'
     login: 'BfCurrentViewer'
     qualityCheckTweet: 'Recommendations'
-    register: 'BfCurrentViewer'
+    register: 'BfCurrentViewerLoggedIn'
     registrationOptions: 'JSONString'
   }
   PageInfo: { // field return type name
@@ -276,7 +276,8 @@ export interface NexusGenArgTypes {
       email: string; // String!
     }
     login: { // args
-      options: NexusGenScalars['JSONString']; // JSONString!
+      authResp: NexusGenScalars['JSONString']; // JSONString!
+      email: string; // String!
     }
     qualityCheckTweet: { // args
       systemPrompt?: string | null; // String

@@ -200,15 +200,32 @@ for (const [path, entrypoint] of isographAppRoutes.entries()) {
 }
 
 routes.set("/static/:filename+", function staticHandler(req) {
-  return serveDir(req, { 
+  return serveDir(req, {
     headers: [
       "Cache-Control: public, must-revalidate",
-      "ETag: true"
-    ]
+      "ETag: true",
+    ],
   });
 });
 
 routes.set("/graphql", graphQLHandler);
+
+routes.set("/logout", async function logoutHandler() {
+  const headers = new Headers();
+  headers.set("location", "/");
+  headers.set(
+    "set-cookie",
+    "bfgat=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT",
+  );
+  headers.set(
+    "set-cookie",
+    "bfgrt=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT",
+  );
+  return new Response(null, {
+    status: 302,
+    headers,
+  });
+});
 
 function defaultRoute() {
   return new Response("Not found", { status: 404 });

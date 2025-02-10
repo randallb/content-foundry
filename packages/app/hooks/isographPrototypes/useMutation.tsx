@@ -4,7 +4,9 @@ import {
   useImperativeReference,
 } from "@isograph/react";
 
-export function useMutation<T extends IsographEntrypoint<any, any>>(mutation: T) {
+export function useMutation<T extends IsographEntrypoint<any, any>>(
+  mutation: T,
+) {
   const {
     fragmentReference: mutationRef,
     loadFragmentReference: commit,

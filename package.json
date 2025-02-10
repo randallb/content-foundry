@@ -6,6 +6,7 @@
     "@isograph/react": "0.0.0-main-a5a81588",
     "@neondatabase/serverless": "^0.10.4",
     "@replit/extensions": "npm:@replit/extensions@^1.1.1",
+    "@types/jsonwebtoken": "^9.0.8",
     "@types/node": "^22.10.7",
     "@types/react": "^19.0",
     "@types/react-dom": "^19.0",

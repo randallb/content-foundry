@@ -3,65 +3,123 @@ import { type BfGid, toBfGid } from "packages/bfDb/classes/BfNodeIds.ts";
 import { BfCurrentViewer } from "packages/bfDb/classes/BfCurrentViewer.ts";
 // import type { BfNode } from "packages/bfDb/coreModels/BfNode.ts";
 import type { Connection, ConnectionArguments } from "graphql-relay";
-import type { BfNodeBase, BfNodeBaseProps } from "packages/bfDb/classes/BfNodeBase.ts";
+import type {
+  BfNodeBase,
+  BfNodeBaseProps,
+} from "packages/bfDb/classes/BfNodeBase.ts";
 import { BfErrorNotImplemented } from "packages/BfError.ts";
 import type { BfNode } from "packages/bfDb/coreModels/BfNode.ts";
 import type { GraphqlNode } from "packages/graphql/types/graphqlBfNode.ts";
 // import { BfBlogPost } from "packages/bfDb/models/BfBlogPost.ts";
 import type { BfMetadata } from "packages/bfDb/classes/BfNodeMetadata.ts";
 import { BfPerson } from "packages/bfDb/models/BfPerson.ts";
-import { AuthenticationResponseJSON, PublicKeyCredentialCreationOptionsJSON } from "@simplewebauthn/server";
+import {
+  AuthenticationResponseJSON,
+  PublicKeyCredentialCreationOptionsJSON,
+  RegistrationResponseJSON,
+} from "@simplewebauthn/server";
 
 const logger = getLogger(import.meta);
 
 export type Context = {
   [Symbol.dispose]: () => void;
   getCvForGraphql(): any;
-  createTargetNode<TProps extends BfNodeBaseProps, TBfClass extends typeof BfNode<TProps>>(
+  createTargetNode<
+    TProps extends BfNodeBaseProps,
+    TBfClass extends typeof BfNode<TProps>,
+  >(
     sourceNode: BfNode,
     BfClass: TBfClass,
     props: TProps,
     metadata?: BfMetadata,
   ): Promise<InstanceType<TBfClass>>;
-  find<TProps extends BfNodeBaseProps, TClass extends typeof BfNodeBase<TProps>>(
+  find<
+    TProps extends BfNodeBaseProps,
+    TClass extends typeof BfNodeBase<TProps>,
+  >(
     BfClass: TClass,
     id: BfGid | string | null | undefined,
   ): Promise<InstanceType<TClass> | null>;
-  findX<TProps extends BfNodeBaseProps, TClass extends typeof BfNodeBase<TProps>>(
+  findX<
+    TProps extends BfNodeBaseProps,
+    TClass extends typeof BfNodeBase<TProps>,
+  >(
     BfClass: TClass,
     id: BfGid,
   ): Promise<InstanceType<TClass>>;
   findCurrentUser(): Promise<BfPerson | null>;
-  login(options: AuthenticationResponseJSON): Promise<BfCurrentViewer>;
+  login(
+    email: string,
+    options: AuthenticationResponseJSON,
+  ): Promise<BfCurrentViewer>;
+  register(
+    registrationResponse: RegistrationResponseJSON,
+    email: string,
+  ): Promise<BfPerson>;
   getRequestHeader(name: string): string | null;
   queryTargetsConnection<T, U extends typeof BfNodeBase>(
     source: T,
     BfClass: U,
     args: ConnectionArguments,
   ): Promise<Connection<GraphqlNode>>;
-  setRegisteringUser(person: BfPerson): void;
+
+  getResponseHeaders(): Headers;
 };
 
 export async function createContext(request: Request): Promise<Context> {
+  logger.debug("Creating new context");
   const cache = new Map<string, Map<BfGid, BfNodeBase>>();
-  let currentViewer = await BfCurrentViewer.createFromRequest(import.meta, request);
   const responseHeaders = new Headers();
-  async function login(options: AuthenticationResponseJSON) {
-    currentViewer = await BfCurrentViewer.createFromLoginOptions(import.meta, options, responseHeaders);
+  let currentViewer = await BfCurrentViewer.createFromRequest(
+    import.meta,
+    request,
+    responseHeaders,
+  );
+  logger.debug("Current viewer created");
+
+  async function login(email: string, options: AuthenticationResponseJSON) {
+    logger.debug("Logging in user");
+    currentViewer = await BfCurrentViewer.createFromLoginOptions(
+      import.meta,
+      email,
+      options,
+      responseHeaders,
+    );
+    logger.debug("User logged in successfully");
     return currentViewer;
+  }
+
+  async function register(
+    registrationResponse: RegistrationResponseJSON,
+    email: string,
+  ) {
+    logger.debug("Registering user");
+    currentViewer = await BfCurrentViewer.createFromRegistrationResponse(
+      import.meta,
+      registrationResponse,
+      email,
+      responseHeaders,
+    );
+    const person = await BfPerson.register(registrationResponse, email);
+    logger.debug("User registered successfully");
+    return person;
   }
 
   logger.debug("context Creating");
   const ctx: Context = {
     [Symbol.dispose]() {
-      logger.debug("context Disposing");
+      logger.debug("Starting context disposal");
       cache.clear();
+      logger.debug("Cache cleared");
       currentViewer.clear();
-      logger.debug("Context disposed");
+      logger.debug("Current viewer cleared");
+      logger.debug("Context disposed successfully");
     },
-    setRegisteringUser(person: BfPerson) {
-      responseHeaders.set('Set-Cookie', `BF_REGISTERING_USER_ID=${person.metadata.bfGid}; Path=/; HttpOnly; Max-Age=60`);
+
+    getResponseHeaders() {
+      return new Headers(responseHeaders);
     },
+
     getRequestHeader(name: string) {
       return request.headers.get(name);
     },
@@ -71,7 +129,10 @@ export async function createContext(request: Request): Promise<Context> {
       return currentViewer.toGraphql();
     },
 
-    async createTargetNode<TProps extends BfNodeBaseProps = BfNodeBaseProps, TBfClass extends typeof BfNode<TProps> = typeof BfNode<TProps>>(
+    async createTargetNode<
+      TProps extends BfNodeBaseProps = BfNodeBaseProps,
+      TBfClass extends typeof BfNode<TProps> = typeof BfNode<TProps>,
+    >(
       sourceNode: BfNode,
       TargetBfClass: TBfClass,
       props: TProps,
@@ -83,7 +144,11 @@ export async function createContext(request: Request): Promise<Context> {
         cache.set(TargetBfClass.name, innerCache);
       }
 
-      const newItem = await sourceNode.createTargetNode(TargetBfClass, props, metadata);
+      const newItem = await sourceNode.createTargetNode(
+        TargetBfClass,
+        props,
+        metadata,
+      );
       return newItem as InstanceType<TBfClass>;
     },
 
@@ -110,11 +175,14 @@ export async function createContext(request: Request): Promise<Context> {
     },
 
     async findCurrentUser() {
-      const currentViewerPerson = await BfPerson.findCurrentViewer(currentViewer);
+      const currentViewerPerson = await BfPerson.findCurrentViewer(
+        currentViewer,
+      );
       return currentViewerPerson;
     },
 
     login,
+    register,
 
     async queryTargetsConnection(source, BfClass, args) {
       throw new BfErrorNotImplemented();

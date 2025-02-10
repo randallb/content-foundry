@@ -1,11 +1,12 @@
 import type {IsographEntrypoint, NormalizationAst, RefetchQueryNormalizationArtifactWrapper} from '@isograph/react';
-import {Mutation__Register__param} from './param_type.ts';
-import {Mutation__Register__output_type} from './output_type.ts';
+import {Mutation__Login__param} from './param_type.ts';
+import {Mutation__Login__output_type} from './output_type.ts';
 import readerResolver from './resolver_reader.ts';
 const nestedRefetchQueries: RefetchQueryNormalizationArtifactWrapper[] = [];
 
-const queryText = 'mutation Register ($attResp: JSONString!, $email: String!) {\
-  register____attResp___v_attResp____email___v_email: register(attResp: $attResp, email: $email) {\
+const queryText = 'mutation Login ($email: String!, $authResp: JSONString!) {\
+  login____email___v_email____authResp___v_authResp: login(email: $email, authResp: $authResp) {\
+    __typename,\
     id,\
     __typename,\
   },\
@@ -16,20 +17,25 @@ const normalizationAst: NormalizationAst = {
   selections: [
     {
       kind: "Linked",
-      fieldName: "register",
+      fieldName: "login",
       arguments: [
-        [
-          "attResp",
-          { kind: "Variable", name: "attResp" },
-        ],
-
         [
           "email",
           { kind: "Variable", name: "email" },
         ],
+
+        [
+          "authResp",
+          { kind: "Variable", name: "authResp" },
+        ],
       ],
-      concreteType: "BfCurrentViewerLoggedIn",
+      concreteType: null,
       selections: [
+        {
+          kind: "Scalar",
+          fieldName: "__typename",
+          arguments: null,
+        },
         {
           kind: "Scalar",
           fieldName: "id",
@@ -45,8 +51,8 @@ const normalizationAst: NormalizationAst = {
   ],
 };
 const artifact: IsographEntrypoint<
-  Mutation__Register__param,
-  Mutation__Register__output_type
+  Mutation__Login__param,
+  Mutation__Login__output_type
 > = {
   kind: "Entrypoint",
   networkRequestInfo: {

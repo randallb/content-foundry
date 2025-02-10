@@ -5,5 +5,5 @@ export const LoggedInView = iso(`
     __typename
   }
 `)(function LoggedInView({ data }) {
-  return <h1>Logged in view!</h1>
+  return <h1>Logged in view!</h1>;
 });

@@ -1,4 +1,3 @@
-
 import { appRoutes, type RouteGuts } from "packages/app/routes.ts";
 import { getLogger } from "packages/logger.ts";
 
@@ -10,7 +9,10 @@ export type MatchedRoute = {
   queryParams: Record<string, string>;
   routeParams: Record<string, string>;
   route?: RouteGuts;
-  handler?: (request: Request, routeParams: Record<string, string>) => Promise<Response> | Response;
+  handler?: (
+    request: Request,
+    routeParams: Record<string, string>,
+  ) => Promise<Response> | Response;
 };
 
 export function matchRoute(pathRaw = "", pathTemplate?: string): MatchedRoute {
@@ -32,8 +34,10 @@ export function matchRoute(pathRaw = "", pathTemplate?: string): MatchedRoute {
     const pathTemplateParts = pathTemplate.split("/");
     const currentPathParts = path.split("/");
 
-    if (!pathTemplateParts.some(p => p.endsWith("?")) && 
-        pathTemplateParts.length !== currentPathParts.length) {
+    if (
+      !pathTemplateParts.some((p) => p.endsWith("?")) &&
+      pathTemplateParts.length !== currentPathParts.length
+    ) {
       return defaultParams;
     }
 

@@ -8,7 +8,6 @@ import { getLogger } from "packages/logger.ts";
 
 const logger = getLogger(import.meta);
 
-
 async function checkPort(port: number): Promise<boolean> {
   try {
     const listener = Deno.listen({ port, hostname: "0.0.0.0" });
@@ -19,14 +18,18 @@ async function checkPort(port: number): Promise<boolean> {
   }
 }
 
-async function waitForPort(port: number, serviceName: string, timeout = 60000): Promise<boolean> {
+async function waitForPort(
+  port: number,
+  serviceName: string,
+  timeout = 60000,
+): Promise<boolean> {
   const start = Date.now();
   while (Date.now() - start < timeout) {
     if (await checkPort(port)) {
       logger.info(`${serviceName} is ready on port ${port}`);
       return true;
     }
-    await new Promise(r => setTimeout(r, 1000));
+    await new Promise((r) => setTimeout(r, 1000));
   }
   logger.error(`Timeout waiting for ${serviceName} on port ${port}`);
   return false;
@@ -111,7 +114,7 @@ register(
 );
 
 register(
-  "devToolStopSapling", 
+  "devToolStopSapling",
   "Stop Sapling web interface",
   stopSapling,
 );
@@ -124,35 +127,34 @@ register(
     async () => {
       // Check GitHub auth status first
 
-        const authStatus = await runShellCommandWithOutput([
-          "gh",
-          "auth",
-          "status",
-        ]);
-        
-        logger.log("GitHub auth status:", authStatus);
-        if (!authStatus) {
-          logger.log(`Not authenticated. ${authStatus} Let's log in.`)
-          // Setup GitHub auth first
-          const ghCommand = new Deno.Command("gh", {
-            args: [
-              "auth",
-              "login",
-              "--hostname",
-              "github.com",
-              "--web",
-              "--git-protocol",
-              "https",
-            ],
-            stdin: "piped",
-          });
-          const ghProcess = ghCommand.spawn();
-          const writer = ghProcess.stdin.getWriter();
-          await writer.write(new TextEncoder().encode("y\n"));
-          await writer.close();
-          await ghProcess.status;
-        }
-        
+      const authStatus = await runShellCommandWithOutput([
+        "gh",
+        "auth",
+        "status",
+      ]);
+
+      logger.log("GitHub auth status:", authStatus);
+      if (!authStatus) {
+        logger.log(`Not authenticated. ${authStatus} Let's log in.`);
+        // Setup GitHub auth first
+        const ghCommand = new Deno.Command("gh", {
+          args: [
+            "auth",
+            "login",
+            "--hostname",
+            "github.com",
+            "--web",
+            "--git-protocol",
+            "https",
+          ],
+          stdin: "piped",
+        });
+        const ghProcess = ghCommand.spawn();
+        const writer = ghProcess.stdin.getWriter();
+        await writer.write(new TextEncoder().encode("y\n"));
+        await writer.close();
+        await ghProcess.status;
+      }
 
       logger.log("Starting Jupyter and Sapling web interface...");
 
@@ -189,9 +191,8 @@ register(
           ...Deno.env.toObject(),
           // Suppress output of commands
           NO_COLOR: "1",
-          PYTHONUNBUFFERED: "1"
+          PYTHONUNBUFFERED: "1",
         };
-
 
         logger.info("Starting Sapling web interface...");
         const saplingProc = new Deno.Command("sl", {
@@ -221,7 +222,7 @@ register(
         // Wait for both services to be ready
         await Promise.all([
           waitForPort(3011, "Sapling"),
-          waitForPort(8888, "Jupyter")
+          waitForPort(8888, "Jupyter"),
         ]);
 
         logger.info("Everything is ready, head to Extension Devtools");

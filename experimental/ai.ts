@@ -87,9 +87,13 @@ Exploring deep space to solve humanity’s most pressing problems, Matt is break
 
 const taskPrompty = `
 This is a tweet we're workshopping, on a scale of 1-10, please rate how on voice this tweet feels. Please also provide recommendations about problematic areas, but don't rewrite the tweet.
-`
+`;
 
-export async function runIt(content: string, taskPrompt = taskPrompty, systemPrompt = systemPrompty) {
+export async function runIt(
+  content: string,
+  taskPrompt = taskPrompty,
+  systemPrompt = systemPrompty,
+) {
   const options = {};
   const response = await openAi.chat.completions.create(
     {

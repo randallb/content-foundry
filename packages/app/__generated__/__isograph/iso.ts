@@ -10,6 +10,7 @@ import { type BfCurrentViewerLoggedOut__RegisterButton__param } from './BfCurren
 import { type BfCurrentViewerLoggedOut__WelcomeVideo__param } from './BfCurrentViewerLoggedOut/WelcomeVideo/param_type.ts';
 import { type Mutation__CheckEmail__param } from './Mutation/CheckEmail/param_type.ts';
 import { type Mutation__GetLoginOptions__param } from './Mutation/GetLoginOptions/param_type.ts';
+import { type Mutation__Login__param } from './Mutation/Login/param_type.ts';
 import { type Mutation__QualityCheckTweet__param } from './Mutation/QualityCheckTweet/param_type.ts';
 import { type Mutation__Register__param } from './Mutation/Register/param_type.ts';
 import { type Mutation__RegistrationOptions__param } from './Mutation/RegistrationOptions/param_type.ts';
@@ -114,6 +115,10 @@ export function iso<T>(
 ): IdentityWithParam<Mutation__GetLoginOptions__param>;
 
 export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field Mutation.Login', T>
+): IdentityWithParam<Mutation__Login__param>;
+
+export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Mutation.QualityCheckTweet', T>
 ): IdentityWithParamComponent<Mutation__QualityCheckTweet__param>;
 
@@ -159,6 +164,10 @@ export function iso<T>(
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'entrypoint Mutation.GetLoginOptions', T>
+): void;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'entrypoint Mutation.Login', T>
 ): void;
 
 export function iso<T>(

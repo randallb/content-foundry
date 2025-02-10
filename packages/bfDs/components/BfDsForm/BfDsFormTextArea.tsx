@@ -6,7 +6,7 @@ import { BfDsTextArea } from "packages/bfDs/components/BfDsTextArea.tsx";
 
 export function BfDsFormTextArea({ id, rows, title }: BfDsFormElementProps) {
   const { data, onChange } = useBfDsFormContext();
-  if(!data) return null
+  if (!data) return null;
   return (
     <BfDsTextArea
       label={title}

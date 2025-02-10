@@ -118,7 +118,8 @@ export function BfDsPassword(
       meta={passwordMeta}
       type="password"
       value={value}
-      onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e.currentTarget.value)}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+        onChange(e.currentTarget.value)}
       pattern={`(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[${escapedSpecialChars}]).{8,}`}
       placeholder={placeholder}
       required={true}

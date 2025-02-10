@@ -1,4 +1,3 @@
-
 import { useCallback, useRef } from "react";
 
 /**
@@ -9,7 +8,7 @@ import { useCallback, useRef } from "react";
  */
 export function useDebouncedFunction<T extends (...args: any[]) => any>(
   fn: T,
-  delay: number
+  delay: number,
 ): T {
   const timeoutRef = useRef<number | null>(null);
 
@@ -23,7 +22,7 @@ export function useDebouncedFunction<T extends (...args: any[]) => any>(
         fn(...args);
       }, delay);
     },
-    [fn, delay]
+    [fn, delay],
   ) as T;
 
   return debouncedFn;

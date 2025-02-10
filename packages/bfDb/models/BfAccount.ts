@@ -5,6 +5,6 @@ const logger = getLogger(import.meta);
 
 export type BfAccountProps = {
   name: string;
-}
+};
 
 export class BfAccount extends BfNode<BfAccountProps> {}

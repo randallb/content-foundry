@@ -120,7 +120,6 @@ export async function captureEvent(
       properties,
     });
   }
-
 }
 
 export async function identifyPerson(id?: string) {
