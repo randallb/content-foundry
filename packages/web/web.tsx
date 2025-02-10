@@ -25,6 +25,7 @@ import {
   useResult,
 } from "@isograph/react";
 import { matchRouteWithParams } from "packages/app/contexts/RouterContext.tsx";
+
 const logger = getLogger(import.meta);
 
 function IsographHeaderComponent(
