@@ -67,7 +67,6 @@ const styles: Record<string, React.CSSProperties> = {
   label: {
     display: "flex",
     flexDirection: "column",
-    marginBottom: 12,
   },
   meta: {
     color: "var(--textSecondary)",

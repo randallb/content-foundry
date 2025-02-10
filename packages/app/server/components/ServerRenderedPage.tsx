@@ -44,6 +44,7 @@ export function ServerRenderedPage(
         <link rel="stylesheet" href="/static/marketingpagestyle.css" />
         <link rel="stylesheet" href="/static/bfDsStyle.css" />
         <link rel="stylesheet" href="/static/blogStyle.css" />
+        <link rel="stylesheet" href="/static/appStyle.css" />
         <link
           href="https://fonts.googleapis.com/css2?family=DM+Mono&family=DM+Sans:wght@200;400;500;700&family=Bebas+Neue&display=swap&family=Roboto:wght@300&display=swap"
           rel="stylesheet"

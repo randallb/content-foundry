@@ -1,10 +1,13 @@
 import * as React from "react";
 import { fonts } from "packages/bfDs/const.tsx";
-import { BfDsIcon, type BfDsIconType } from "packages/bfDs/components/BfDsIcon.tsx";
+import {
+  BfDsIcon,
+  type BfDsIconType,
+} from "packages/bfDs/components/BfDsIcon.tsx";
 // import { Link } from "packages/client/components/Link.tsx";
 import {
-BfDsTooltip,
-//   BfDsTooltip,
+  BfDsTooltip,
+  //   BfDsTooltip,
   type BfDsTooltipJustification,
   type BfDsTooltipMenu,
   type BfDsTooltipPosition,
@@ -41,6 +44,7 @@ export type ButtonType = {
     flex?: string;
     marginInlineEnd?: number;
     marginInlineStart?: number;
+    alignSelf?: "flex-start" | "flex-end";
   };
   disabled?: boolean;
   iconLeft?: BfDsIconType;
