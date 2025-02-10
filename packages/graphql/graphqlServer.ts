@@ -48,8 +48,13 @@ export const yoga = createYoga({ schema });
 
 export const graphQLHandler = async (req: Request) => {
   using ctx = await createContext(req);
-  // deno-lint-ignore no-explicit-any
   const res = await yoga.handleRequest(req, ctx as any);
+  const responseHeaders = ctx.getResponseHeaders();
+
+  for (const [key, value] of responseHeaders) {
+    res.headers.set(key, value);
+  }
+
   return res;
 };
 

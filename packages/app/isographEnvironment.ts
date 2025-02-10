@@ -8,7 +8,10 @@ const logger = getLogger(import.meta);
 
 export function getEnvironment() {
   // @ts-expect-error Not typed on the window yet
-  if (globalThis.__ISOGRAPH_ENVIRONMENT__) return globalThis.__ISOGRAPH_ENVIRONMENT__;
+  if (globalThis.__ISOGRAPH_ENVIRONMENT__) {
+  // @ts-expect-error Not typed on the window yet
+    return globalThis.__ISOGRAPH_ENVIRONMENT__;
+  }
 
   function makeNetworkRequest<T>(
     queryText: string,
@@ -41,7 +44,7 @@ export function getEnvironment() {
   globalThis.__ISOGRAPH_STORE__ ??= createIsographStore();
   // @ts-expect-error Not typed on the window yet
   return globalThis.__ISOGRAPH__ENVIRONMENT__ ??= createIsographEnvironment(
-  // @ts-expect-error Not typed on the window yet
+    // @ts-expect-error Not typed on the window yet
     globalThis.__ISOGRAPH_STORE__,
     makeNetworkRequest,
     null,

@@ -95,10 +95,11 @@ scalar JSONString
 type Mutation {
   checkEmail(email: String!): Boolean
   getLoginOptions(email: String!): JSONString
-  login(options: JSONString!): BfCurrentViewer
+  login(authResp: JSONString!, email: String!): BfCurrentViewer
   qualityCheckTweet(systemPrompt: String, taskPrompt: String, tweet: String): Recommendations
-  register(attResp: JSONString!, email: String!): BfCurrentViewer
+  register(attResp: JSONString!, email: String!): BfCurrentViewerLoggedIn
   registrationOptions(email: String!): JSONString
+  submitYcForm(companySummary: String, competitiors: String, equityBreakdown: String, investmentsReceived: String, locationDecision: String, moneyMaking: String, otherIdeas: String, otherIncubators: String, previousApplicationChange: String, productSummary: String, progress: String, reasonForAppling: String, reasonForProductChoice: String, revenueSource: String, techStack: String, whoToldYou: String, workLengthHistory: String): String
 }
 
 interface Node {

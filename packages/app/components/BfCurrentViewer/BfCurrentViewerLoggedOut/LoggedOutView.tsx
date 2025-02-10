@@ -1,6 +1,6 @@
 import { iso } from "packages/app/__generated__/__isograph/iso.ts";
 import { CfLogo } from "packages/app/resources/CfLogo.tsx";
-import { useFeatureFlagEnabled } from "posthog-js/react";
+import { useFeatureFlagEnabled } from "packages/app/hooks/useFeatureFlagHooks.ts";
 
 export const LoggedOutView = iso(`
   field BfCurrentViewerLoggedOut.LoggedOutView @component {

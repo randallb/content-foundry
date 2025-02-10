@@ -19,6 +19,7 @@ import {
 import { RegistrationResponseJSON } from "@simplewebauthn/server";
 import { BfError } from "packages/BfError.ts";
 import { BfCurrentViewer } from "packages/bfDb/classes/BfCurrentViewer.ts";
+import { graphqlBfPerson } from "packages/graphql/types/graphqlBfPerson.ts";
 
 const logger = getLogger(import.meta);
 
@@ -60,7 +61,6 @@ export const graphqlBfCurrentViewerRegistrationOptionsType = mutationField(
     resolve: async (_parent, { email }, ctx) => {
       const { regOptions, person } = await BfPerson
         .generateRegistrationOptionsForGraphql(email);
-      ctx.setRegisteringUser(person);
       return JSON.stringify(regOptions);
     },
   },
@@ -69,7 +69,7 @@ export const graphqlBfCurrentViewerRegistrationOptionsType = mutationField(
 export const graphqlBfCurrentViewerRegisterMutation = mutationField(
   "register",
   {
-    type: graphqlBfCurrentViewerType,
+    type: graphqlBfCurrentViewerLoggedInType,
     args: {
       attResp: nonNull(arg({ type: graphqlJSONStringScalarType })),
       email: nonNull(stringArg()),
@@ -78,33 +78,35 @@ export const graphqlBfCurrentViewerRegisterMutation = mutationField(
       const registrationResponseJSON: RegistrationResponseJSON = JSON.parse(
         attResp,
       );
-
-      const person = await BfPerson.register(
-        registrationResponseJSON,
-        email,
-      );
-
-      return ctx.getCvForGraphql();
+      const person = await ctx.register(registrationResponseJSON, email);
+      return person.cv.toGraphql();
     },
   },
 );
 
-export const graphqlBfCurrentViewerCheckEmailMutation = mutationField("checkEmail", {
-  type: "Boolean",
-  args: {
-    email: nonNull(stringArg()),
+export const graphqlBfCurrentViewerCheckEmailMutation = mutationField(
+  "checkEmail",
+  {
+    type: "Boolean",
+    args: {
+      email: nonNull(stringArg()),
+    },
+    resolve: async (_, { email }, ctx) => {
+      try {
+        const cv = BfCurrentViewer
+          .__DANGEROUS_USE_IN_REGISTRATION_ONLY__createCvForRegistration(
+            import.meta,
+            email,
+          );
+        const person = await BfPerson.findByEmail(cv, email);
+        logger.debug("person", person);
+        return person != null && person.props?.credential !== undefined;
+      } catch (error) {
+        return false;
+      }
+    },
   },
-  resolve: async (_, { email }, ctx) => {
-    try {
-      const cv = BfCurrentViewer.__DANGEROUS_USE_IN_REGISTRATION_ONLY__createCvForRegistration(import.meta, email)
-      const person = await BfPerson.findByEmail(cv, email);
-      logger.debug("person", person);
-      return person != null && person.props?.credential !== undefined;
-    } catch (error) {
-      return false;
-    }
-  },
-});
+);
 
 export const graphqlBfCurrentViewerGetLoginOptionsMutation = mutationField(
   "getLoginOptions",
@@ -114,7 +116,9 @@ export const graphqlBfCurrentViewerGetLoginOptionsMutation = mutationField(
       email: nonNull(stringArg()),
     },
     async resolve(_parent, { email }) {
-      const options = await BfPerson.generateAuthenticationOptionsForGraphql(email);
+      const options = await BfPerson.generateAuthenticationOptionsForGraphql(
+        email,
+      );
       return JSON.stringify(options);
     },
   },
@@ -125,11 +129,12 @@ export const graphqlBfCurrentViewerLoginMutation = mutationField(
   {
     type: graphqlBfCurrentViewerType,
     args: {
-      options: nonNull(arg({ type: graphqlJSONStringScalarType })),
+      email: nonNull(stringArg()),
+      authResp: nonNull(arg({ type: graphqlJSONStringScalarType })),
     },
-    async resolve(_parent, { options }, ctx) {
-      const optionsJSON = JSON.parse(options);
-      const cv = await ctx.login(optionsJSON);
+    async resolve(_parent, { email, authResp }, ctx) {
+      const optionsJSON = JSON.parse(authResp);
+      const cv = await ctx.login(email, optionsJSON);
       const result = cv.toGraphql();
       return {
         ...result,

@@ -12,10 +12,16 @@ register(
   "Creates a person in the system and returns a url to register",
   async ([name]) => {
     logger.info("creating a person now.");
-    const cv = BfCurrentViewer.__DANGEROUS_USE_IN_SCRIPTS_ONLY__createOmni(import.meta);
+    const cv = BfCurrentViewer.__DANGEROUS_USE_IN_SCRIPTS_ONLY__createOmni(
+      import.meta,
+    );
     const bfGid = toBfGid(generateUUID());
-    const metadata = { bfGid, bfOid: bfGid }
-    const person = await BfPerson.__DANGEROUS__createUnattached(cv, { name }, metadata);
+    const metadata = { bfGid, bfOid: bfGid };
+    const person = await BfPerson.__DANGEROUS__createUnattached(
+      cv,
+      { name },
+      metadata,
+    );
 
     logger.info(generateBluey(
       `Successfully created the user! Go to:

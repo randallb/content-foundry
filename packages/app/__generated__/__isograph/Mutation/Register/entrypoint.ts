@@ -6,12 +6,8 @@ const nestedRefetchQueries: RefetchQueryNormalizationArtifactWrapper[] = [];
 
 const queryText = 'mutation Register ($attResp: JSONString!, $email: String!) {\
   register____attResp___v_attResp____email___v_email: register(attResp: $attResp, email: $email) {\
-    __typename,\
     id,\
-    ... on BfCurrentViewerLoggedIn {\
-      id,\
-      __typename,\
-    },\
+    __typename,\
   },\
 }';
 
@@ -32,33 +28,17 @@ const normalizationAst: NormalizationAst = {
           { kind: "Variable", name: "email" },
         ],
       ],
-      concreteType: null,
+      concreteType: "BfCurrentViewerLoggedIn",
       selections: [
-        {
-          kind: "Scalar",
-          fieldName: "__typename",
-          arguments: null,
-        },
         {
           kind: "Scalar",
           fieldName: "id",
           arguments: null,
         },
         {
-          kind: "InlineFragment",
-          type: "BfCurrentViewerLoggedIn",
-          selections: [
-            {
-              kind: "Scalar",
-              fieldName: "id",
-              arguments: null,
-            },
-            {
-              kind: "Scalar",
-              fieldName: "__typename",
-              arguments: null,
-            },
-          ],
+          kind: "Scalar",
+          fieldName: "__typename",
+          arguments: null,
         },
       ],
     },

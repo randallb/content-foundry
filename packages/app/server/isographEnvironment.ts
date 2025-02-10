@@ -9,15 +9,14 @@ import { createContext } from "packages/graphql/graphqlContext.ts";
 const logger = getLogger(import.meta);
 
 export function getIsographEnvironment(request: Request) {
-  const store = createIsographStore()
-
+  const store = createIsographStore();
 
   async function makeNetworkRequest<T>(
     queryText: string,
     variables: unknown,
   ): Promise<T> {
     using ctx = await createContext(request);
-    
+
     const response = await yoga.fetch(
       new URL("/graphql", import.meta.url),
       {
@@ -43,6 +42,6 @@ export function getIsographEnvironment(request: Request) {
     store,
     makeNetworkRequest,
     null,
-    logger.debug
+    logger.debug,
   );
 }

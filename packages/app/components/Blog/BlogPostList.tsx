@@ -11,8 +11,12 @@ export const BlogPostList = iso(`
   }
 
 `)(function BlogList({ data }) {
-  const components = data.posts?.nodes?.map((node) => node && <node.BlogPostListItem />);
-  return <div className="blog_list">
-    {components}
-  </div>
-})
+  const components = data.posts?.nodes?.map((node) =>
+    node && <node.BlogPostListItem />
+  );
+  return (
+    <div className="blog_list">
+      {components}
+    </div>
+  );
+});

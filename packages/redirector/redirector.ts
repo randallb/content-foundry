@@ -2,7 +2,10 @@
 
 Deno.serve((req) => {
   const originalUrl = new URL(req.url);
-  const redirectUrl = new URL(originalUrl.pathname + originalUrl.search, "https://astroforge.com");
+  const redirectUrl = new URL(
+    originalUrl.pathname + originalUrl.search,
+    "https://astroforge.com",
+  );
 
   return new Response("Redirecting to astroforge.com", {
     status: 301,

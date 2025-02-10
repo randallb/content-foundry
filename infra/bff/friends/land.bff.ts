@@ -1,10 +1,15 @@
 import { register } from "infra/bff/bff.ts";
-import { runShellCommand, runShellCommandWithOutput } from "infra/bff/shellBase.ts";
+import {
+  runShellCommand,
+  runShellCommandWithOutput,
+} from "infra/bff/shellBase.ts";
 import { getLogger } from "packages/logger.ts";
 
 const logger = getLogger(import.meta);
 
-async function getSaplingCommitsSince(lastSaplingHash: string): Promise<Array<string>> {
+async function getSaplingCommitsSince(
+  lastSaplingHash: string,
+): Promise<Array<string>> {
   const output = await runShellCommandWithOutput([
     "sl",
     "log",
@@ -45,8 +50,6 @@ register(
   "land",
   "Pull code from sapling, install deps, and create a git commit",
   async () => {
-
-
     // Then pull the latest code
     logger.info("Pulling latest code from sapling...");
     const pullResult = await runShellCommand([
@@ -57,7 +60,7 @@ register(
     if (pullResult !== 0) {
       logger.error("Failed to pull latest code");
       return pullResult;
-    } 
+    }
     // Try to goto remote/main with clean state
     logger.info("Going to remote/main with clean state...");
     const gotoResult = await runShellCommand([
@@ -117,7 +120,8 @@ register(
 
     // Create git commit with sapling commits and hash
     logger.info("Creating git commit...");
-    const fullCommitMsg = `${commitMsg.trim()}\n\nSapling-Hash: ${currentSaplingHash}`;
+    const fullCommitMsg =
+      `${commitMsg.trim()}\n\nSapling-Hash: ${currentSaplingHash}`;
     const commitResult = await runShellCommand([
       "git",
       "commit",

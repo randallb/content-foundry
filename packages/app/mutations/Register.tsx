@@ -8,16 +8,14 @@ iso(`entrypoint Mutation.Register`);
 export const RegisterMutation = iso(`
   field Mutation.Register($attResp: JSONString!, $email: String!) @component {
     register(attResp: $attResp, email: $email) {
-      asBfCurrentViewerLoggedIn {
       __typename
-      }
     }
   }
 `)(function RegisterMutation({ data }) {
   const { navigate } = useRouter();
-  if (data?.register?.asBfCurrentViewerLoggedIn?.__typename) {
+  if (data?.register?.__typename) {
     // navigate(data.register.nextPage)
-    logger.setLevel(logger.levels.DEBUG);
+
     logger.debug("Logged in!");
     logger.resetLevel();
   }

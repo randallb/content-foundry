@@ -9,7 +9,12 @@ import { staticImplements } from "lib/staticImplements.ts";
 import { BfErrorNotImplemented } from "packages/BfError.ts";
 import { BfMetadata } from "packages/bfDb/classes/BfNodeMetadata.ts";
 import { getLogger } from "packages/logger.ts";
-import { bfGetItem, bfPutItem, bfQueryItems, type JSONValue } from "packages/bfDb/bfDb.ts";
+import {
+  bfGetItem,
+  bfPutItem,
+  bfQueryItems,
+  type JSONValue,
+} from "packages/bfDb/bfDb.ts";
 import { BfErrorNodeNotFound } from "packages/bfDb/classes/BfErrorNode.ts";
 
 const logger = getLogger(import.meta);
@@ -59,7 +64,7 @@ export class BfNode<TProps extends BfNodeBaseProps = BfNodeBaseProps>
     cache?: BfNodeCache,
   ): Promise<Array<InstanceType<TThis>>> {
     const items = await bfQueryItems(metadata, props, bfGids);
-    return items.map(item => {
+    return items.map((item) => {
       const instance = new this(cv, item.props as TProps, item.metadata);
       cache?.set(item.metadata.bfGid, instance);
       return instance as InstanceType<TThis>;
@@ -90,7 +95,6 @@ export class BfNode<TProps extends BfNodeBaseProps = BfNodeBaseProps>
   }
 
   override async save() {
-    logger.setLevel(logger.levels.DEBUG);
     logger.debug(`Saving ${this}`, this.props, this.metadata);
     await bfPutItem(this.props, this.metadata);
     this._serverProps = this.props;

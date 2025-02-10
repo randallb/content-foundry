@@ -106,7 +106,6 @@ export function BfDsToast({
     : null;
 }
 
-
 export function Example() {
   const { showToast } = useBfDs();
   const [toastIncrement, setToastIncrement] = React.useState<number>(0);
@@ -136,5 +135,5 @@ export function Example() {
         }}
       />
     </div>
-  )
+  );
 }

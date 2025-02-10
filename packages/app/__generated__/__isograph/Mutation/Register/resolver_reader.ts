@@ -1,7 +1,6 @@
 import type {ComponentReaderArtifact, ExtractSecondParam, ReaderAst } from '@isograph/react';
 import { Mutation__Register__param } from './param_type.ts';
 import { RegisterMutation as resolver } from '../../../../mutations/Register.tsx';
-import BfCurrentViewerLoggedIn__asBfCurrentViewerLoggedIn__resolver_reader from '../../BfCurrentViewerLoggedIn/asBfCurrentViewerLoggedIn/resolver_reader.ts';
 
 const readerAst: ReaderAst<Mutation__Register__param> = [
   {
@@ -22,19 +21,10 @@ const readerAst: ReaderAst<Mutation__Register__param> = [
     condition: null,
     selections: [
       {
-        kind: "Linked",
-        fieldName: "asBfCurrentViewerLoggedIn",
+        kind: "Scalar",
+        fieldName: "__typename",
         alias: null,
         arguments: null,
-        condition: BfCurrentViewerLoggedIn__asBfCurrentViewerLoggedIn__resolver_reader,
-        selections: [
-          {
-            kind: "Scalar",
-            fieldName: "__typename",
-            alias: null,
-            arguments: null,
-          },
-        ],
       },
     ],
   },
