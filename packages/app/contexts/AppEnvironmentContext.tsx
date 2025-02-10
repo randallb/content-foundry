@@ -5,8 +5,8 @@ import {
 // import clientEnvironment from "packages/client/relay/relayEnvironment.ts";
 // import AppStateProvider from "packages/client/contexts/AppStateContext.tsx";
 // import { featureFlags, featureVariants } from "packages/features/list.ts";
-import { posthog } from "posthog-js";
-import { PostHogProvider } from "posthog-js/react"
+// import { posthog } from "posthog-js";
+// import { PostHogProvider } from "posthog-js/react"
 
 // import { RelayEnvironmentProvider } from "react-relay";
 import * as React from "react";
@@ -38,7 +38,7 @@ export function useAppEnvironment() {
   return React.useContext<AppEnvironmentProps>(AppEnvironmentContext);
 }
 
-let posthogClient;
+// let posthogClient;
 
 export function AppEnvironmentProvider(
   {
@@ -66,14 +66,14 @@ export function AppEnvironmentProvider(
     IsographEnvironmentProvider,
   );
 
-  posthogClient = useMemo(() => {
-    return posthog.init(posthogKey);
-  }, [posthogKey]);
+  // posthogClient = useMemo(() => {
+  //   return posthog.init(posthogKey);
+  // }, [posthogKey]);
 
   return (
     <AppEnvironmentContext.Provider value={appEnvironment}>
       <IsographEnvironmentProvider environment={isographEnvironment}>
-        <PostHogProvider client={posthogClient}>
+        {/* <PostHogProvider client={posthogClient}> */}
           <RouterProvider
             routeParams={routeParams}
             queryParams={queryParams}
@@ -81,7 +81,7 @@ export function AppEnvironmentProvider(
           >
             {children}
           </RouterProvider>
-        </PostHogProvider>
+        {/* </PostHogProvider> */}
       </IsographEnvironmentProvider>
     </AppEnvironmentContext.Provider>
   );
