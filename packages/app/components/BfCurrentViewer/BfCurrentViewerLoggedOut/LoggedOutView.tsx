@@ -1,6 +1,6 @@
 import { iso } from "packages/app/__generated__/__isograph/iso.ts";
 import { CfLogo } from "packages/app/resources/CfLogo.tsx";
-import { useFeatureFlagEnabled } from "posthog-js/react";
+// import { useFeatureFlagEnabled } from "posthog-js/react";
 
 export const LoggedOutView = iso(`
   field BfCurrentViewerLoggedOut.LoggedOutView @component {
@@ -9,7 +9,8 @@ export const LoggedOutView = iso(`
     LoginAndRegisterForm
   }
 `)(function LoggedOutView({ data }) {
-  const shouldRenderDemoButton = useFeatureFlagEnabled("enable_demo_button");
+  // const shouldRenderDemoButton = useFeatureFlagEnabled("enable_demo_button");
+  const shouldRenderDemoButton = false;
   return (
     <div className="appPage flexCenter">
       <div className="appHeader">
