@@ -5,6 +5,7 @@ import entrypointBlogPost from "packages/app/__generated__/__isograph/Query/Entr
 import entrypointApp from "packages/app/__generated__/__isograph/Query/EntrypointContentFoundryApp/entrypoint.ts";
 import type { IsographEntrypoint } from "@isograph/react";
 import { iso } from "packages/app/__generated__/__isograph/iso.ts";
+import { FinalCutProXML } from "packages/tools/FinalCutProXML.tsx";
 
 function fileHandlerFactory(url: string) {
   return function FileHandler() {
@@ -24,6 +25,7 @@ export type RouteMap = Map<string, RouteGuts>;
 
 export const appRoutes: RouteMap = new Map([
   ["/ui", { Component: PageUIDemo }],
+  ["/fcp", { Component: FinalCutProXML }],
 ]);
 
 export type IsographRoute = IsographEntrypoint<any, RouteEntrypoint>;

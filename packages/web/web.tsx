@@ -25,6 +25,7 @@ import {
   useResult,
 } from "@isograph/react";
 import { matchRouteWithParams } from "packages/app/contexts/RouterContext.tsx";
+import { AssemblyAI } from "assemblyai";
 import { getConfigurationVariable } from "packages/getConfigurationVariable.ts";
 
 const logger = getLogger(import.meta);
@@ -210,6 +211,34 @@ routes.set("/static/:filename+", function staticHandler(req) {
 });
 
 routes.set("/graphql", graphQLHandler);
+routes.set("/assemblyai", async (req) => {
+  try {
+    const formData = await req.formData();
+    const file = formData.get("file") as File;
+
+    if (!file) {
+      return new Response("No file provided", { status: 400 });
+    }
+
+    const client = new AssemblyAI({
+      apiKey: getConfigurationVariable("ASSEMBLY_AI_KEY") as string,
+    });
+
+    const data = {
+      audio: file,
+    };
+
+    const transcript = await client.transcripts.transcribe(data);
+    const words = transcript.words;
+
+    return new Response(JSON.stringify(words), {
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    logger.error(error);
+    return new Response("Internal server error", { status: 500 });
+  }
+});
 
 routes.set("/logout", async function logoutHandler() {
   const headers = new Headers();

@@ -1540,7 +1540,6 @@
       "npm:@types/dom-webcodecs@*",
       "npm:@types/react@19",
       "npm:@types/sharedworker@*",
-      "npm:assemblyai@*",
       "npm:react@*"
     ],
     "packageJson": {

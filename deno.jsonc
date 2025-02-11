@@ -17,7 +17,6 @@
     "packages/": "./packages/",
     "util/": "./util/",
     "posthog-js/react": "./node_modules/posthog-js/react/dist/esm/index.js",
-    "assemblyai": "npm:assemblyai",
   },
   "compilerOptions": {
     "jsx": "react-jsx",
