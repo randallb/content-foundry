@@ -1,6 +1,7 @@
 // In infra/bff/shellBase.ts (or a shared module)
 import startSpinner from "lib/terminalSpinner.ts";
 import { getLogger } from "packages/logger.ts";
+import { getConfigurationVariable } from "packages/getConfigurationVariable.ts";
 const logger = getLogger(import.meta);
 
 // Global array to track running child processes
@@ -8,7 +9,7 @@ export const runningProcesses: Deno.ChildProcess[] = [];
 
 export async function runShellCommand(
   commandArray: Array<string>,
-  cwdString = Deno.env.get("REPL_HOME") ?? Deno.cwd(),
+  cwdString = getConfigurationVariable("REPL_HOME") ?? Deno.cwd(),
   additionalEnv = {},
   useSpinner = true,
 ): Promise<number> {
@@ -64,7 +65,7 @@ export async function runShellCommandWithOutput(
   if (useSpinner) {
     stopSpinner = startSpinner();
   }
-  const cwd = Deno.env.get("BF_PATH") ?? Deno.cwd();
+  const cwd = getConfigurationVariable("BF_PATH") ?? Deno.cwd();
 
   const cmd = new Deno.Command(commandArray[0], {
     args: commandArray.slice(1),

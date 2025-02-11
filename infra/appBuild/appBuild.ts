@@ -4,6 +4,7 @@ import * as esbuild from "esbuild";
 import { denoPlugins } from "@luca/esbuild-deno-loader";
 
 import { getLogger } from "packages/logger.ts";
+import { getConfigurationVariable } from "packages/getConfigurationVariable.ts";
 const logger = getLogger(import.meta);
 
 const denoFileResolver = {
@@ -36,7 +37,7 @@ const denoFileResolver = {
 //       let contents = source;
 //       if (graphqlTags.length > 0) {
 //         const relativeLocation =
-//           args.path.split(Deno.env.get("BF_PATH") ?? "")[1];
+//           args.path.split(getConfigurationVariable("BF_PATH") ?? "")[1];
 //         const rootDirectory = relativeLocation.split("/")[1];
 
 //         contents = await replaceTagsWithImports(
@@ -56,9 +57,9 @@ const denoFileResolver = {
 
 const defaultOptions: esbuild.BuildOptions = {
   jsx: "automatic",
-  minify: Deno.env.get("BF_ENV") === "PRODUCTION",
+  minify: getConfigurationVariable("BF_ENV") === "PRODUCTION",
   sourcemap: "inline" as const,
-  sourceRoot: Deno.env.get("BF_PATH"),
+  sourceRoot: getConfigurationVariable("BF_PATH"),
   write: true,
   bundle: true,
   outdir: "static/build",

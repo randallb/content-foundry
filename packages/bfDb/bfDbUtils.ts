@@ -8,8 +8,8 @@ const logger = getLogger(import.meta);
 export const BF_INTERNAL_ORG_NAME = "bf_internal_org";
 
 export async function upsertBfDb() {
-  const databaseUrl = Deno.env.get("DATABASE_URL") ??
-    Deno.env.get("DATABASE_URL");
+  const databaseUrl = getConfigurationVariable("DATABASE_URL") ??
+    getConfigurationVariable("DATABASE_URL");
   if (!databaseUrl) {
     throw new BfErrorDb("DATABASE_URL is not set");
   }
@@ -105,8 +105,8 @@ const CONFIRMATION_STRING =
 export async function __DANGEROUSLY_DESTROY_THE_DATABASE__(
   confirmation: string,
 ) {
-  const databaseUrl = Deno.env.get("DATABASE_URL") ??
-    Deno.env.get("DATABASE_URL");
+  const databaseUrl = getConfigurationVariable("DATABASE_URL") ??
+    getConfigurationVariable("DATABASE_URL");
   if (!databaseUrl) {
     throw new BfErrorDb("DATABASE_URL is not set");
   }
@@ -119,8 +119,8 @@ export async function __DANGEROUSLY_DESTROY_THE_DATABASE__(
 }
 
 export async function cleanModels(modelNames: Array<string>, dryRun = true) {
-  const databaseUrl = Deno.env.get("DATABASE_URL") ??
-    Deno.env.get("DATABASE_URL");
+  const databaseUrl = getConfigurationVariable("DATABASE_URL") ??
+    getConfigurationVariable("DATABASE_URL");
   if (!databaseUrl) {
     throw new BfErrorDb("DATABASE_URL is not set");
   }
@@ -165,8 +165,8 @@ export async function cleanModelsExcept(
   modelNames = ["BfPerson", "BfAccount", "BfOrganization", "BfGoogleAuth"],
 ) {
   const dryRun = false;
-  const databaseUrl = Deno.env.get("DATABASE_URL") ??
-    Deno.env.get("DATABASE_URL");
+  const databaseUrl = getConfigurationVariable("DATABASE_URL") ??
+    getConfigurationVariable("DATABASE_URL");
   if (!databaseUrl) {
     throw new BfErrorDb("DATABASE_URL is not set");
   }

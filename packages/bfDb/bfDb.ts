@@ -8,6 +8,7 @@ import type {
 import { BfErrorDb } from "packages/bfDb/classes/BfErrorDb.ts";
 import { type BfGid, toBfGid } from "packages/bfDb/classes/BfNodeIds.ts";
 import type { BfError } from "packages/BfError.ts";
+import { getConfigurationVariable } from "packages/getConfigurationVariable.ts";
 
 const logger = getLogger(import.meta);
 
@@ -40,15 +41,15 @@ type DbItem<T extends Props> = {
   metadata: BfMetadata;
 };
 
-const databaseUrl = Deno.env.get("DATABASE_URL");
+const databaseUrl = getConfigurationVariable("DATABASE_URL");
 if (!databaseUrl) {
   throw new BfErrorDb("DATABASE_URL is not set");
 }
 const sql = neon(databaseUrl);
 
-const connectionString = Deno.env.get("BF_ENV") === "DEVELOPMENT"
-  ? Deno.env.get("DATABASE_URL") ?? Deno.env.get("DATABASE_URL")
-  : Deno.env.get("DATABASE_URL");
+const connectionString = getConfigurationVariable("BF_ENV") === "DEVELOPMENT"
+  ? getConfigurationVariable("DATABASE_URL") ?? getConfigurationVariable("DATABASE_URL")
+  : getConfigurationVariable("DATABASE_URL");
 
 // const pool = new Pool({ connectionString });
 export type JSONValue =
@@ -852,7 +853,7 @@ export async function bfDeleteItem(bfOid: BfGid, bfGid: BfGid): Promise<void> {
 // }
 
 export async function CLEAR_FOR_DEBUGGING() {
-  if (Deno.env.get("BF_ENV") === "DEVELOPMENT") {
+  if (getConfigurationVariable("BF_ENV") === "DEVELOPMENT") {
     await sql`
 WITH class_names AS (
   SELECT unnest(ARRAY['BfJob', 'BfJobLarge', 'BfMedia', 'BfCollection', 'BfMediaNode', 'BfMediaNodeVideoGoogleDriveResource', 'BfMediaNodeTranscript', 'BfMediaNodeVideo', 'BfGoogleDriveResource', 'BfMediaSequence']) AS name

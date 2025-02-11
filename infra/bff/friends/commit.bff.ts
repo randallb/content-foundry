@@ -20,7 +20,7 @@ async function openSapling() {
   const url = new URL(json.url);
 
   const localhostUrl = `http://localhost:8284/${
-    Deno.env.get("REPLIT_SESSION")
+    getConfigurationVariable("REPLIT_SESSION")
   }/files/open-multiple`;
 
   await fetch(localhostUrl, {
@@ -44,9 +44,9 @@ register(
   "commit",
   "Get ready to send your work to github",
   async () => {
-    const XDG_CONFIG_HOME = Deno.env.get("XDG_CONFIG_HOME")!;
-    const REPL_SLUG = Deno.env.get("REPL_SLUG") ?? "";
-    const HOME = Deno.env.get("HOME") ?? "";
+    const XDG_CONFIG_HOME = getConfigurationVariable("XDG_CONFIG_HOME")!;
+    const REPL_SLUG = getConfigurationVariable("REPL_SLUG") ?? "";
+    const HOME = getConfigurationVariable("HOME") ?? "";
 
     if (REPL_SLUG === "Bolt-Foundry-Base") {
       throw new Error("Don't log into the base please! Fork instead.");
