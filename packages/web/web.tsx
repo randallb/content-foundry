@@ -25,6 +25,7 @@ import {
   useResult,
 } from "@isograph/react";
 import { matchRouteWithParams } from "packages/app/contexts/RouterContext.tsx";
+import { getConfigurationVariable } from "packages/getConfigurationVariable.ts";
 
 const logger = getLogger(import.meta);
 
@@ -62,7 +63,7 @@ export type Handler = (
 
 const routes = new Map<string, Handler>();
 
-if (Deno.env.get("BF_ENV") === DeploymentEnvs.DEVELOPMENT) {
+if (getConfigurationVariable("BF_ENV") === DeploymentEnvs.DEVELOPMENT) {
   logger.info("Starting in development mode");
   // backend tool commands
   addTools(routes);
@@ -119,7 +120,7 @@ for (const entry of appRoutes.entries()) {
       queryParams,
       routeParams,
       path,
-      posthogKey: Deno.env.get("POSTHOG_API_KEY") ?? "",
+      posthogKey: getConfigurationVariable("POSTHOG_API_KEY") ?? "",
     };
 
     const serverEnvironment: ServerProps = {
@@ -164,7 +165,7 @@ for (const [path, entrypoint] of isographAppRoutes.entries()) {
       queryParams,
       routeParams,
       path,
-      posthogKey: Deno.env.get("POSTHOG_API_KEY") ?? "",
+      posthogKey: getConfigurationVariable("POSTHOG_API_KEY") ?? "",
     };
 
     const serverEnvironment: ServerProps = {
@@ -262,7 +263,7 @@ if (import.meta.main) {
       const [matchedHandler, routeParams] = matchRoute(incomingUrl.pathname);
       const res = await matchedHandler(req, routeParams);
 
-      // if (Deno.env.get("BF_ENV") !== DeploymentEnvs.DEVELOPMENT) {
+      // if (getConfigurationVariable("BF_ENV") !== DeploymentEnvs.DEVELOPMENT) {
       //   res.headers.set("X-Frame-Options", "DENY");
       //   res.headers.set(
       //     "Content-Security-Policy",

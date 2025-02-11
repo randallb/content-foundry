@@ -3,6 +3,7 @@
 import log from "loglevel";
 import chalk from "chalk";
 import logLevelPrefixPlugin from "loglevel-plugin-prefix";
+import { getConfigurationVariable } from "packages/getConfigurationVariable.ts";
 chalk.level = 3;
 
 log.setDefaultLevel(log.levels.INFO);
@@ -41,7 +42,7 @@ function getCallerInfo() {
 }
 
 if (!isBrowser()) {
-  const defaultLogLevelString = Deno.env.get("LOG_LEVEL") ?? "INFO";
+  const defaultLogLevelString = getConfigurationVariable("LOG_LEVEL") ?? "INFO";
   const defaultLogLevel =
     log.levels[defaultLogLevelString as keyof typeof log.levels];
   log.setDefaultLevel(defaultLogLevel);
@@ -86,7 +87,7 @@ export function getLogger(importMeta: ImportMeta | string) {
     ? relativePathname.replace(/^\//, "")
     : url.pathname;
   const logger = log.getLogger(pathName);
-  const defaultLogLevelString = Deno.env.get("LOG_LEVEL") ?? "INFO";
+  const defaultLogLevelString = getConfigurationVariable("LOG_LEVEL") ?? "INFO";
   const defaultLogLevel =
     log.levels[defaultLogLevelString as keyof typeof log.levels];
   logger.setDefaultLevel(defaultLogLevel);

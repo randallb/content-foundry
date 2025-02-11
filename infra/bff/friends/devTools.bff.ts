@@ -194,7 +194,7 @@ async function startPostgres() {
   logger.info("PostgreSQL started successfully.");
 
   // Check if bfdb table exists and create if needed
-  const databaseUrl = Deno.env.get("DATABASE_URL");
+  const databaseUrl = getConfigurationVariable("DATABASE_URL");
   if (!databaseUrl) {
     throw new Error("DATABASE_URL is not set");
   }

@@ -1,5 +1,6 @@
 import { runShellCommand } from "infra/bff/shellBase.ts";
 import { register } from "infra/bff/bff.ts";
+import { getConfigurationVariable } from "packages/getConfigurationVariable.ts";
 
 const allowedEnvironmentVariables = [
   "BF_ENV",
@@ -26,7 +27,7 @@ const allowedEnvironmentVariables = [
   "USER",
 ];
 
-const DATABASE_STRING = Deno.env.get("DATABASE_URL") ?? "";
+const DATABASE_STRING = getConfigurationVariable("DATABASE_URL") ?? "";
 const DATABASE_URL = new URL(DATABASE_STRING);
 const dbDomain = DATABASE_URL.hostname;
 const neonApiParts = dbDomain.split(".");

@@ -1,6 +1,7 @@
 import type { Handler } from "packages/web/web.tsx";
 import { getLogger } from "packages/logger.ts";
 import { BfError } from "packages/BfError.ts";
+import { getConfigurationVariable } from "packages/getConfigurationVariable.ts";
 const logger = getLogger(import.meta);
 
 export function addTools(routes: Map<string, Handler>) {
@@ -12,7 +13,7 @@ export function addTools(routes: Map<string, Handler>) {
       status: 302,
       headers: {
         location: `https://${
-          Deno.env.get("REPLIT_DEV_DOMAIN")
+          getConfigurationVariable("REPLIT_DEV_DOMAIN")
         }:3000/notebooks/${filePath}?token=bfjupyter`,
       },
     });
@@ -24,7 +25,7 @@ export function addTools(routes: Map<string, Handler>) {
       status: 302,
       headers: {
         location: `https://${
-          Deno.env.get("REPLIT_DEV_DOMAIN")
+          getConfigurationVariable("REPLIT_DEV_DOMAIN")
         }:3000/consoles/${filePath}?token=bfjupyter`,
       },
     });
@@ -44,7 +45,7 @@ export function addTools(routes: Map<string, Handler>) {
       status: 302,
       headers: {
         location: `https://${
-          Deno.env.get("REPLIT_DEV_DOMAIN")
+          getConfigurationVariable("REPLIT_DEV_DOMAIN")
         }:3001/?token=${token.trim()}&cwd=%2Fhome%2Frunner%2Fworkspace`,
       },
     });

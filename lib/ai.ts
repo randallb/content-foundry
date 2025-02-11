@@ -1,4 +1,5 @@
 import OpenAI from "@openai/openai";
+import { getConfigurationVariable } from "packages/getConfigurationVariable.ts";
 
 let openRouter: OpenAI;
 let openAI: OpenAI;
@@ -7,7 +8,7 @@ export function getAi(forceOpenAI = false): OpenAI {
     if (openAI) {
       return openAI;
     }
-    const openAiApiKey = Deno.env.get("OPENAI_API_KEY");
+    const openAiApiKey = getConfigurationVariable("OPENAI_API_KEY");
     if (!openAiApiKey) throw new Error("OPENAI_API_KEY is not set");
     openAI = new OpenAI({
       apiKey: openAiApiKey,
@@ -19,7 +20,7 @@ export function getAi(forceOpenAI = false): OpenAI {
     return openRouter;
   }
 
-  const apiKey = Deno.env.get("OPEN_ROUTER_API_KEY");
+  const apiKey = getConfigurationVariable("OPEN_ROUTER_API_KEY");
   if (!apiKey) throw new Error("OPEN_ROUTER_API_KEY is not set");
 
   openRouter = new OpenAI({
