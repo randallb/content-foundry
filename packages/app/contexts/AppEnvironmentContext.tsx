@@ -23,10 +23,12 @@ const logger = getLogger(import.meta);
 
 const AppEnvironmentContext = React.createContext<AppEnvironmentProps>({
   posthogKey: "",
+  assemblyAIKey: "",
 });
 
 export type AppEnvironmentProps = {
   posthogKey: string;
+  assemblyAIKey: string;
 };
 
 export type ServerProps = AppEnvironmentProps & RouterProviderProps & {
