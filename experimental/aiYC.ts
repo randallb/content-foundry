@@ -301,7 +301,7 @@ export async function runIt(
   taskPrompt = taskPrompty,
   systemPrompt = systemPrompty,
 ) {
-  return testData;
+  // return testData;
   const options = {};
   const response = await openAi.chat.completions.create(
     {
