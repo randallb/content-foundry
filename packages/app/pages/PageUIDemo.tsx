@@ -5,6 +5,7 @@ import { BfDsList } from "packages/bfDs/components/BfDsList.tsx";
 import { ColorsAndFonts } from "packages/bfDs/demo/ColorsAndFonts.tsx";
 import { Example as ExampleBreadcrumb } from "packages/bfDs/components/BfDsBreadcrumbs.tsx";
 import { Example as ExampleCallout } from "packages/bfDs/components/BfDsCallout.tsx";
+import { Example as ExampleDropzone } from "packages/bfDs/components/BfDsDropzone.tsx";
 import { Example as ExampleTable } from "packages/bfDs/components/BfDsTable.tsx";
 import { Example as ExampleToast } from "packages/bfDs/components/BfDsToast.tsx";
 import { Example as ExampleTodos } from "packages/bfDs/components/BfDsTodos.tsx";
@@ -52,6 +53,15 @@ const demoData: Array<DemoData> = [
         <ExampleCallout />
       </div>
     ),
+  },
+  {
+    name: "Dropzone",
+    component: (
+      <div className="ui-section">
+        <h2>Dropzone</h2>
+        <ExampleDropzone />
+      </div>
+    )
   },
   {
     name: "Forms",
