@@ -9,6 +9,7 @@ export function BfDsFormTextArea({ id, rows, title }: BfDsFormElementProps) {
   if (!data) return null;
   return (
     <BfDsTextArea
+      key={id}
       label={title}
       name={id}
       // @ts-ignore: TODO @george, need to figure out typing

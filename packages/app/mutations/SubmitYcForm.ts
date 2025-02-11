@@ -4,44 +4,95 @@ const logger = getLogger(import.meta);
 
 iso(`entrypoint Mutation.SubmitYcForm`);
 export const SubmitYcFormMutation = iso(`
-  field Mutation.SubmitYcForm(
-    $companySummary: String,
-    $productSummary: String,
-    $locationDecision: String,
-    $progress: String,
-    $workLengthHistory: String,
-    $techStack: String,
-    $revenueSource: String,
-    $previousApplicationChange: String,
-    $otherIncubators: String,
-    $reasonForProductChoice: String,
-    $competitiors: String,
-    $moneyMaking: String,
-    $otherIdeas: String,
-    $equityBreakdown: String,
-    $investmentsReceived: String,
-    $reasonForAppling: String,
-    $whoToldYou: String,
-  ) {
-    submitYcForm(
-      companySummary: $companySummary,
-      productSummary: $productSummary,
-      locationDecision: $locationDecision,
-      progress: $progress,
-      workLengthHistory: $workLengthHistory,
-      techStack: $techStack,
-      revenueSource: $revenueSource,
-      previousApplicationChange: $previousApplicationChange,
-      otherIncubators: $otherIncubators,
-      reasonForProductChoice: $reasonForProductChoice,
-      competitiors: $competitiors,
-      moneyMaking: $moneyMaking,
-      otherIdeas: $otherIdeas,
-      equityBreakdown: $equityBreakdown,
-      investmentsReceived: $investmentsReceived,
-      reasonForAppling: $reasonForAppling,
-      whoToldYou: $whoToldYou,
-    )
+  field Mutation.SubmitYcForm($formData: String!) {
+    submitYcForm(formData: $formData){
+      __typename
+      companySummary {
+        revision
+        explanation
+        confidence
+      }
+      productSummary {
+        revision
+        explanation
+        confidence
+      }
+      locationDecision {
+        revision
+        explanation
+        confidence
+      }
+      progress {
+        revision
+        explanation
+        confidence
+      }
+      workLengthHistory {
+        revision
+        explanation
+        confidence
+      }
+      techStack {
+        revision
+        explanation
+        confidence
+      }
+      revenueSource {
+        revision
+        explanation
+        confidence
+      }
+      previousApplicationChange {
+        revision
+        explanation
+        confidence
+      }
+      otherIncubators {
+        revision
+        explanation
+        confidence
+      }
+      reasonForProductChoice {
+        revision
+        explanation
+        confidence
+      }
+      competitors {
+        revision
+        explanation
+        confidence
+      }
+      moneyMaking {
+        revision
+        explanation
+        confidence
+      }
+      otherIdeas {
+        revision
+        explanation
+        confidence
+      }
+      equityBreakdown {
+        revision
+        explanation
+        confidence
+      }
+      investmentsReceived {
+        revision
+        explanation
+        confidence
+      }
+      reasonForApplying {
+        revision
+        explanation
+        confidence
+      }
+      whoToldYou {
+        revision
+        explanation
+        confidence
+      }
+    }
   }
 `)(function SubmitYcForm({ data }) {
   logger.info("submitYcFormMutation", data);

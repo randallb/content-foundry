@@ -96,6 +96,30 @@ export interface NexusGenObjects {
   Recommendations: { // root type
     recommendations?: Array<NexusGenRootTypes['RecommendationItem'] | null> | null; // [RecommendationItem]
   }
+  YCRecommendationItem: { // root type
+    confidence?: number | null; // Float
+    explanation?: string | null; // String
+    revision?: string | null; // String
+  }
+  YCRecommendations: { // root type
+    companySummary?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    competitors?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    equityBreakdown?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    investmentsReceived?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    locationDecision?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    moneyMaking?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    otherIdeas?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    otherIncubators?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    previousApplicationChange?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    productSummary?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    progress?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    reasonForApplying?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    reasonForProductChoice?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    revenueSource?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    techStack?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    whoToldYou?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    workLengthHistory?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -153,7 +177,7 @@ export interface NexusGenFieldTypes {
     qualityCheckTweet: NexusGenRootTypes['Recommendations'] | null; // Recommendations
     register: NexusGenRootTypes['BfCurrentViewerLoggedIn'] | null; // BfCurrentViewerLoggedIn
     registrationOptions: NexusGenScalars['JSONString'] | null; // JSONString
-    submitYcForm: string | null; // String
+    submitYcForm: NexusGenRootTypes['YCRecommendations'] | null; // YCRecommendations
   }
   PageInfo: { // field return type
     endCursor: string | null; // String
@@ -174,6 +198,30 @@ export interface NexusGenFieldTypes {
   }
   Recommendations: { // field return type
     recommendations: Array<NexusGenRootTypes['RecommendationItem'] | null> | null; // [RecommendationItem]
+  }
+  YCRecommendationItem: { // field return type
+    confidence: number | null; // Float
+    explanation: string | null; // String
+    revision: string | null; // String
+  }
+  YCRecommendations: { // field return type
+    companySummary: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    competitors: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    equityBreakdown: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    investmentsReceived: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    locationDecision: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    moneyMaking: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    otherIdeas: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    otherIncubators: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    previousApplicationChange: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    productSummary: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    progress: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    reasonForApplying: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    reasonForProductChoice: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    revenueSource: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    techStack: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    whoToldYou: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    workLengthHistory: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
   }
   BfCurrentViewer: { // field return type
     id: string; // ID!
@@ -228,7 +276,7 @@ export interface NexusGenFieldTypeNames {
     qualityCheckTweet: 'Recommendations'
     register: 'BfCurrentViewerLoggedIn'
     registrationOptions: 'JSONString'
-    submitYcForm: 'String'
+    submitYcForm: 'YCRecommendations'
   }
   PageInfo: { // field return type name
     endCursor: 'String'
@@ -249,6 +297,30 @@ export interface NexusGenFieldTypeNames {
   }
   Recommendations: { // field return type name
     recommendations: 'RecommendationItem'
+  }
+  YCRecommendationItem: { // field return type name
+    confidence: 'Float'
+    explanation: 'String'
+    revision: 'String'
+  }
+  YCRecommendations: { // field return type name
+    companySummary: 'YCRecommendationItem'
+    competitors: 'YCRecommendationItem'
+    equityBreakdown: 'YCRecommendationItem'
+    investmentsReceived: 'YCRecommendationItem'
+    locationDecision: 'YCRecommendationItem'
+    moneyMaking: 'YCRecommendationItem'
+    otherIdeas: 'YCRecommendationItem'
+    otherIncubators: 'YCRecommendationItem'
+    previousApplicationChange: 'YCRecommendationItem'
+    productSummary: 'YCRecommendationItem'
+    progress: 'YCRecommendationItem'
+    reasonForApplying: 'YCRecommendationItem'
+    reasonForProductChoice: 'YCRecommendationItem'
+    revenueSource: 'YCRecommendationItem'
+    techStack: 'YCRecommendationItem'
+    whoToldYou: 'YCRecommendationItem'
+    workLengthHistory: 'YCRecommendationItem'
   }
   BfCurrentViewer: { // field return type name
     id: 'ID'
@@ -294,23 +366,9 @@ export interface NexusGenArgTypes {
       email: string; // String!
     }
     submitYcForm: { // args
-      companySummary?: string | null; // String
-      competitiors?: string | null; // String
-      equityBreakdown?: string | null; // String
-      investmentsReceived?: string | null; // String
-      locationDecision?: string | null; // String
-      moneyMaking?: string | null; // String
-      otherIdeas?: string | null; // String
-      otherIncubators?: string | null; // String
-      previousApplicationChange?: string | null; // String
-      productSummary?: string | null; // String
-      progress?: string | null; // String
-      reasonForAppling?: string | null; // String
-      reasonForProductChoice?: string | null; // String
-      revenueSource?: string | null; // String
-      techStack?: string | null; // String
-      whoToldYou?: string | null; // String
-      workLengthHistory?: string | null; // String
+      formData?: string | null; // String
+      systemPrompt?: string | null; // String
+      taskPrompt?: string | null; // String
     }
   }
   Query: {

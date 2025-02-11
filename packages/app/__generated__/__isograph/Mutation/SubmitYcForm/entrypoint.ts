@@ -4,101 +4,507 @@ import {Mutation__SubmitYcForm__output_type} from './output_type.ts';
 import readerResolver from './resolver_reader.ts';
 const nestedRefetchQueries: RefetchQueryNormalizationArtifactWrapper[] = [];
 
-const queryText = 'mutation SubmitYcForm ($companySummary: String, $productSummary: String, $locationDecision: String, $progress: String, $workLengthHistory: String, $techStack: String, $revenueSource: String, $previousApplicationChange: String, $otherIncubators: String, $reasonForProductChoice: String, $competitiors: String, $moneyMaking: String, $otherIdeas: String, $equityBreakdown: String, $investmentsReceived: String, $reasonForAppling: String, $whoToldYou: String) {\
-  submitYcForm____companySummary___v_companySummary____productSummary___v_productSummary____locationDecision___v_locationDecision____progress___v_progress____workLengthHistory___v_workLengthHistory____techStack___v_techStack____revenueSource___v_revenueSource____previousApplicationChange___v_previousApplicationChange____otherIncubators___v_otherIncubators____reasonForProductChoice___v_reasonForProductChoice____competitiors___v_competitiors____moneyMaking___v_moneyMaking____otherIdeas___v_otherIdeas____equityBreakdown___v_equityBreakdown____investmentsReceived___v_investmentsReceived____reasonForAppling___v_reasonForAppling____whoToldYou___v_whoToldYou: submitYcForm(companySummary: $companySummary, productSummary: $productSummary, locationDecision: $locationDecision, progress: $progress, workLengthHistory: $workLengthHistory, techStack: $techStack, revenueSource: $revenueSource, previousApplicationChange: $previousApplicationChange, otherIncubators: $otherIncubators, reasonForProductChoice: $reasonForProductChoice, competitiors: $competitiors, moneyMaking: $moneyMaking, otherIdeas: $otherIdeas, equityBreakdown: $equityBreakdown, investmentsReceived: $investmentsReceived, reasonForAppling: $reasonForAppling, whoToldYou: $whoToldYou),\
+const queryText = 'mutation SubmitYcForm ($formData: String!) {\
+  submitYcForm____formData___v_formData: submitYcForm(formData: $formData) {\
+    __typename,\
+    companySummary {\
+      confidence,\
+      explanation,\
+      revision,\
+    },\
+    competitors {\
+      confidence,\
+      explanation,\
+      revision,\
+    },\
+    equityBreakdown {\
+      confidence,\
+      explanation,\
+      revision,\
+    },\
+    investmentsReceived {\
+      confidence,\
+      explanation,\
+      revision,\
+    },\
+    locationDecision {\
+      confidence,\
+      explanation,\
+      revision,\
+    },\
+    moneyMaking {\
+      confidence,\
+      explanation,\
+      revision,\
+    },\
+    otherIdeas {\
+      confidence,\
+      explanation,\
+      revision,\
+    },\
+    otherIncubators {\
+      confidence,\
+      explanation,\
+      revision,\
+    },\
+    previousApplicationChange {\
+      confidence,\
+      explanation,\
+      revision,\
+    },\
+    productSummary {\
+      confidence,\
+      explanation,\
+      revision,\
+    },\
+    progress {\
+      confidence,\
+      explanation,\
+      revision,\
+    },\
+    reasonForApplying {\
+      confidence,\
+      explanation,\
+      revision,\
+    },\
+    reasonForProductChoice {\
+      confidence,\
+      explanation,\
+      revision,\
+    },\
+    revenueSource {\
+      confidence,\
+      explanation,\
+      revision,\
+    },\
+    techStack {\
+      confidence,\
+      explanation,\
+      revision,\
+    },\
+    whoToldYou {\
+      confidence,\
+      explanation,\
+      revision,\
+    },\
+    workLengthHistory {\
+      confidence,\
+      explanation,\
+      revision,\
+    },\
+  },\
 }';
 
 const normalizationAst: NormalizationAst = {
   kind: "NormalizationAst",
   selections: [
     {
-      kind: "Scalar",
+      kind: "Linked",
       fieldName: "submitYcForm",
       arguments: [
         [
-          "companySummary",
-          { kind: "Variable", name: "companySummary" },
+          "formData",
+          { kind: "Variable", name: "formData" },
         ],
-
-        [
-          "productSummary",
-          { kind: "Variable", name: "productSummary" },
-        ],
-
-        [
-          "locationDecision",
-          { kind: "Variable", name: "locationDecision" },
-        ],
-
-        [
-          "progress",
-          { kind: "Variable", name: "progress" },
-        ],
-
-        [
-          "workLengthHistory",
-          { kind: "Variable", name: "workLengthHistory" },
-        ],
-
-        [
-          "techStack",
-          { kind: "Variable", name: "techStack" },
-        ],
-
-        [
-          "revenueSource",
-          { kind: "Variable", name: "revenueSource" },
-        ],
-
-        [
-          "previousApplicationChange",
-          { kind: "Variable", name: "previousApplicationChange" },
-        ],
-
-        [
-          "otherIncubators",
-          { kind: "Variable", name: "otherIncubators" },
-        ],
-
-        [
-          "reasonForProductChoice",
-          { kind: "Variable", name: "reasonForProductChoice" },
-        ],
-
-        [
-          "competitiors",
-          { kind: "Variable", name: "competitiors" },
-        ],
-
-        [
-          "moneyMaking",
-          { kind: "Variable", name: "moneyMaking" },
-        ],
-
-        [
-          "otherIdeas",
-          { kind: "Variable", name: "otherIdeas" },
-        ],
-
-        [
-          "equityBreakdown",
-          { kind: "Variable", name: "equityBreakdown" },
-        ],
-
-        [
-          "investmentsReceived",
-          { kind: "Variable", name: "investmentsReceived" },
-        ],
-
-        [
-          "reasonForAppling",
-          { kind: "Variable", name: "reasonForAppling" },
-        ],
-
-        [
-          "whoToldYou",
-          { kind: "Variable", name: "whoToldYou" },
-        ],
+      ],
+      concreteType: "YCRecommendations",
+      selections: [
+        {
+          kind: "Scalar",
+          fieldName: "__typename",
+          arguments: null,
+        },
+        {
+          kind: "Linked",
+          fieldName: "companySummary",
+          arguments: null,
+          concreteType: "YCRecommendationItem",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "confidence",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "explanation",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "revision",
+              arguments: null,
+            },
+          ],
+        },
+        {
+          kind: "Linked",
+          fieldName: "competitors",
+          arguments: null,
+          concreteType: "YCRecommendationItem",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "confidence",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "explanation",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "revision",
+              arguments: null,
+            },
+          ],
+        },
+        {
+          kind: "Linked",
+          fieldName: "equityBreakdown",
+          arguments: null,
+          concreteType: "YCRecommendationItem",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "confidence",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "explanation",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "revision",
+              arguments: null,
+            },
+          ],
+        },
+        {
+          kind: "Linked",
+          fieldName: "investmentsReceived",
+          arguments: null,
+          concreteType: "YCRecommendationItem",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "confidence",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "explanation",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "revision",
+              arguments: null,
+            },
+          ],
+        },
+        {
+          kind: "Linked",
+          fieldName: "locationDecision",
+          arguments: null,
+          concreteType: "YCRecommendationItem",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "confidence",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "explanation",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "revision",
+              arguments: null,
+            },
+          ],
+        },
+        {
+          kind: "Linked",
+          fieldName: "moneyMaking",
+          arguments: null,
+          concreteType: "YCRecommendationItem",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "confidence",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "explanation",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "revision",
+              arguments: null,
+            },
+          ],
+        },
+        {
+          kind: "Linked",
+          fieldName: "otherIdeas",
+          arguments: null,
+          concreteType: "YCRecommendationItem",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "confidence",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "explanation",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "revision",
+              arguments: null,
+            },
+          ],
+        },
+        {
+          kind: "Linked",
+          fieldName: "otherIncubators",
+          arguments: null,
+          concreteType: "YCRecommendationItem",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "confidence",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "explanation",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "revision",
+              arguments: null,
+            },
+          ],
+        },
+        {
+          kind: "Linked",
+          fieldName: "previousApplicationChange",
+          arguments: null,
+          concreteType: "YCRecommendationItem",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "confidence",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "explanation",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "revision",
+              arguments: null,
+            },
+          ],
+        },
+        {
+          kind: "Linked",
+          fieldName: "productSummary",
+          arguments: null,
+          concreteType: "YCRecommendationItem",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "confidence",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "explanation",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "revision",
+              arguments: null,
+            },
+          ],
+        },
+        {
+          kind: "Linked",
+          fieldName: "progress",
+          arguments: null,
+          concreteType: "YCRecommendationItem",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "confidence",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "explanation",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "revision",
+              arguments: null,
+            },
+          ],
+        },
+        {
+          kind: "Linked",
+          fieldName: "reasonForApplying",
+          arguments: null,
+          concreteType: "YCRecommendationItem",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "confidence",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "explanation",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "revision",
+              arguments: null,
+            },
+          ],
+        },
+        {
+          kind: "Linked",
+          fieldName: "reasonForProductChoice",
+          arguments: null,
+          concreteType: "YCRecommendationItem",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "confidence",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "explanation",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "revision",
+              arguments: null,
+            },
+          ],
+        },
+        {
+          kind: "Linked",
+          fieldName: "revenueSource",
+          arguments: null,
+          concreteType: "YCRecommendationItem",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "confidence",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "explanation",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "revision",
+              arguments: null,
+            },
+          ],
+        },
+        {
+          kind: "Linked",
+          fieldName: "techStack",
+          arguments: null,
+          concreteType: "YCRecommendationItem",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "confidence",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "explanation",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "revision",
+              arguments: null,
+            },
+          ],
+        },
+        {
+          kind: "Linked",
+          fieldName: "whoToldYou",
+          arguments: null,
+          concreteType: "YCRecommendationItem",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "confidence",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "explanation",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "revision",
+              arguments: null,
+            },
+          ],
+        },
+        {
+          kind: "Linked",
+          fieldName: "workLengthHistory",
+          arguments: null,
+          concreteType: "YCRecommendationItem",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "confidence",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "explanation",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "revision",
+              arguments: null,
+            },
+          ],
+        },
       ],
     },
   ],

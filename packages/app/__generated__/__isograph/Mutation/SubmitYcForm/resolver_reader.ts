@@ -5,94 +5,482 @@ import { SubmitYcFormMutation as resolver } from '../../../../mutations/SubmitYc
 
 const readerAst: ReaderAst<Mutation__SubmitYcForm__param> = [
   {
-    kind: "Scalar",
+    kind: "Linked",
     fieldName: "submitYcForm",
     alias: null,
     arguments: [
       [
-        "companySummary",
-        { kind: "Variable", name: "companySummary" },
+        "formData",
+        { kind: "Variable", name: "formData" },
       ],
-
-      [
-        "productSummary",
-        { kind: "Variable", name: "productSummary" },
-      ],
-
-      [
-        "locationDecision",
-        { kind: "Variable", name: "locationDecision" },
-      ],
-
-      [
-        "progress",
-        { kind: "Variable", name: "progress" },
-      ],
-
-      [
-        "workLengthHistory",
-        { kind: "Variable", name: "workLengthHistory" },
-      ],
-
-      [
-        "techStack",
-        { kind: "Variable", name: "techStack" },
-      ],
-
-      [
-        "revenueSource",
-        { kind: "Variable", name: "revenueSource" },
-      ],
-
-      [
-        "previousApplicationChange",
-        { kind: "Variable", name: "previousApplicationChange" },
-      ],
-
-      [
-        "otherIncubators",
-        { kind: "Variable", name: "otherIncubators" },
-      ],
-
-      [
-        "reasonForProductChoice",
-        { kind: "Variable", name: "reasonForProductChoice" },
-      ],
-
-      [
-        "competitiors",
-        { kind: "Variable", name: "competitiors" },
-      ],
-
-      [
-        "moneyMaking",
-        { kind: "Variable", name: "moneyMaking" },
-      ],
-
-      [
-        "otherIdeas",
-        { kind: "Variable", name: "otherIdeas" },
-      ],
-
-      [
-        "equityBreakdown",
-        { kind: "Variable", name: "equityBreakdown" },
-      ],
-
-      [
-        "investmentsReceived",
-        { kind: "Variable", name: "investmentsReceived" },
-      ],
-
-      [
-        "reasonForAppling",
-        { kind: "Variable", name: "reasonForAppling" },
-      ],
-
-      [
-        "whoToldYou",
-        { kind: "Variable", name: "whoToldYou" },
-      ],
+    ],
+    condition: null,
+    selections: [
+      {
+        kind: "Scalar",
+        fieldName: "__typename",
+        alias: null,
+        arguments: null,
+      },
+      {
+        kind: "Linked",
+        fieldName: "companySummary",
+        alias: null,
+        arguments: null,
+        condition: null,
+        selections: [
+          {
+            kind: "Scalar",
+            fieldName: "revision",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "explanation",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "confidence",
+            alias: null,
+            arguments: null,
+          },
+        ],
+      },
+      {
+        kind: "Linked",
+        fieldName: "productSummary",
+        alias: null,
+        arguments: null,
+        condition: null,
+        selections: [
+          {
+            kind: "Scalar",
+            fieldName: "revision",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "explanation",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "confidence",
+            alias: null,
+            arguments: null,
+          },
+        ],
+      },
+      {
+        kind: "Linked",
+        fieldName: "locationDecision",
+        alias: null,
+        arguments: null,
+        condition: null,
+        selections: [
+          {
+            kind: "Scalar",
+            fieldName: "revision",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "explanation",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "confidence",
+            alias: null,
+            arguments: null,
+          },
+        ],
+      },
+      {
+        kind: "Linked",
+        fieldName: "progress",
+        alias: null,
+        arguments: null,
+        condition: null,
+        selections: [
+          {
+            kind: "Scalar",
+            fieldName: "revision",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "explanation",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "confidence",
+            alias: null,
+            arguments: null,
+          },
+        ],
+      },
+      {
+        kind: "Linked",
+        fieldName: "workLengthHistory",
+        alias: null,
+        arguments: null,
+        condition: null,
+        selections: [
+          {
+            kind: "Scalar",
+            fieldName: "revision",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "explanation",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "confidence",
+            alias: null,
+            arguments: null,
+          },
+        ],
+      },
+      {
+        kind: "Linked",
+        fieldName: "techStack",
+        alias: null,
+        arguments: null,
+        condition: null,
+        selections: [
+          {
+            kind: "Scalar",
+            fieldName: "revision",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "explanation",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "confidence",
+            alias: null,
+            arguments: null,
+          },
+        ],
+      },
+      {
+        kind: "Linked",
+        fieldName: "revenueSource",
+        alias: null,
+        arguments: null,
+        condition: null,
+        selections: [
+          {
+            kind: "Scalar",
+            fieldName: "revision",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "explanation",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "confidence",
+            alias: null,
+            arguments: null,
+          },
+        ],
+      },
+      {
+        kind: "Linked",
+        fieldName: "previousApplicationChange",
+        alias: null,
+        arguments: null,
+        condition: null,
+        selections: [
+          {
+            kind: "Scalar",
+            fieldName: "revision",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "explanation",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "confidence",
+            alias: null,
+            arguments: null,
+          },
+        ],
+      },
+      {
+        kind: "Linked",
+        fieldName: "otherIncubators",
+        alias: null,
+        arguments: null,
+        condition: null,
+        selections: [
+          {
+            kind: "Scalar",
+            fieldName: "revision",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "explanation",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "confidence",
+            alias: null,
+            arguments: null,
+          },
+        ],
+      },
+      {
+        kind: "Linked",
+        fieldName: "reasonForProductChoice",
+        alias: null,
+        arguments: null,
+        condition: null,
+        selections: [
+          {
+            kind: "Scalar",
+            fieldName: "revision",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "explanation",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "confidence",
+            alias: null,
+            arguments: null,
+          },
+        ],
+      },
+      {
+        kind: "Linked",
+        fieldName: "competitors",
+        alias: null,
+        arguments: null,
+        condition: null,
+        selections: [
+          {
+            kind: "Scalar",
+            fieldName: "revision",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "explanation",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "confidence",
+            alias: null,
+            arguments: null,
+          },
+        ],
+      },
+      {
+        kind: "Linked",
+        fieldName: "moneyMaking",
+        alias: null,
+        arguments: null,
+        condition: null,
+        selections: [
+          {
+            kind: "Scalar",
+            fieldName: "revision",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "explanation",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "confidence",
+            alias: null,
+            arguments: null,
+          },
+        ],
+      },
+      {
+        kind: "Linked",
+        fieldName: "otherIdeas",
+        alias: null,
+        arguments: null,
+        condition: null,
+        selections: [
+          {
+            kind: "Scalar",
+            fieldName: "revision",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "explanation",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "confidence",
+            alias: null,
+            arguments: null,
+          },
+        ],
+      },
+      {
+        kind: "Linked",
+        fieldName: "equityBreakdown",
+        alias: null,
+        arguments: null,
+        condition: null,
+        selections: [
+          {
+            kind: "Scalar",
+            fieldName: "revision",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "explanation",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "confidence",
+            alias: null,
+            arguments: null,
+          },
+        ],
+      },
+      {
+        kind: "Linked",
+        fieldName: "investmentsReceived",
+        alias: null,
+        arguments: null,
+        condition: null,
+        selections: [
+          {
+            kind: "Scalar",
+            fieldName: "revision",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "explanation",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "confidence",
+            alias: null,
+            arguments: null,
+          },
+        ],
+      },
+      {
+        kind: "Linked",
+        fieldName: "reasonForApplying",
+        alias: null,
+        arguments: null,
+        condition: null,
+        selections: [
+          {
+            kind: "Scalar",
+            fieldName: "revision",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "explanation",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "confidence",
+            alias: null,
+            arguments: null,
+          },
+        ],
+      },
+      {
+        kind: "Linked",
+        fieldName: "whoToldYou",
+        alias: null,
+        arguments: null,
+        condition: null,
+        selections: [
+          {
+            kind: "Scalar",
+            fieldName: "revision",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "explanation",
+            alias: null,
+            arguments: null,
+          },
+          {
+            kind: "Scalar",
+            fieldName: "confidence",
+            alias: null,
+            arguments: null,
+          },
+        ],
+      },
     ],
   },
 ];
