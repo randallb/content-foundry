@@ -84,7 +84,7 @@ export const graphqlBfCurrentViewerLoginDemoUser = mutationField(
   {
     type: graphqlBfCurrentViewerLoggedInType,
     
-    async resolve(parent, { attResp, email }, ctx) {
+    async resolve(parent, _, ctx) {
       const cv = await ctx.loginDemoUser();
       return cv.toGraphql();
     },

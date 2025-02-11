@@ -557,3 +557,33 @@ div#toast-root {
 .tooltip-columnGroup.right {
   align-items: flex-end;
 }
+
+/* Dropzone */
+
+.dropzone {
+  border: 2px dashed var(--textSecondary);
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  padding: 20px;
+  width: 100%;
+  max-width: 300px;
+  min-height: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.dropzone.dragged {
+  border-color: var(--secondaryColor);
+}
+
+.dropzone .text {
+  display: block;
+  color: var(--textSecondary);
+  cursor: pointer;
+}
+.dropzone .text .filename {
+  font-weight: bold;
+  color: var(--secondaryColor);
+}
