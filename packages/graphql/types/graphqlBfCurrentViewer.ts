@@ -1,6 +1,5 @@
 import {
   arg,
-  enumType,
   interfaceType,
   mutationField,
   nonNull,
@@ -11,15 +10,11 @@ import {
 import { graphqlNode } from "packages/graphql/types/graphqlBfNode.ts";
 import { getLogger } from "packages/logger.ts";
 import { BfPerson } from "packages/bfDb/models/BfPerson.ts";
-import { toBfGid } from "packages/bfDb/classes/BfNodeIds.ts";
 import {
-  graphqlJSONScalarType,
   graphqlJSONStringScalarType,
 } from "packages/graphql/types/graphqlJSONScalar.ts";
-import { RegistrationResponseJSON } from "@simplewebauthn/server";
-import { BfError } from "packages/BfError.ts";
+import type { RegistrationResponseJSON } from "@simplewebauthn/server";
 import { BfCurrentViewer } from "packages/bfDb/classes/BfCurrentViewer.ts";
-import { graphqlBfPerson } from "packages/graphql/types/graphqlBfPerson.ts";
 
 const logger = getLogger(import.meta);
 
@@ -80,6 +75,18 @@ export const graphqlBfCurrentViewerRegisterMutation = mutationField(
       );
       const person = await ctx.register(registrationResponseJSON, email);
       return person.cv.toGraphql();
+    },
+  },
+);
+
+export const graphqlBfCurrentViewerLoginDemoUser = mutationField(
+  "loginAsDemoPerson",
+  {
+    type: graphqlBfCurrentViewerLoggedInType,
+    
+    async resolve(parent, { attResp, email }, ctx) {
+      const cv = await ctx.loginDemoUser();
+      return cv.toGraphql();
     },
   },
 );

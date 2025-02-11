@@ -18,15 +18,13 @@ export const LoggedInView = iso(`
           <div>
             Fill out or paste your Y Combinator application, then hit "Submit".
           </div>
-          {
-            /* <BfDsButton
+          <BfDsButton
             kind="secondary"
             type="submit"
-            text="Show results"
-            disabled={true}
+            text="Logout"
+            href="/logout"
             xstyle={{ alignSelf: "flex-end" }}
-          /> */
-          }
+          />
         </div>
       </div>
       <div className="flexRow editor-workspace">

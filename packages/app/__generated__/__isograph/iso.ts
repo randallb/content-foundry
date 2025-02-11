@@ -9,19 +9,17 @@ import { type BfCurrentViewerLoggedOut__RegisterButton__param } from './BfCurren
 import { type BfCurrentViewerLoggedOut__WelcomeVideo__param } from './BfCurrentViewerLoggedOut/WelcomeVideo/param_type.ts';
 import { type Mutation__CheckEmail__param } from './Mutation/CheckEmail/param_type.ts';
 import { type Mutation__GetLoginOptions__param } from './Mutation/GetLoginOptions/param_type.ts';
+import { type Mutation__LoginAsDemoPerson__param } from './Mutation/LoginAsDemoPerson/param_type.ts';
 import { type Mutation__Login__param } from './Mutation/Login/param_type.ts';
-import { type Mutation__QualityCheckTweet__param } from './Mutation/QualityCheckTweet/param_type.ts';
 import { type Mutation__Register__param } from './Mutation/Register/param_type.ts';
 import { type Mutation__RegistrationOptions__param } from './Mutation/RegistrationOptions/param_type.ts';
 import { type Mutation__SubmitYcForm__param } from './Mutation/SubmitYcForm/param_type.ts';
-import { type Query__AppHome__param } from './Query/AppHome/param_type.ts';
 import { type Query__Blog__param } from './Query/Blog/param_type.ts';
 import { type Query__ContentFoundryApp__param } from './Query/ContentFoundryApp/param_type.ts';
 import { type Query__ContentOS__param } from './Query/ContentOS/param_type.ts';
 import { type Query__EntrypointBlogPost__param } from './Query/EntrypointBlogPost/param_type.ts';
 import { type Query__EntrypointBlog__param } from './Query/EntrypointBlog/param_type.ts';
 import { type Query__EntrypointContentFoundryApp__param } from './Query/EntrypointContentFoundryApp/param_type.ts';
-import { type Query__QualityCheckTweetForm__param } from './Query/QualityCheckTweetForm/param_type.ts';
 
 // This is the type given to regular client fields.
 // This means that the type of the exported iso literal is exactly
@@ -112,12 +110,12 @@ export function iso<T>(
 ): IdentityWithParam<Mutation__GetLoginOptions__param>;
 
 export function iso<T>(
-  param: T & MatchesWhitespaceAndString<'field Mutation.Login', T>
-): IdentityWithParam<Mutation__Login__param>;
+  param: T & MatchesWhitespaceAndString<'field Mutation.LoginAsDemoPerson', T>
+): IdentityWithParam<Mutation__LoginAsDemoPerson__param>;
 
 export function iso<T>(
-  param: T & MatchesWhitespaceAndString<'field Mutation.QualityCheckTweet', T>
-): IdentityWithParamComponent<Mutation__QualityCheckTweet__param>;
+  param: T & MatchesWhitespaceAndString<'field Mutation.Login', T>
+): IdentityWithParam<Mutation__Login__param>;
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Mutation.Register', T>
@@ -130,10 +128,6 @@ export function iso<T>(
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Mutation.SubmitYcForm', T>
 ): IdentityWithParam<Mutation__SubmitYcForm__param>;
-
-export function iso<T>(
-  param: T & MatchesWhitespaceAndString<'field Query.AppHome', T>
-): IdentityWithParamComponent<Query__AppHome__param>;
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Query.Blog', T>
@@ -160,10 +154,6 @@ export function iso<T>(
 ): IdentityWithParam<Query__EntrypointContentFoundryApp__param>;
 
 export function iso<T>(
-  param: T & MatchesWhitespaceAndString<'field Query.QualityCheckTweetForm', T>
-): IdentityWithParamComponent<Query__QualityCheckTweetForm__param>;
-
-export function iso<T>(
   param: T & MatchesWhitespaceAndString<'entrypoint Mutation.CheckEmail', T>
 ): void;
 
@@ -172,11 +162,11 @@ export function iso<T>(
 ): void;
 
 export function iso<T>(
-  param: T & MatchesWhitespaceAndString<'entrypoint Mutation.Login', T>
+  param: T & MatchesWhitespaceAndString<'entrypoint Mutation.LoginAsDemoPerson', T>
 ): void;
 
 export function iso<T>(
-  param: T & MatchesWhitespaceAndString<'entrypoint Mutation.QualityCheckTweet', T>
+  param: T & MatchesWhitespaceAndString<'entrypoint Mutation.Login', T>
 ): void;
 
 export function iso<T>(
@@ -189,10 +179,6 @@ export function iso<T>(
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'entrypoint Mutation.SubmitYcForm', T>
-): void;
-
-export function iso<T>(
-  param: T & MatchesWhitespaceAndString<'entrypoint Query.AppHome', T>
 ): void;
 
 export function iso<T>(
