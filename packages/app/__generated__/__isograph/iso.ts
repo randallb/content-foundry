@@ -19,6 +19,7 @@ import { type Mutation__SubmitYcForm__param } from './Mutation/SubmitYcForm/para
 import { type Query__AppHome__param } from './Query/AppHome/param_type.ts';
 import { type Query__Blog__param } from './Query/Blog/param_type.ts';
 import { type Query__ContentFoundryApp__param } from './Query/ContentFoundryApp/param_type.ts';
+import { type Query__ContentOS__param } from './Query/ContentOS/param_type.ts';
 import { type Query__EntrypointBlogPost__param } from './Query/EntrypointBlogPost/param_type.ts';
 import { type Query__EntrypointBlog__param } from './Query/EntrypointBlog/param_type.ts';
 import { type Query__EntrypointContentFoundryApp__param } from './Query/EntrypointContentFoundryApp/param_type.ts';
@@ -151,6 +152,10 @@ export function iso<T>(
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Query.ContentFoundryApp', T>
 ): IdentityWithParamComponent<Query__ContentFoundryApp__param>;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field Query.ContentOS', T>
+): IdentityWithParamComponent<Query__ContentOS__param>;
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Query.EntrypointBlogPost', T>

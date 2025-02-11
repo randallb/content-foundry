@@ -37,10 +37,11 @@ type BfDsFormProps<T = Record<string, string | number | boolean | null>> =
   & React.PropsWithChildren<BfDsFormCallbacks<T>>
   & {
     initialData: T;
+    xstyle?: React.CSSProperties;
   };
 
 export function BfDsForm<T>(
-  { initialData, children, ...bfDsFormCallbacks }: BfDsFormProps<T>,
+  { initialData, xstyle, children, ...bfDsFormCallbacks }: BfDsFormProps<T>,
 ) {
   const [data, setData] = useState<T>(initialData);
   const [errors, setErrors] = useState<BfDsFormErrorRecord<T>>(
@@ -67,7 +68,7 @@ export function BfDsForm<T>(
     <BfDsFormContext.Provider
       value={{ data, errors, onChange, onError, onSubmit }}
     >
-      <form onSubmit={onSubmit}>{children}</form>
+      <form onSubmit={onSubmit} style={xstyle}>{children}</form>
     </BfDsFormContext.Provider>
   );
 }
@@ -85,6 +86,7 @@ export type BfDsFormElementProps<
 > = TAdditionalFormElementProps & {
   id: string;
   title: string;
+  rows?: string;
 };
 
 /**

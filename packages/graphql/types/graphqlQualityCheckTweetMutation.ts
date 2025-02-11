@@ -1,6 +1,10 @@
 import { mutationField, stringArg } from "nexus";
-import { graphqlRecommendationsType } from "packages/graphql/types/graphqlRecommendation.ts";
+import {
+  graphqlRecommendationsType,
+  graphqlYCRecommendationsType,
+} from "packages/graphql/types/graphqlRecommendation.ts";
 import { runIt } from "experimental/ai.ts";
+import { runIt as runItYC } from "experimental/aiYC.ts";
 import { getLogger } from "packages/logger.ts";
 
 const logger = getLogger(import.meta);
@@ -28,27 +32,21 @@ export const qualityCheckTweetMutation = mutationField("qualityCheckTweet", {
 
 export const submitYcFormMutation = mutationField("submitYcForm", {
   args: {
-    companySummary: stringArg(),
-    productSummary: stringArg(),
-    locationDecision: stringArg(),
-    progress: stringArg(),
-    workLengthHistory: stringArg(),
-    techStack: stringArg(),
-    revenueSource: stringArg(),
-    previousApplicationChange: stringArg(),
-    otherIncubators: stringArg(),
-    reasonForProductChoice: stringArg(),
-    competitiors: stringArg(),
-    moneyMaking: stringArg(),
-    otherIdeas: stringArg(),
-    equityBreakdown: stringArg(),
-    investmentsReceived: stringArg(),
-    reasonForAppling: stringArg(),
-    whoToldYou: stringArg(),
+    formData: stringArg(),
+    taskPrompt: stringArg(),
+    systemPrompt: stringArg(),
   },
-  type: "String",
-  resolve: async (_, args, ctx) => {
-    logger.info("submitYcFormMutation", args);
-    return "submat";
-  }
-})
+  type: graphqlYCRecommendationsType,
+  resolve: async (_, { formData, taskPrompt, systemPrompt }, ctx) => {
+    if (!formData) {
+      throw new Error("No formData");
+    }
+    const recommendationsResponse = await runItYC(
+      formData ?? "{}",
+      taskPrompt ?? undefined,
+      systemPrompt ?? undefined,
+    );
+    logger.debug("Response", recommendationsResponse)
+    return recommendationsResponse;
+  },
+});

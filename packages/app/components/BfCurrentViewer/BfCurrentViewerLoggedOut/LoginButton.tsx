@@ -51,9 +51,10 @@ export const LoginButton = iso(`
           onComplete: async (data) => {
             logger.debug("Got authentication options", data);
 
-            const optionsJSON = JSON.parse(data);
-            const authRespJSON = await startAuthentication({ optionsJSON });
-            const authResp = JSON.stringify(authRespJSON);
+            const options = JSON.parse(data);
+            const authResp = await startAuthentication({
+              optionsJSON: options,
+            });
             logger.debug("Got authentication response", authResp);
             login({ email, authResp }, {
               onComplete: (data) => {
