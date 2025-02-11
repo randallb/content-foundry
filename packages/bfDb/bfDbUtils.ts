@@ -2,6 +2,7 @@
 import { getLogger } from "packages/logger.ts";
 import { neon } from "@neondatabase/serverless";
 import { BfErrorDb } from "packages/bfDb/classes/BfErrorDb.ts";
+import { getConfigurationVariable } from "packages/getConfigurationVariable.ts";
 
 const logger = getLogger(import.meta);
 
