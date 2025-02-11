@@ -8,6 +8,7 @@ import { useMutation } from "packages/app/hooks/isographPrototypes/useMutation.t
 import ycFormSubmitMutation from "packages/app/__generated__/__isograph/Mutation/SubmitYcForm/entrypoint.ts";
 import { BfDsButton } from "packages/bfDs/components/BfDsButton.tsx";
 import { Revision } from "packages/app/components/ContentOS/Revision.tsx";
+import { BfDsFullPageSpinner } from "packages/bfDs/components/BfDsSpinner.tsx";
 
 const logger = getLogger(import.meta);
 
@@ -48,8 +49,7 @@ const initialData = {
   workLengthHistory:
     "We wrote the first lines of code in April 2023. We’ve all been working on it full-time since November 2023.",
   techStack: "Deno + Postgres + React + Graphql + Isograph",
-  revenueSource:
-    "Currently revenue comes from our two design partners.",
+  revenueSource: "Currently revenue comes from our two design partners.",
   previousApplicationChange:
     "Our original hypothesis was too narrow. From working with customers and building products we learned that knowing *what* to create is a bigger problem than *how* to create it. Getting started and figuring out what kind of content to make is a core issue for businesses—especially startups—pursuing a content marketing strategy. After deciding what content to create, tooling is rarely the problem. And the market for creating better / shorter videos isn’t big enough to support the kind of company we want to build.",
   otherIncubators: "N/A",
@@ -73,6 +73,7 @@ export const YcForm = iso(`
 `)(function YcForm({ data }) {
   const { commit } = useMutation(ycFormSubmitMutation);
   const [revisions, setRevisions] = useState<Revisions>({});
+  const [submitted, setSubmitted] = useState(false);
   const hasRevisions = Object.keys(revisions).length > 0;
 
   logger.debug("hasRevisions", hasRevisions, revisions);
@@ -80,14 +81,16 @@ export const YcForm = iso(`
     <BfDsForm
       initialData={initialData}
       onSubmit={(form) => {
-        commit({
-          formData: JSON.stringify(form),
-        }, {
-          onComplete: (fromMutationData) => {
-            logger.debug("YcForm submit successful", fromMutationData);
-            setRevisions(fromMutationData.submitYcForm ?? {});
-          },
-        });
+        setSubmitted(true),
+          commit({
+            formData: JSON.stringify(form),
+          }, {
+            onComplete: (fromMutationData) => {
+              logger.debug("YcForm submit successful", fromMutationData);
+              setSubmitted(false);
+              setRevisions(fromMutationData.submitYcForm ?? {});
+            },
+          });
       }}
       xstyle={{ width: "100%", maxWidth: "40rem", margin: "auto" }}
     >
@@ -107,7 +110,7 @@ export const YcForm = iso(`
         );
       })}
 
-      <BfDsFormSubmitButton text="Submit" showSpinner={false} />
+      <BfDsFormSubmitButton text="Submit" showSpinner={submitted} />
     </BfDsForm>
   );
 });
