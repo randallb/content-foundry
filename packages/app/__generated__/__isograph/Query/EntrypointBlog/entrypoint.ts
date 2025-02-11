@@ -6,18 +6,6 @@ const nestedRefetchQueries: RefetchQueryNormalizationArtifactWrapper[] = [];
 
 const queryText = 'query EntrypointBlog  {\
   __typename,\
-  blog {\
-    id,\
-    __typename,\
-    posts {\
-      nodes {\
-        id,\
-        __typename,\
-        author,\
-        content,\
-      },\
-    },\
-  },\
 }';
 
 const normalizationAst: NormalizationAst = {
@@ -27,60 +15,6 @@ const normalizationAst: NormalizationAst = {
       kind: "Scalar",
       fieldName: "__typename",
       arguments: null,
-    },
-    {
-      kind: "Linked",
-      fieldName: "blog",
-      arguments: null,
-      concreteType: "BfBlog",
-      selections: [
-        {
-          kind: "Scalar",
-          fieldName: "id",
-          arguments: null,
-        },
-        {
-          kind: "Scalar",
-          fieldName: "__typename",
-          arguments: null,
-        },
-        {
-          kind: "Linked",
-          fieldName: "posts",
-          arguments: null,
-          concreteType: "BfBlogPostConnection",
-          selections: [
-            {
-              kind: "Linked",
-              fieldName: "nodes",
-              arguments: null,
-              concreteType: "BfBlogPost",
-              selections: [
-                {
-                  kind: "Scalar",
-                  fieldName: "id",
-                  arguments: null,
-                },
-                {
-                  kind: "Scalar",
-                  fieldName: "__typename",
-                  arguments: null,
-                },
-                {
-                  kind: "Scalar",
-                  fieldName: "author",
-                  arguments: null,
-                },
-                {
-                  kind: "Scalar",
-                  fieldName: "content",
-                  arguments: null,
-                },
-              ],
-            },
-          ],
-        },
-      ],
     },
   ],
 };

@@ -1,5 +1,5 @@
 
-export type Query__Blog__param = {
+export type Query__ContentOS__param = {
   readonly data: {
     readonly __typename: string,
   },

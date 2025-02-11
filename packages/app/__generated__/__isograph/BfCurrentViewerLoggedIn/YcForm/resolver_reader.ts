@@ -1,8 +1,8 @@
 import type {ComponentReaderArtifact, ExtractSecondParam, ReaderAst } from '@isograph/react';
-import { Query__Blog__param } from './param_type.ts';
-import { Blog as resolver } from '../../../../components/Blog/Blog.tsx';
+import { BfCurrentViewerLoggedIn__YcForm__param } from './param_type.ts';
+import { YcForm as resolver } from '../../../../components/BfCurrentViewer/BfCurrentViewerLoggedIn/YcForm.tsx';
 
-const readerAst: ReaderAst<Query__Blog__param> = [
+const readerAst: ReaderAst<BfCurrentViewerLoggedIn__YcForm__param> = [
   {
     kind: "Scalar",
     fieldName: "__typename",
@@ -12,11 +12,11 @@ const readerAst: ReaderAst<Query__Blog__param> = [
 ];
 
 const artifact: ComponentReaderArtifact<
-  Query__Blog__param,
+  BfCurrentViewerLoggedIn__YcForm__param,
   ExtractSecondParam<typeof resolver>
 > = {
   kind: "ComponentReaderArtifact",
-  componentName: "Query.Blog",
+  componentName: "BfCurrentViewerLoggedIn.YcForm",
   resolver,
   readerAst,
   hasUpdatable: false,

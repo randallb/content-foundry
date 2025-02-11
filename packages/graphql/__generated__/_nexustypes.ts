@@ -46,29 +46,6 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
-  BfBlog: { // root type
-    id: string; // ID!
-    name?: string | null; // String
-  }
-  BfBlogPost: { // root type
-    author?: string | null; // String
-    content?: string | null; // String
-    cta?: string | null; // String
-    id: string; // ID!
-    slug?: string | null; // String
-    summary?: string | null; // String
-    title?: string | null; // String
-  }
-  BfBlogPostConnection: { // root type
-    count?: number | null; // Int
-    edges?: Array<NexusGenRootTypes['BfBlogPostEdge'] | null> | null; // [BfBlogPostEdge]
-    nodes?: Array<NexusGenRootTypes['BfBlogPost'] | null> | null; // [BfBlogPost]
-    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
-  }
-  BfBlogPostEdge: { // root type
-    cursor: string; // String!
-    node?: NexusGenRootTypes['BfBlogPost'] | null; // BfBlogPost
-  }
   BfCurrentViewerLoggedIn: { // root type
     id: string; // ID!
   }
@@ -80,12 +57,6 @@ export interface NexusGenObjects {
     name?: string | null; // String
   }
   Mutation: {};
-  PageInfo: { // root type
-    endCursor?: string | null; // String
-    hasNextPage: boolean; // Boolean!
-    hasPreviousPage: boolean; // Boolean!
-    startCursor?: string | null; // String
-  }
   Query: {};
   RecommendationItem: { // root type
     confidence?: number | null; // Float
@@ -95,6 +66,30 @@ export interface NexusGenObjects {
   }
   Recommendations: { // root type
     recommendations?: Array<NexusGenRootTypes['RecommendationItem'] | null> | null; // [RecommendationItem]
+  }
+  YCRecommendationItem: { // root type
+    confidence?: number | null; // Float
+    explanation?: string | null; // String
+    revision?: string | null; // String
+  }
+  YCRecommendations: { // root type
+    companySummary?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    competitors?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    equityBreakdown?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    investmentsReceived?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    locationDecision?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    moneyMaking?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    otherIdeas?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    otherIncubators?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    previousApplicationChange?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    productSummary?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    progress?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    reasonForApplying?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    reasonForProductChoice?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    revenueSource?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    techStack?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    whoToldYou?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    workLengthHistory?: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
   }
 }
 
@@ -112,30 +107,6 @@ export type NexusGenRootTypes = NexusGenInterfaces & NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
-  BfBlog: { // field return type
-    id: string; // ID!
-    name: string | null; // String
-    posts: NexusGenRootTypes['BfBlogPostConnection'] | null; // BfBlogPostConnection
-  }
-  BfBlogPost: { // field return type
-    author: string | null; // String
-    content: string | null; // String
-    cta: string | null; // String
-    id: string; // ID!
-    slug: string | null; // String
-    summary: string | null; // String
-    title: string | null; // String
-  }
-  BfBlogPostConnection: { // field return type
-    count: number | null; // Int
-    edges: Array<NexusGenRootTypes['BfBlogPostEdge'] | null> | null; // [BfBlogPostEdge]
-    nodes: Array<NexusGenRootTypes['BfBlogPost'] | null> | null; // [BfBlogPost]
-    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
-  }
-  BfBlogPostEdge: { // field return type
-    cursor: string; // String!
-    node: NexusGenRootTypes['BfBlogPost'] | null; // BfBlogPost
-  }
   BfCurrentViewerLoggedIn: { // field return type
     id: string; // ID!
   }
@@ -153,16 +124,10 @@ export interface NexusGenFieldTypes {
     qualityCheckTweet: NexusGenRootTypes['Recommendations'] | null; // Recommendations
     register: NexusGenRootTypes['BfCurrentViewerLoggedIn'] | null; // BfCurrentViewerLoggedIn
     registrationOptions: NexusGenScalars['JSONString'] | null; // JSONString
-  }
-  PageInfo: { // field return type
-    endCursor: string | null; // String
-    hasNextPage: boolean; // Boolean!
-    hasPreviousPage: boolean; // Boolean!
-    startCursor: string | null; // String
+    submitYcForm: NexusGenRootTypes['YCRecommendations'] | null; // YCRecommendations
   }
   Query: { // field return type
     bfNode: NexusGenRootTypes['BfNode'] | null; // BfNode
-    blog: NexusGenRootTypes['BfBlog'] | null; // BfBlog
     me: NexusGenRootTypes['BfCurrentViewer'] | null; // BfCurrentViewer
   }
   RecommendationItem: { // field return type
@@ -173,6 +138,30 @@ export interface NexusGenFieldTypes {
   }
   Recommendations: { // field return type
     recommendations: Array<NexusGenRootTypes['RecommendationItem'] | null> | null; // [RecommendationItem]
+  }
+  YCRecommendationItem: { // field return type
+    confidence: number | null; // Float
+    explanation: string | null; // String
+    revision: string | null; // String
+  }
+  YCRecommendations: { // field return type
+    companySummary: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    competitors: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    equityBreakdown: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    investmentsReceived: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    locationDecision: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    moneyMaking: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    otherIdeas: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    otherIncubators: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    previousApplicationChange: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    productSummary: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    progress: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    reasonForApplying: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    reasonForProductChoice: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    revenueSource: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    techStack: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    whoToldYou: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
+    workLengthHistory: NexusGenRootTypes['YCRecommendationItem'] | null; // YCRecommendationItem
   }
   BfCurrentViewer: { // field return type
     id: string; // ID!
@@ -186,30 +175,6 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
-  BfBlog: { // field return type name
-    id: 'ID'
-    name: 'String'
-    posts: 'BfBlogPostConnection'
-  }
-  BfBlogPost: { // field return type name
-    author: 'String'
-    content: 'String'
-    cta: 'String'
-    id: 'ID'
-    slug: 'String'
-    summary: 'String'
-    title: 'String'
-  }
-  BfBlogPostConnection: { // field return type name
-    count: 'Int'
-    edges: 'BfBlogPostEdge'
-    nodes: 'BfBlogPost'
-    pageInfo: 'PageInfo'
-  }
-  BfBlogPostEdge: { // field return type name
-    cursor: 'String'
-    node: 'BfBlogPost'
-  }
   BfCurrentViewerLoggedIn: { // field return type name
     id: 'ID'
   }
@@ -227,16 +192,10 @@ export interface NexusGenFieldTypeNames {
     qualityCheckTweet: 'Recommendations'
     register: 'BfCurrentViewerLoggedIn'
     registrationOptions: 'JSONString'
-  }
-  PageInfo: { // field return type name
-    endCursor: 'String'
-    hasNextPage: 'Boolean'
-    hasPreviousPage: 'Boolean'
-    startCursor: 'String'
+    submitYcForm: 'YCRecommendations'
   }
   Query: { // field return type name
     bfNode: 'BfNode'
-    blog: 'BfBlog'
     me: 'BfCurrentViewer'
   }
   RecommendationItem: { // field return type name
@@ -247,6 +206,30 @@ export interface NexusGenFieldTypeNames {
   }
   Recommendations: { // field return type name
     recommendations: 'RecommendationItem'
+  }
+  YCRecommendationItem: { // field return type name
+    confidence: 'Float'
+    explanation: 'String'
+    revision: 'String'
+  }
+  YCRecommendations: { // field return type name
+    companySummary: 'YCRecommendationItem'
+    competitors: 'YCRecommendationItem'
+    equityBreakdown: 'YCRecommendationItem'
+    investmentsReceived: 'YCRecommendationItem'
+    locationDecision: 'YCRecommendationItem'
+    moneyMaking: 'YCRecommendationItem'
+    otherIdeas: 'YCRecommendationItem'
+    otherIncubators: 'YCRecommendationItem'
+    previousApplicationChange: 'YCRecommendationItem'
+    productSummary: 'YCRecommendationItem'
+    progress: 'YCRecommendationItem'
+    reasonForApplying: 'YCRecommendationItem'
+    reasonForProductChoice: 'YCRecommendationItem'
+    revenueSource: 'YCRecommendationItem'
+    techStack: 'YCRecommendationItem'
+    whoToldYou: 'YCRecommendationItem'
+    workLengthHistory: 'YCRecommendationItem'
   }
   BfCurrentViewer: { // field return type name
     id: 'ID'
@@ -260,14 +243,6 @@ export interface NexusGenFieldTypeNames {
 }
 
 export interface NexusGenArgTypes {
-  BfBlog: {
-    posts: { // args
-      after?: string | null; // String
-      before?: string | null; // String
-      first?: number | null; // Int
-      last?: number | null; // Int
-    }
-  }
   Mutation: {
     checkEmail: { // args
       email: string; // String!
@@ -291,6 +266,11 @@ export interface NexusGenArgTypes {
     registrationOptions: { // args
       email: string; // String!
     }
+    submitYcForm: { // args
+      formData?: string | null; // String
+      systemPrompt?: string | null; // String
+      taskPrompt?: string | null; // String
+    }
   }
   Query: {
     bfNode: { // args
@@ -301,13 +281,11 @@ export interface NexusGenArgTypes {
 
 export interface NexusGenAbstractTypeMembers {
   BfCurrentViewer: "BfCurrentViewerLoggedIn" | "BfCurrentViewerLoggedOut"
-  BfNode: "BfBlog" | "BfBlogPost" | "BfPerson"
-  Node: "BfBlog" | "BfBlogPost" | "BfCurrentViewerLoggedIn" | "BfCurrentViewerLoggedOut" | "BfPerson"
+  BfNode: "BfPerson"
+  Node: "BfCurrentViewerLoggedIn" | "BfCurrentViewerLoggedOut" | "BfPerson"
 }
 
 export interface NexusGenTypeInterfaces {
-  BfBlog: "BfNode" | "Node"
-  BfBlogPost: "BfNode" | "Node"
   BfCurrentViewerLoggedIn: "BfCurrentViewer" | "Node"
   BfCurrentViewerLoggedOut: "BfCurrentViewer" | "Node"
   BfPerson: "BfNode" | "Node"

@@ -1,5 +1,5 @@
 
-export type Query__Blog__param = {
+export type BfCurrentViewerLoggedIn__YcForm__param = {
   readonly data: {
     readonly __typename: string,
   },

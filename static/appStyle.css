@@ -40,4 +40,143 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}/* ContentOS */
+.page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  width: 350px;
+  padding: 12px;
+}
+
+
+/* VoiceSetup */
+.voice-container {
+  display: flex;
+  justify-content: center;
+  flex:1;
+  align-items: center;
+}
+
+.voice-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 40%;
+}
+.voice-section-header {
+  display: flex;
+  gap: 10px;
+}
+.voice-section h2 {
+  font-family: var(--marketingFontFamily);
+  font-size: 2.5em;
+  margin: 0;
+}
+.voice-section-text,
+.voice-section-voice-style {
+  font-size: max(12px, 1vw);
+  text-align: left;
+  color: var(--textMarketing);
+}
+.voice-section-voice-style {
+  border-radius: 10px;
+  padding: 15px;
+  background-color: var(--text015);
+}
+.voice-section-voice-style.highlight{
+  background-color: var(--fourtharyColor015);
+}
+
+
+/* Editor */
+.editor-container{
+  background-color: var(--background);
+  height: 100vh;
+}
+.brand-voice {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+.left-side-bar{
+  min-width: 300px;
+  flex:0;
+  border-right: 1px solid var(--border);
+  height: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+.sidebar-logo {
+  padding: 24px;
+}
+.instructions {
+  border-top: 1px solid var(--border);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.editor-workspace{
+  overflow-y: auto;
+  flex: 1;
+  padding: 24px;
+}
+.text-editor{
+  flex:1;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.right-side-bar{
+  min-width: 300px;
+  flex:0;
+  border-left: 1px solid var(--border);
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+
+/* Revisions */
+.revision {
+  position: relative;
+  margin-bottom: 1.5em;
+}
+.revision-content {
+  background: var(--fourtharyColor015);
+  padding: 14px;
+  border: 1px solid var(--fourtharyColor030);
+  border-radius: 6px;
+}
+.revision-header {
+  font-size: 0.8em;
+  font-weight: bold;
+  color: var(--fourtharyColor);
+  margin-bottom: 0.4em;
+}
+.revision-text {
+  margin-right: 25px;
+}
+.revision-actions {
+  position: absolute;
+  top: -12px;
+  right: 6px;
+  background: var(--background);
+  border: 1px solid var(--fourtharyColor030);
+  border-top-color: transparent;
+  border-radius: 0 0 6px 6px;
+}
+.revision-explanation-button {
+  position: absolute;
+  right: 6px;
+  bottom: 2px;
+}
+.revision-explanation {
+  background: var(--background);
+  padding: 8px;
+  font-size: 0.8em;
+  border: 1px solid var(--fourtharyColor030);
+  border-radius: 6px;
 }
