@@ -7,6 +7,7 @@ import {
 import { getLogger } from "packages/logger.ts";
 import { neon } from "@neondatabase/serverless";
 import { upsertBfDb } from "packages/bfDb/bfDbUtils.ts";
+import { getConfigurationVariable } from "packages/getConfigurationVariable.ts";
 
 const logger = getLogger(import.meta);
 
@@ -195,11 +196,12 @@ async function startPostgres() {
 
   // Check if bfdb table exists and create if needed
   const databaseUrl = getConfigurationVariable("DATABASE_URL");
-  if (!databaseUrl) {
-    throw new Error("DATABASE_URL is not set");
-  }
+  
 
   try {
+    if (!databaseUrl) {
+      throw new Error("DATABASE_URL is not set");
+    }
     const sql = neon(databaseUrl);
     const result = await sql`SELECT EXISTS (
       SELECT FROM information_schema.tables 
@@ -213,7 +215,7 @@ async function startPostgres() {
     }
   } catch (error) {
     logger.error("Error checking/creating bfdb table:", error);
-    throw error;
+    // throw error;
   }
 }
 

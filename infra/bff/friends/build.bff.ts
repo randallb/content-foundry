@@ -27,19 +27,24 @@ const allowedEnvironmentVariables = [
   "USER",
 ];
 
-const DATABASE_STRING = getConfigurationVariable("DATABASE_URL") ?? "";
-const DATABASE_URL = new URL(DATABASE_STRING);
-const dbDomain = DATABASE_URL.hostname;
-const neonApiParts = dbDomain.split(".");
-neonApiParts[0] = "api";
-const neonApiDomain = neonApiParts.join(".");
+
 
 const allowedNetworkDestionations = [
   "0.0.0.0:8000",
   "openrouter.ai",
-  dbDomain,
-  neonApiDomain,
 ];
+const DATABASE_STRING = getConfigurationVariable("DATABASE_URL");
+if (DATABASE_STRING) {
+  const DATABASE_URL = new URL(DATABASE_STRING);
+  const dbDomain = DATABASE_URL.hostname;
+  const neonApiParts = dbDomain.split(".");
+  neonApiParts[0] = "api";
+  const neonApiDomain = neonApiParts.join(".");
+  allowedNetworkDestionations.push(neonApiDomain)
+  allowedNetworkDestionations.push(dbDomain)
+}
+
+
 
 const includableDirectories = [
   "packages",

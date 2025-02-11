@@ -42,14 +42,17 @@ type DbItem<T extends Props> = {
 };
 
 const databaseUrl = getConfigurationVariable("DATABASE_URL");
-if (!databaseUrl) {
-  throw new BfErrorDb("DATABASE_URL is not set");
-}
-const sql = neon(databaseUrl);
 
-const connectionString = getConfigurationVariable("BF_ENV") === "DEVELOPMENT"
-  ? getConfigurationVariable("DATABASE_URL") ?? getConfigurationVariable("DATABASE_URL")
-  : getConfigurationVariable("DATABASE_URL");
+function disconnectedDatabaseRuntimeError(_strings: TemplateStringsArray, ...values: any[]) {
+  throw new BfErrorDb("No database connected.")
+  return [];
+}
+
+if (getConfigurationVariable("BF_ENV") !== "DEVELOPMENT" && !databaseUrl) {
+  throw new BfErrorDb("No database url.")
+}
+
+const sql = databaseUrl ? neon(databaseUrl) : disconnectedDatabaseRuntimeError;
 
 // const pool = new Pool({ connectionString });
 export type JSONValue =
@@ -604,6 +607,7 @@ export async function bfQueryItemsUnified<
       ...specificIdConditions,
     ].filter(Boolean).join(" AND ");
     const query = await sql(
+      // @ts-expect-error #techdebt
       `SELECT COUNT(*) FROM bfdb WHERE ${allConditions}`,
       variables,
     );
@@ -638,6 +642,7 @@ export async function bfQueryItemsUnified<
     const query = buildQuery(offset);
     try {
       logger.debug("Executing query", query, variables);
+      // @ts-expect-error #techdebt
       const rows = await sql(query, variables) as Array<Row<TProps>>;
 
       if (rows.length === 0) break; // No more results
