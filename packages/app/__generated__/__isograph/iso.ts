@@ -2,6 +2,7 @@ import type { IsographEntrypoint } from '@isograph/react';
 import { type BfBlog__BlogPostList__param } from './BfBlog/BlogPostList/param_type.ts';
 import { type BfBlogPost__BlogPostListItem__param } from './BfBlogPost/BlogPostListItem/param_type.ts';
 import { type BfCurrentViewerLoggedIn__LoggedInView__param } from './BfCurrentViewerLoggedIn/LoggedInView/param_type.ts';
+import { type BfCurrentViewerLoggedIn__YcForm__param } from './BfCurrentViewerLoggedIn/YcForm/param_type.ts';
 import { type BfCurrentViewerLoggedOut__DemoButton__param } from './BfCurrentViewerLoggedOut/DemoButton/param_type.ts';
 import { type BfCurrentViewerLoggedOut__LoggedOutView__param } from './BfCurrentViewerLoggedOut/LoggedOutView/param_type.ts';
 import { type BfCurrentViewerLoggedOut__LoginAndRegisterForm__param } from './BfCurrentViewerLoggedOut/LoginAndRegisterForm/param_type.ts';
@@ -14,6 +15,7 @@ import { type Mutation__Login__param } from './Mutation/Login/param_type.ts';
 import { type Mutation__QualityCheckTweet__param } from './Mutation/QualityCheckTweet/param_type.ts';
 import { type Mutation__Register__param } from './Mutation/Register/param_type.ts';
 import { type Mutation__RegistrationOptions__param } from './Mutation/RegistrationOptions/param_type.ts';
+import { type Mutation__SubmitYcForm__param } from './Mutation/SubmitYcForm/param_type.ts';
 import { type Query__AppHome__param } from './Query/AppHome/param_type.ts';
 import { type Query__Blog__param } from './Query/Blog/param_type.ts';
 import { type Query__ContentFoundryApp__param } from './Query/ContentFoundryApp/param_type.ts';
@@ -83,6 +85,10 @@ export function iso<T>(
 ): IdentityWithParamComponent<BfCurrentViewerLoggedIn__LoggedInView__param>;
 
 export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field BfCurrentViewerLoggedIn.YcForm', T>
+): IdentityWithParamComponent<BfCurrentViewerLoggedIn__YcForm__param>;
+
+export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field BfCurrentViewerLoggedOut.DemoButton', T>
 ): IdentityWithParamComponent<BfCurrentViewerLoggedOut__DemoButton__param>;
 
@@ -129,6 +135,10 @@ export function iso<T>(
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Mutation.RegistrationOptions', T>
 ): IdentityWithParam<Mutation__RegistrationOptions__param>;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field Mutation.SubmitYcForm', T>
+): IdentityWithParam<Mutation__SubmitYcForm__param>;
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Query.AppHome', T>
@@ -180,6 +190,10 @@ export function iso<T>(
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'entrypoint Mutation.RegistrationOptions', T>
+): void;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'entrypoint Mutation.SubmitYcForm', T>
 ): void;
 
 export function iso<T>(

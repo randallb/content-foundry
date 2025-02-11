@@ -153,6 +153,7 @@ export interface NexusGenFieldTypes {
     qualityCheckTweet: NexusGenRootTypes['Recommendations'] | null; // Recommendations
     register: NexusGenRootTypes['BfCurrentViewerLoggedIn'] | null; // BfCurrentViewerLoggedIn
     registrationOptions: NexusGenScalars['JSONString'] | null; // JSONString
+    submitYcForm: string | null; // String
   }
   PageInfo: { // field return type
     endCursor: string | null; // String
@@ -227,6 +228,7 @@ export interface NexusGenFieldTypeNames {
     qualityCheckTweet: 'Recommendations'
     register: 'BfCurrentViewerLoggedIn'
     registrationOptions: 'JSONString'
+    submitYcForm: 'String'
   }
   PageInfo: { // field return type name
     endCursor: 'String'
@@ -290,6 +292,25 @@ export interface NexusGenArgTypes {
     }
     registrationOptions: { // args
       email: string; // String!
+    }
+    submitYcForm: { // args
+      companySummary?: string | null; // String
+      competitiors?: string | null; // String
+      equityBreakdown?: string | null; // String
+      investmentsReceived?: string | null; // String
+      locationDecision?: string | null; // String
+      moneyMaking?: string | null; // String
+      otherIdeas?: string | null; // String
+      otherIncubators?: string | null; // String
+      previousApplicationChange?: string | null; // String
+      productSummary?: string | null; // String
+      progress?: string | null; // String
+      reasonForAppling?: string | null; // String
+      reasonForProductChoice?: string | null; // String
+      revenueSource?: string | null; // String
+      techStack?: string | null; // String
+      whoToldYou?: string | null; // String
+      workLengthHistory?: string | null; // String
     }
   }
   Query: {
