@@ -40,7 +40,7 @@ type Mutation {
   checkEmail(email: String!): Boolean
   getLoginOptions(email: String!): JSONString
   login(authResp: JSONString!, email: String!): BfCurrentViewer
-  qualityCheckTweet(systemPrompt: String, taskPrompt: String, tweet: String): Recommendations
+  loginAsDemoPerson: BfCurrentViewerLoggedIn
   register(attResp: JSONString!, email: String!): BfCurrentViewerLoggedIn
   registrationOptions(email: String!): JSONString
   submitYcForm(formData: String, systemPrompt: String, taskPrompt: String): YCRecommendations

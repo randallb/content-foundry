@@ -64,6 +64,7 @@ export type Context = {
   ): Promise<Connection<GraphqlNode>>;
 
   getResponseHeaders(): Headers;
+  loginDemoUser(): Promise<BfCurrentViewer>;
 };
 
 export async function createContext(request: Request): Promise<Context> {
@@ -76,6 +77,11 @@ export async function createContext(request: Request): Promise<Context> {
     responseHeaders,
   );
   logger.debug("Current viewer created");
+
+  async function loginDemoUser() {
+    currentViewer = await BfCurrentViewer.createForDemo(import.meta, responseHeaders);
+    return currentViewer;
+  }
 
   async function login(email: string, options: AuthenticationResponseJSON) {
     logger.debug("Logging in user");
@@ -183,6 +189,7 @@ export async function createContext(request: Request): Promise<Context> {
 
     login,
     register,
+    loginDemoUser,
 
     async queryTargetsConnection(source, BfClass, args) {
       throw new BfErrorNotImplemented();

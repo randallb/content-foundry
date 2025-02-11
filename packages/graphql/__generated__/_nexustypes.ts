@@ -121,7 +121,7 @@ export interface NexusGenFieldTypes {
     checkEmail: boolean | null; // Boolean
     getLoginOptions: NexusGenScalars['JSONString'] | null; // JSONString
     login: NexusGenRootTypes['BfCurrentViewer'] | null; // BfCurrentViewer
-    qualityCheckTweet: NexusGenRootTypes['Recommendations'] | null; // Recommendations
+    loginAsDemoPerson: NexusGenRootTypes['BfCurrentViewerLoggedIn'] | null; // BfCurrentViewerLoggedIn
     register: NexusGenRootTypes['BfCurrentViewerLoggedIn'] | null; // BfCurrentViewerLoggedIn
     registrationOptions: NexusGenScalars['JSONString'] | null; // JSONString
     submitYcForm: NexusGenRootTypes['YCRecommendations'] | null; // YCRecommendations
@@ -189,7 +189,7 @@ export interface NexusGenFieldTypeNames {
     checkEmail: 'Boolean'
     getLoginOptions: 'JSONString'
     login: 'BfCurrentViewer'
-    qualityCheckTweet: 'Recommendations'
+    loginAsDemoPerson: 'BfCurrentViewerLoggedIn'
     register: 'BfCurrentViewerLoggedIn'
     registrationOptions: 'JSONString'
     submitYcForm: 'YCRecommendations'
@@ -253,11 +253,6 @@ export interface NexusGenArgTypes {
     login: { // args
       authResp: NexusGenScalars['JSONString']; // JSONString!
       email: string; // String!
-    }
-    qualityCheckTweet: { // args
-      systemPrompt?: string | null; // String
-      taskPrompt?: string | null; // String
-      tweet?: string | null; // String
     }
     register: { // args
       attResp: NexusGenScalars['JSONString']; // JSONString!

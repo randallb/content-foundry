@@ -44,12 +44,12 @@ const initialData = {
   locationDecision:
     "The company is based in NYC because it’s where we had the highest concentration of people when we started, but we intend to always be a distributed, remote team. ",
   progress:
-    "We launched a prototype on Hacker News today (2/7) and are beginning to build a developer community around the OSS. We currently work with two design partners, AstroForge (W22) and Pattern, paying us 12k and 3k / mo, respectively.",
+    "We launched a prototype on Hacker News today (2/7) and are beginning to build a developer community around the OSS. We currently work with two design partners, paying us 12k and 3k / mo, respectively.",
   workLengthHistory:
     "We wrote the first lines of code in April 2023. We’ve all been working on it full-time since November 2023.",
   techStack: "Deno + Postgres + React + Graphql + Isograph",
   revenueSource:
-    "Currently revenue comes from design partners, AstroForge and Pattern.",
+    "Currently revenue comes from our two design partners.",
   previousApplicationChange:
     "Our original hypothesis was too narrow. From working with customers and building products we learned that knowing *what* to create is a bigger problem than *how* to create it. Getting started and figuring out what kind of content to make is a core issue for businesses—especially startups—pursuing a content marketing strategy. After deciding what content to create, tooling is rarely the problem. And the market for creating better / shorter videos isn’t big enough to support the kind of company we want to build.",
   otherIncubators: "N/A",
