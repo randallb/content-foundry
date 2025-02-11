@@ -4,16 +4,18 @@ import { BlogFrame } from "packages/app/components/Blog/BlogFrame.tsx";
 export const Blog = iso(`
   field Query.Blog @component {
     __typename
-    blog {
-      BlogPostList
-    }
+    # blog {
+    #  BlogPostList
+    #}
   }
 `)(function Blog({ data }) {
-  const BlogList = data?.blog?.BlogPostList;
+  // const BlogList = data?.blog?.BlogPostList;
 
-  return (
-    <BlogFrame>
-      {BlogList ? <BlogList /> : <div>Coming soon!</div>}
-    </BlogFrame>
-  );
+  // return (
+  //   <BlogFrame>
+  //     {BlogList ? <BlogList /> : <div>Coming soon!</div>}
+  //   </BlogFrame>
+  // );
+
+  return <div> Coming soon !</div>
 });

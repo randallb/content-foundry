@@ -8,12 +8,7 @@ const queryText = 'query EntrypointBlogPost ($id: ID) {\
   bfNode____id___v_id: bfNode(id: $id) {\
     __typename,\
     id,\
-    ... on BfBlogPost {\
-      id,\
-      __typename,\
-      author,\
-      content,\
-    },\
+    __typename,\
   },\
 }';
 
@@ -42,30 +37,9 @@ const normalizationAst: NormalizationAst = {
           arguments: null,
         },
         {
-          kind: "InlineFragment",
-          type: "BfBlogPost",
-          selections: [
-            {
-              kind: "Scalar",
-              fieldName: "id",
-              arguments: null,
-            },
-            {
-              kind: "Scalar",
-              fieldName: "__typename",
-              arguments: null,
-            },
-            {
-              kind: "Scalar",
-              fieldName: "author",
-              arguments: null,
-            },
-            {
-              kind: "Scalar",
-              fieldName: "content",
-              arguments: null,
-            },
-          ],
+          kind: "Scalar",
+          fieldName: "__typename",
+          arguments: null,
         },
       ],
     },

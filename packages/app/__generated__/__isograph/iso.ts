@@ -1,6 +1,4 @@
 import type { IsographEntrypoint } from '@isograph/react';
-import { type BfBlog__BlogPostList__param } from './BfBlog/BlogPostList/param_type.ts';
-import { type BfBlogPost__BlogPostListItem__param } from './BfBlogPost/BlogPostListItem/param_type.ts';
 import { type BfCurrentViewerLoggedIn__LoggedInView__param } from './BfCurrentViewerLoggedIn/LoggedInView/param_type.ts';
 import { type BfCurrentViewerLoggedIn__YcForm__param } from './BfCurrentViewerLoggedIn/YcForm/param_type.ts';
 import { type BfCurrentViewerLoggedOut__DemoButton__param } from './BfCurrentViewerLoggedOut/DemoButton/param_type.ts';
@@ -72,14 +70,6 @@ type MatchesWhitespaceAndString<
   TString extends string,
   T
 > = Whitespace<T> extends `${TString}${string}` ? T : never;
-
-export function iso<T>(
-  param: T & MatchesWhitespaceAndString<'field BfBlog.BlogPostList', T>
-): IdentityWithParamComponent<BfBlog__BlogPostList__param>;
-
-export function iso<T>(
-  param: T & MatchesWhitespaceAndString<'field BfBlogPost.BlogPostListItem', T>
-): IdentityWithParamComponent<BfBlogPost__BlogPostListItem__param>;
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field BfCurrentViewerLoggedIn.LoggedInView', T>
