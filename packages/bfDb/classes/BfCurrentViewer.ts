@@ -162,6 +162,20 @@ export abstract class BfCurrentViewer {
       responseHeaders,
     );
   }
+
+  static async createForDemo(importMeta: ImportMeta, responseHeaders: Headers) {
+    const id = toBfGid("DEMO");
+
+    BfCurrentViewer.setLoginSuccessHeaders(
+      responseHeaders,
+      id,
+    );
+    return BfCurrentViewerLoggedIn.__PROBABLY_DONT_USE_THIS_VERY_OFTEN__create(
+      importMeta,
+      id,
+      id,
+    );
+  }
   static __DANGEROUS_USE_IN_SCRIPTS_ONLY__createOmni(importMeta: ImportMeta) {
     logger.warn(`Creating omnivc from: ${importMeta.url}`);
     return BfCurrentViewer__DANGEROUS__OMNI__

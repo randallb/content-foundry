@@ -40,7 +40,8 @@ const gatingFlags = {
 
 // Keep alphabetized please!
 const featureFlagsEnabledUnfrozen = {
-  enable_demo_button: false,
+  enable_demo_button: true,
+  enable_login_form: false,
   ...gatingFlags, // should always be last so they don't accidentally get overwritten
 };
 

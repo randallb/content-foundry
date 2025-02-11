@@ -1,26 +1,42 @@
 import type {IsographEntrypoint, NormalizationAst, RefetchQueryNormalizationArtifactWrapper} from '@isograph/react';
-import {Query__AppHome__param} from './param_type.ts';
-import {Query__AppHome__output_type} from './output_type.ts';
+import {Mutation__LoginAsDemoPerson__param} from './param_type.ts';
+import {Mutation__LoginAsDemoPerson__output_type} from './output_type.ts';
 import readerResolver from './resolver_reader.ts';
 const nestedRefetchQueries: RefetchQueryNormalizationArtifactWrapper[] = [];
 
-const queryText = 'query AppHome  {\
-  __typename,\
+const queryText = 'mutation LoginAsDemoPerson  {\
+  loginAsDemoPerson {\
+    id,\
+    __typename,\
+  },\
 }';
 
 const normalizationAst: NormalizationAst = {
   kind: "NormalizationAst",
   selections: [
     {
-      kind: "Scalar",
-      fieldName: "__typename",
+      kind: "Linked",
+      fieldName: "loginAsDemoPerson",
       arguments: null,
+      concreteType: "BfCurrentViewerLoggedIn",
+      selections: [
+        {
+          kind: "Scalar",
+          fieldName: "id",
+          arguments: null,
+        },
+        {
+          kind: "Scalar",
+          fieldName: "__typename",
+          arguments: null,
+        },
+      ],
     },
   ],
 };
 const artifact: IsographEntrypoint<
-  Query__AppHome__param,
-  Query__AppHome__output_type
+  Mutation__LoginAsDemoPerson__param,
+  Mutation__LoginAsDemoPerson__output_type
 > = {
   kind: "Entrypoint",
   networkRequestInfo: {
@@ -28,7 +44,7 @@ const artifact: IsographEntrypoint<
     queryText,
     normalizationAst,
   },
-  concreteType: "Query",
+  concreteType: "Mutation",
   readerWithRefetchQueries: {
     kind: "ReaderWithRefetchQueries",
     nestedRefetchQueries,
