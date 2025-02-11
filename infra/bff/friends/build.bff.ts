@@ -2,6 +2,7 @@ import { runShellCommand } from "infra/bff/shellBase.ts";
 import { register } from "infra/bff/bff.ts";
 
 const allowedEnvironmentVariables = [
+  "ASSEMBLY_AI_KEY",
   "BF_ENV",
   "CI",
   "COLORTERM",
@@ -24,6 +25,7 @@ const allowedEnvironmentVariables = [
   "TERM",
   "TF_BUILD",
   "USER",
+  "WS_NO_BUFFER_UTIL",
 ];
 
 const DATABASE_STRING = Deno.env.get("DATABASE_URL") ?? "";
@@ -34,6 +36,7 @@ neonApiParts[0] = "api";
 const neonApiDomain = neonApiParts.join(".");
 
 const allowedNetworkDestionations = [
+  "api.assemblyai.com:443",
   "0.0.0.0:8000",
   "openrouter.ai",
   dbDomain,
