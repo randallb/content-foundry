@@ -45,6 +45,7 @@ export type ButtonType = {
     marginInlineEnd?: number;
     marginInlineStart?: number;
     width?: string | number;
+    alignSelf?: "flex-start" | "flex-end";
   };
   disabled?: boolean;
   iconLeft?: BfDsIconType;

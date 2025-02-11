@@ -1,5 +1,6 @@
 #root {
   height: 100%;
+  overflow-y: auto;
 }
 
 body {
@@ -80,6 +81,9 @@ a.dark:visited {
 }
 
 /* Flexbox */
+.flex1 {
+  flex: 1;
+}
 .flexColumn {
   display: flex;
   flex-direction: column;
@@ -102,6 +106,11 @@ a.dark:visited {
 .gapLarge {
   gap: 16px;
 }
+.spaceBetween {
+  justify-content: space-between;
+}
+
+
 
 /* Responsive styles */
 .mobile-show {
