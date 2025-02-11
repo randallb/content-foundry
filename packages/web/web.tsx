@@ -262,13 +262,13 @@ if (import.meta.main) {
       const [matchedHandler, routeParams] = matchRoute(incomingUrl.pathname);
       const res = await matchedHandler(req, routeParams);
 
-      if (Deno.env.get("BF_ENV") !== DeploymentEnvs.DEVELOPMENT) {
-        res.headers.set("X-Frame-Options", "DENY");
-        res.headers.set(
-          "Content-Security-Policy",
-          "frame-ancestors 'self' replit.dev",
-        );
-      }
+      // if (Deno.env.get("BF_ENV") !== DeploymentEnvs.DEVELOPMENT) {
+      //   res.headers.set("X-Frame-Options", "DENY");
+      //   res.headers.set(
+      //     "Content-Security-Policy",
+      //     "frame-ancestors 'self' replit.dev",
+      //   );
+      // }
       const perf = performance.now() - timer;
       const perfInMs = Math.round(perf);
       logger.info(
