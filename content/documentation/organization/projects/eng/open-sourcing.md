@@ -1,3 +1,0 @@
-- [ ] publish on github
-- [ ] Set up sapling
-- [x] Talk to Dan Sisco about our project plan
