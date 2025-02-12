@@ -201,24 +201,6 @@ for (const [path, entrypoint] of isographAppRoutes.entries()) {
   });
 }
 
-routes.set("/python", async function pythonHandler(req) {
-  try {
-    const pythonPort = Deno.env.get("PYTHON_PORT") ?? "3333";
-    const pythonResponse = await fetch(`http://127.0.0.1:${pythonPort}/`);
-    if (!pythonResponse.ok) {
-      logger.error("Python server response not ok:", pythonResponse.status);
-      return new Response("Python server error", { status: 500 });
-    }
-    const data = await pythonResponse.json();
-    return new Response(JSON.stringify(data), {
-      headers: { "Content-Type": "application/json" }
-    });
-  } catch (err) {
-    logger.error("Error proxying to Python server:", err);
-    return new Response("Python server error", { status: 500 });
-  }
-});
-
 routes.set("/static/:filename+", function staticHandler(req) {
   return serveDir(req, {
     headers: [
@@ -301,9 +283,35 @@ function matchRoute(pathWithParams: string): [Handler, Record<string, string>] {
 
 logger.info("Ready to serve");
 
+const pythonPrefix = '/python';
+async function pythonHandler(req: Request) {
+  const pythonPort = Deno.env.get("PYTHON_PORT") ?? "3333";
+  const incomingUrl = new URL(req.url);
+  const path = incomingUrl.pathname.replace(pythonPrefix, '');
+  const pythonUrl = new URL(`http://0.0.0.0:${pythonPort}${path}${incomingUrl.search}`);
+  
+  const pythonReq = new Request(pythonUrl.toString(), {
+    method: req.method,
+    headers: req.headers,
+    body: req.body
+  });
+  
+  const pythonResponse = await fetch(pythonReq);
+  if (!pythonResponse.ok) {
+    logger.error("Python server response not ok:", pythonResponse.status);
+    return new Response("Python server error", { status: 500 });
+  }
+  return pythonResponse;
+}
+
 if (import.meta.main) {
   Deno.serve(async (req) => {
     const incomingUrl = new URL(req.url);
+    if (incomingUrl.pathname.startsWith(pythonPrefix)) {
+      
+      
+      return pythonHandler(req);
+    }
     const timer = performance.now();
 
     try {
