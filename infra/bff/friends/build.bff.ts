@@ -19,6 +19,7 @@ const allowedEnvironmentVariables = [
   "OPENAI_PROJECT_ID",
   "OPEN_ROUTER_API_KEY",
   "POSTHOG_API_KEY",
+  "PYTHON_PORT",
   "REPL_HOME",
   "REPLIT_DEV_DOMAIN",
   "RPID",
@@ -38,7 +39,8 @@ const neonApiDomain = neonApiParts.join(".");
 
 const allowedNetworkDestionations = [
   "api.assemblyai.com:443",
-  "0.0.0.0:8000",
+  "0.0.0.0",
+  "127.0.0.1",
   "openrouter.ai",
   dbDomain,
   neonApiDomain,
