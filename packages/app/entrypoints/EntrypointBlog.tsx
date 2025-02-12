@@ -4,9 +4,16 @@ import { useRouter } from "packages/app/contexts/RouterContext.tsx";
 
 export const EntrypointBlog = iso(`
   field Query.EntrypointBlog {
-    Blog
+    me {
+      blog {
+        name
+      }
+      Blog
+    }
   }
 `)(function EntrypointBlog({ data }): RouteEntrypoint {
-  const title = "Content Foundry Blog";
-  return { Body: data.Blog, title };
+  const title = "Content Foundry";
+  const DefaultBody = () => "coming soon";
+
+  return { Body: data?.me?.Blog ?? DefaultBody, title: data?.me?.blog?.name ?? title };
 });
