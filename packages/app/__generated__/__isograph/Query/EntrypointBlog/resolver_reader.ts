@@ -2,15 +2,39 @@ import type { EagerReaderArtifact, ReaderAst } from '@isograph/react';
 import { Query__EntrypointBlog__param } from './param_type.ts';
 import { Query__EntrypointBlog__output_type } from './output_type.ts';
 import { EntrypointBlog as resolver } from '../../../../entrypoints/EntrypointBlog.tsx';
-import Query__Blog__resolver_reader from '../../Query/Blog/resolver_reader.ts';
+import BfCurrentViewer__Blog__resolver_reader from '../../BfCurrentViewer/Blog/resolver_reader.ts';
 
 const readerAst: ReaderAst<Query__EntrypointBlog__param> = [
   {
-    kind: "Resolver",
-    alias: "Blog",
+    kind: "Linked",
+    fieldName: "me",
+    alias: null,
     arguments: null,
-    readerArtifact: Query__Blog__resolver_reader,
-    usedRefetchQueries: [],
+    condition: null,
+    selections: [
+      {
+        kind: "Linked",
+        fieldName: "blog",
+        alias: null,
+        arguments: null,
+        condition: null,
+        selections: [
+          {
+            kind: "Scalar",
+            fieldName: "name",
+            alias: null,
+            arguments: null,
+          },
+        ],
+      },
+      {
+        kind: "Resolver",
+        alias: "Blog",
+        arguments: null,
+        readerArtifact: BfCurrentViewer__Blog__resolver_reader,
+        usedRefetchQueries: [],
+      },
+    ],
   },
 ];
 

@@ -1,1 +1,0 @@
-- [ ] Build out scratch ui based on [brand book project](/content/projects/app/brand-book.md)
