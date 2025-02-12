@@ -201,6 +201,24 @@ for (const [path, entrypoint] of isographAppRoutes.entries()) {
   });
 }
 
+routes.set("/python", async function pythonHandler(req) {
+  try {
+    const pythonPort = Deno.env.get("PYTHON_PORT") ?? "3333";
+    const pythonResponse = await fetch(`http://127.0.0.1:${pythonPort}/`);
+    if (!pythonResponse.ok) {
+      logger.error("Python server response not ok:", pythonResponse.status);
+      return new Response("Python server error", { status: 500 });
+    }
+    const data = await pythonResponse.json();
+    return new Response(JSON.stringify(data), {
+      headers: { "Content-Type": "application/json" }
+    });
+  } catch (err) {
+    logger.error("Error proxying to Python server:", err);
+    return new Response("Python server error", { status: 500 });
+  }
+});
+
 routes.set("/static/:filename+", function staticHandler(req) {
   return serveDir(req, {
     headers: [
