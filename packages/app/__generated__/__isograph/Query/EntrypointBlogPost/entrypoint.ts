@@ -9,6 +9,15 @@ const queryText = 'query EntrypointBlogPost ($id: ID) {\
     __typename,\
     id,\
     __typename,\
+    ... on BfBlogPost {\
+      id,\
+      __typename,\
+      author,\
+      content,\
+      cta,\
+      summary,\
+      title,\
+    },\
   },\
 }';
 
@@ -40,6 +49,47 @@ const normalizationAst: NormalizationAst = {
           kind: "Scalar",
           fieldName: "__typename",
           arguments: null,
+        },
+        {
+          kind: "InlineFragment",
+          type: "BfBlogPost",
+          selections: [
+            {
+              kind: "Scalar",
+              fieldName: "id",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "__typename",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "author",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "content",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "cta",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "summary",
+              arguments: null,
+            },
+            {
+              kind: "Scalar",
+              fieldName: "title",
+              arguments: null,
+            },
+          ],
         },
       ],
     },

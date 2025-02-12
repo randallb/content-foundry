@@ -240,6 +240,9 @@ export abstract class BfCurrentViewer {
   toString() {
     return this.id;
   }
+  get isLoggedIn(): boolean {
+    return false;
+  }
 }
 
 export class BfCurrentViewerLoggedOut extends BfCurrentViewer {
@@ -251,6 +254,9 @@ export class BfCurrentViewerLoggedOut extends BfCurrentViewer {
 
   static __PROBABLY_DONT_USE_THIS_VERY_OFTEN__create(creator: ImportMeta) {
     return new this(creator);
+  }
+  override get isLoggedIn(): boolean {
+    return false;
   }
 }
 
@@ -329,6 +335,9 @@ class BfCurrentViewerLoggedIn extends BfCurrentViewer {
     BfCurrentViewer.setLoginSuccessHeaders(responseHeaders, bfGid);
     return nextCv;
   }
+  override get isLoggedIn(): boolean {
+    return true;
+  }
 }
 
 export class BfCurrentViewerForRegistration extends BfCurrentViewerLoggedIn {
@@ -339,10 +348,16 @@ export class BfCurrentViewerForRegistration extends BfCurrentViewerLoggedIn {
     const bfGid = toBfGid(emailString);
     return new this(creator, bfGid, bfGid);
   }
+  override get isLoggedIn(): boolean {
+    return false;
+  }
 }
 
 class BfCurrentViewer__DANGEROUS__OMNI__ extends BfCurrentViewer {
   static __PROBABLY_DONT_USE_THIS_VERY_OFTEN__create(creator: ImportMeta) {
     return new this(creator, toBfGid("OMNI"), toBfGid("OMNI"));
+  }
+  override get isLoggedIn(): boolean {
+    return true;
   }
 }

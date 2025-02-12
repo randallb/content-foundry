@@ -15,6 +15,9 @@ import {
 } from "packages/graphql/types/graphqlJSONScalar.ts";
 import type { RegistrationResponseJSON } from "@simplewebauthn/server";
 import { BfCurrentViewer } from "packages/bfDb/classes/BfCurrentViewer.ts";
+import { graphqlBfBlogType } from "packages/graphql/types/graphqlBfBlog.ts";
+import { BfBlog } from "packages/bfDb/models/BfBlog.ts";
+import type { BfGid } from "packages/bfDb/classes/BfNodeIds.ts";
 
 const logger = getLogger(import.meta);
 
@@ -22,6 +25,13 @@ export const graphqlBfCurrentViewerType = interfaceType({
   name: "BfCurrentViewer",
   definition(t) {
     t.implements(graphqlNode);
+    t.field("blog", {
+      type: graphqlBfBlogType,
+      resolve: async (_parent, _args, ctx) => {
+        const blog = await ctx.findX(BfBlog, "the-blog" as BfGid);
+        return blog.toGraphql();
+      },
+    });
   },
 });
 
@@ -83,7 +93,7 @@ export const graphqlBfCurrentViewerLoginDemoUser = mutationField(
   "loginAsDemoPerson",
   {
     type: graphqlBfCurrentViewerLoggedInType,
-    
+
     async resolve(parent, _, ctx) {
       const cv = await ctx.loginDemoUser();
       return cv.toGraphql();
