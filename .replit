@@ -58,11 +58,12 @@ localPort = 8888
 externalPort = 3000
 
 [workflows]
-runButton = "Project"
+runButton = "Run app"
 
 [[workflows.workflow]]
-name = "Project"
+name = "Run app"
 author = 33272860
+mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
