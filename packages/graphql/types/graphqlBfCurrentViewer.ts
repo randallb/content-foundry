@@ -18,6 +18,8 @@ import { BfCurrentViewer } from "packages/bfDb/classes/BfCurrentViewer.ts";
 import { graphqlBfBlogType } from "packages/graphql/types/graphqlBfBlog.ts";
 import { BfBlog } from "packages/bfDb/models/BfBlog.ts";
 import type { BfGid } from "packages/bfDb/classes/BfNodeIds.ts";
+import { graphqlBfDocsType } from "packages/graphql/types/graphqlBfDocs.ts";
+import { BfDocs } from "packages/bfDb/models/BfDocs.ts";
 
 const logger = getLogger(import.meta);
 
@@ -30,6 +32,13 @@ export const graphqlBfCurrentViewerType = interfaceType({
       resolve: async (_parent, _args, ctx) => {
         const blog = await ctx.findX(BfBlog, "the-blog" as BfGid);
         return blog.toGraphql();
+      },
+    });
+    t.field("docs", {
+      type: graphqlBfDocsType,
+      resolve: async (_parent, _args, ctx) => {
+        const docs = await ctx.findX(BfDocs, "the-docs" as BfGid);
+        return docs.toGraphql();
       },
     });
   },
