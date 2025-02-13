@@ -1,7 +1,8 @@
-import { objectType, queryField } from "nexus";
+import { objectType, queryField, idArg } from "nexus";
 import { BfBlogPost } from "packages/bfDb/models/BfBlogPost.ts";
 import { connectionFromArray } from "graphql-relay";
 import { graphqlBfNode } from "packages/graphql/types/graphqlBfNode.ts";
+import { toBfGid } from "packages/bfDb/classes/BfNodeIds.ts";
 
 /**
  * Resuming: Load the blog and get its posts and show them in graphiql
@@ -16,6 +17,9 @@ export const graphqlBfBlogPostType = objectType({
     t.string("cta");
     t.string("summary");
     t.string("slug");
+    t.string("href", {
+      resolve: (parent) => `/blog/${parent.slug || parent.id || ''}`,
+    });
   },
 });
 
@@ -24,6 +28,17 @@ export const graphqlBfBlogType = objectType({
   definition(t) {
     t.implements(graphqlBfNode);
     t.string("name");
+    t.field("post", {
+      type: graphqlBfBlogPostType,
+      args: {
+        id: idArg(),
+      },
+      resolve: async (_parent, { id }, ctx) => {
+        if (!id) return null;
+        const post = await ctx.findX(BfBlogPost, toBfGid(id));
+        return post.toGraphql();
+      },
+    });
     // @ts-ignore problem with compiling on deno pre 2.1.7
     t.connectionField("posts", {
       type: graphqlBfBlogPostType,

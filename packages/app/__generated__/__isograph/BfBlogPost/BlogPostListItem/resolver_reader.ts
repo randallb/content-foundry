@@ -33,6 +33,12 @@ const readerAst: ReaderAst<BfBlogPost__BlogPostListItem__param> = [
     alias: null,
     arguments: null,
   },
+  {
+    kind: "Scalar",
+    fieldName: "href",
+    alias: null,
+    arguments: null,
+  },
 ];
 
 const artifact: ComponentReaderArtifact<

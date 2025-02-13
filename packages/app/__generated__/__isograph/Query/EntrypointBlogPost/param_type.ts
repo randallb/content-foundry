@@ -3,16 +3,12 @@ import type { Query__EntrypointBlogPost__parameters } from './parameters_type.ts
 
 export type Query__EntrypointBlogPost__param = {
   readonly data: {
-    readonly bfNode: ({
-      readonly __typename: string,
-      /**
-A client pointer for the BfBlogPost type.
-      */
-      readonly asBfBlogPost: ({
-        readonly BlogPostListItem: BfBlogPost__BlogPostListItem__output_type,
-        readonly author: (string | null),
-        readonly title: (string | null),
-        readonly content: (string | null),
+    readonly me: ({
+      readonly blog: ({
+        readonly post: ({
+          readonly __typename: string,
+          readonly BlogPostListItem: BfBlogPost__BlogPostListItem__output_type,
+        } | null),
       } | null),
     } | null),
   },
