@@ -2,6 +2,7 @@ import type { IsographEntrypoint } from '@isograph/react';
 import { type BfBlog__BlogPostList__param } from './BfBlog/BlogPostList/param_type.ts';
 import { type BfBlogPost__BlogPostListItem__param } from './BfBlogPost/BlogPostListItem/param_type.ts';
 import { type BfCurrentViewer__Blog__param } from './BfCurrentViewer/Blog/param_type.ts';
+import { type BfCurrentViewer__Docs__param } from './BfCurrentViewer/Docs/param_type.ts';
 import { type BfCurrentViewerLoggedIn__LoggedInView__param } from './BfCurrentViewerLoggedIn/LoggedInView/param_type.ts';
 import { type BfCurrentViewerLoggedIn__YcForm__param } from './BfCurrentViewerLoggedIn/YcForm/param_type.ts';
 import { type BfCurrentViewerLoggedOut__DemoButton__param } from './BfCurrentViewerLoggedOut/DemoButton/param_type.ts';
@@ -10,6 +11,9 @@ import { type BfCurrentViewerLoggedOut__LoginAndRegisterForm__param } from './Bf
 import { type BfCurrentViewerLoggedOut__LoginButton__param } from './BfCurrentViewerLoggedOut/LoginButton/param_type.ts';
 import { type BfCurrentViewerLoggedOut__RegisterButton__param } from './BfCurrentViewerLoggedOut/RegisterButton/param_type.ts';
 import { type BfCurrentViewerLoggedOut__WelcomeVideo__param } from './BfCurrentViewerLoggedOut/WelcomeVideo/param_type.ts';
+import { type BfDocs__DocsList__param } from './BfDocs/DocsList/param_type.ts';
+import { type BfDocs__DocsPostList__param } from './BfDocs/DocsPostList/param_type.ts';
+import { type BfDocsPost__DocsPostListItem__param } from './BfDocsPost/DocsPostListItem/param_type.ts';
 import { type Mutation__CheckEmail__param } from './Mutation/CheckEmail/param_type.ts';
 import { type Mutation__GetLoginOptions__param } from './Mutation/GetLoginOptions/param_type.ts';
 import { type Mutation__LoginAsDemoPerson__param } from './Mutation/LoginAsDemoPerson/param_type.ts';
@@ -22,6 +26,7 @@ import { type Query__ContentOS__param } from './Query/ContentOS/param_type.ts';
 import { type Query__EntrypointBlogPost__param } from './Query/EntrypointBlogPost/param_type.ts';
 import { type Query__EntrypointBlog__param } from './Query/EntrypointBlog/param_type.ts';
 import { type Query__EntrypointContentFoundryApp__param } from './Query/EntrypointContentFoundryApp/param_type.ts';
+import { type Query__EntrypointDocs__param } from './Query/EntrypointDocs/param_type.ts';
 
 // This is the type given to regular client fields.
 // This means that the type of the exported iso literal is exactly
@@ -84,6 +89,10 @@ export function iso<T>(
 ): IdentityWithParamComponent<BfCurrentViewer__Blog__param>;
 
 export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field BfCurrentViewer.Docs', T>
+): IdentityWithParamComponent<BfCurrentViewer__Docs__param>;
+
+export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field BfCurrentViewerLoggedIn.LoggedInView', T>
 ): IdentityWithParamComponent<BfCurrentViewerLoggedIn__LoggedInView__param>;
 
@@ -114,6 +123,18 @@ export function iso<T>(
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field BfCurrentViewerLoggedOut.WelcomeVideo', T>
 ): IdentityWithParamComponent<BfCurrentViewerLoggedOut__WelcomeVideo__param>;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field BfDocs.DocsList', T>
+): IdentityWithParamComponent<BfDocs__DocsList__param>;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field BfDocs.DocsPostList', T>
+): IdentityWithParam<BfDocs__DocsPostList__param>;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field BfDocsPost.DocsPostListItem', T>
+): IdentityWithParamComponent<BfDocsPost__DocsPostListItem__param>;
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Mutation.CheckEmail', T>
@@ -162,6 +183,10 @@ export function iso<T>(
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Query.EntrypointContentFoundryApp', T>
 ): IdentityWithParam<Query__EntrypointContentFoundryApp__param>;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field Query.EntrypointDocs', T>
+): IdentityWithParam<Query__EntrypointDocs__param>;
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'entrypoint Mutation.CheckEmail', T>
