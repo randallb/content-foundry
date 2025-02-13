@@ -5,10 +5,11 @@ import { RouterLink } from "packages/app/components/Router/RouterLink.tsx";
 export const DocsPostListItem = iso(`
   field BfDocsPost.DocsPostListItem @component {
     title
-    slug
+    id
     summary
     author
     status
+    href
   }
 `)(function DocsPostListItem({ data }) {
   if (!data) return null;
@@ -16,7 +17,7 @@ export const DocsPostListItem = iso(`
   return (
     <article className="docs-post-item">
       <h3 className="docs-post-title">
-        <RouterLink to={`/docs/${data.slug}`}>
+        <RouterLink to={data.href ?? "/docs/" + data.id}>
           {data.title || "Untitled Documentation"}
         </RouterLink>
       </h3>

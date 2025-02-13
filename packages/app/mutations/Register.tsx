@@ -17,7 +17,6 @@ export const RegisterMutation = iso(`
     // navigate(data.register.nextPage)
 
     logger.debug("Logged in!");
-    logger.resetLevel();
   }
   return null;
 });
