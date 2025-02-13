@@ -198,11 +198,13 @@ export interface NexusGenFieldTypes {
   BfDocs: { // field return type
     id: string; // ID!
     name: string | null; // String
+    post: NexusGenRootTypes['BfDocsPost'] | null; // BfDocsPost
     posts: NexusGenRootTypes['BfDocsPostConnection'] | null; // BfDocsPostConnection
   }
   BfDocsPost: { // field return type
     author: string | null; // String
     content: string | null; // String
+    href: string | null; // String
     id: string; // ID!
     slug: string | null; // String
     status: string | null; // String
@@ -328,11 +330,13 @@ export interface NexusGenFieldTypeNames {
   BfDocs: { // field return type name
     id: 'ID'
     name: 'String'
+    post: 'BfDocsPost'
     posts: 'BfDocsPostConnection'
   }
   BfDocsPost: { // field return type name
     author: 'String'
     content: 'String'
+    href: 'String'
     id: 'ID'
     slug: 'String'
     status: 'String'
@@ -431,6 +435,9 @@ export interface NexusGenArgTypes {
     }
   }
   BfDocs: {
+    post: { // args
+      slug?: string | null; // ID
+    }
     posts: { // args
       after?: string | null; // String
       before?: string | null; // String

@@ -89,6 +89,7 @@ type BfDocs implements BfNode & Node {
   """Unique identifier for the resource"""
   id: ID!
   name: String
+  post(slug: ID): BfDocsPost
   posts(
     """Returns the elements in the list that come after the specified cursor"""
     after: String
@@ -107,6 +108,7 @@ type BfDocs implements BfNode & Node {
 type BfDocsPost implements BfNode & Node {
   author: String
   content: String
+  href: String
 
   """Unique identifier for the resource"""
   id: ID!
