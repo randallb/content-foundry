@@ -26,6 +26,7 @@ import { type Query__ContentOS__param } from './Query/ContentOS/param_type.ts';
 import { type Query__EntrypointBlogPost__param } from './Query/EntrypointBlogPost/param_type.ts';
 import { type Query__EntrypointBlog__param } from './Query/EntrypointBlog/param_type.ts';
 import { type Query__EntrypointContentFoundryApp__param } from './Query/EntrypointContentFoundryApp/param_type.ts';
+import { type Query__EntrypointDocsPost__param } from './Query/EntrypointDocsPost/param_type.ts';
 import { type Query__EntrypointDocs__param } from './Query/EntrypointDocs/param_type.ts';
 
 // This is the type given to regular client fields.
@@ -185,6 +186,10 @@ export function iso<T>(
 ): IdentityWithParam<Query__EntrypointContentFoundryApp__param>;
 
 export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'field Query.EntrypointDocsPost', T>
+): IdentityWithParam<Query__EntrypointDocsPost__param>;
+
+export function iso<T>(
   param: T & MatchesWhitespaceAndString<'field Query.EntrypointDocs', T>
 ): IdentityWithParam<Query__EntrypointDocs__param>;
 
@@ -226,6 +231,10 @@ export function iso<T>(
 
 export function iso<T>(
   param: T & MatchesWhitespaceAndString<'entrypoint Query.EntrypointContentFoundryApp', T>
+): void;
+
+export function iso<T>(
+  param: T & MatchesWhitespaceAndString<'entrypoint Query.EntrypointDocsPost', T>
 ): void;
 
 export function iso<T>(

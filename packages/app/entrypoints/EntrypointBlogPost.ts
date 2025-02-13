@@ -17,7 +17,7 @@ export const EntrypointBlogPost = iso(`
   }
 `)(function EntrypointBlogPost({ data }): RouteEntrypoint {
   logger.setLevel(logger.levels.DEBUG)
-  const Body = data?.me?.blog?.post?.BlogPostListItem ?? (() => "404");
+  const Body = data?.me?.blog?.post?.BlogPostListItem ?? (() => "nope");
   logger.debug("data", data);
   const title = "Blog Post";
   return { Body, title };

@@ -111,20 +111,6 @@ export class BfBlogPost extends BfNodeBase<BfBlogPostProps> {
     throw new BfErrorNodeNotFound();
   }
 
-  static async findRaw(
-    _cv: BfCurrentViewer,
-    id: BfGid,
-    _caches: Array<BfNodeCache> = [],
-  ) {
-    const postsCache = await this.getPostsCache();
-    const item = postsCache.get(id);
-    if (item) {
-      return item;
-    }
-    logger.info(`Raw post not found: ${id}`);
-    throw new BfErrorNodeNotFound();
-  }
-
   static override async query<
     TProps extends BfNodeBaseProps,
     T extends BfNodeBase<TProps>,
