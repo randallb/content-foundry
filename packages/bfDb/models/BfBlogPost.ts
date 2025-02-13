@@ -76,10 +76,14 @@ export class BfBlogPost extends BfNodeBase<BfBlogPostProps> {
           content,
           status: metadata.status ?? BlogPostStatus.Published,
         };
+        const creationMetadata = {
+          bfGid: id,
+        }
         logger.debug(`Creating blog post with title: ${metadata.title || 'untitled'}`);
         const post = await this.__DANGEROUS__createUnattached(
           loggedOutCV,
           props,
+          creationMetadata,
         );
         this._postsCache.set(id, post);
         logger.debug(`Added post to cache with ID: ${id}`);

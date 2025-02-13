@@ -18,6 +18,7 @@ const queryText = 'query EntrypointBlog  {\
           __typename,\
           author,\
           cta,\
+          href,\
           summary,\
           title,\
         },\
@@ -96,6 +97,11 @@ const normalizationAst: NormalizationAst = {
                     {
                       kind: "Scalar",
                       fieldName: "cta",
+                      arguments: null,
+                    },
+                    {
+                      kind: "Scalar",
+                      fieldName: "href",
                       arguments: null,
                     },
                     {
