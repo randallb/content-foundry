@@ -1,10 +1,10 @@
 import type { EagerReaderArtifact, ReaderAst } from '@isograph/react';
-import { Query__EntrypointBlogPost__param } from './param_type.ts';
-import { Query__EntrypointBlogPost__output_type } from './output_type.ts';
-import { EntrypointBlogPost as resolver } from '../../../../entrypoints/EntrypointBlogPost.ts';
-import BfBlogPost__BlogPostListItem__resolver_reader from '../../BfBlogPost/BlogPostListItem/resolver_reader.ts';
+import { Query__EntrypointDocsPost__param } from './param_type.ts';
+import { Query__EntrypointDocsPost__output_type } from './output_type.ts';
+import { EntrypointDocsPost as resolver } from '../../../../entrypoints/EntrypointDocsPost.ts';
+import BfDocsPost__DocsPostListItem__resolver_reader from '../../BfDocsPost/DocsPostListItem/resolver_reader.ts';
 
-const readerAst: ReaderAst<Query__EntrypointBlogPost__param> = [
+const readerAst: ReaderAst<Query__EntrypointDocsPost__param> = [
   {
     kind: "Linked",
     fieldName: "me",
@@ -14,7 +14,7 @@ const readerAst: ReaderAst<Query__EntrypointBlogPost__param> = [
     selections: [
       {
         kind: "Linked",
-        fieldName: "blog",
+        fieldName: "docs",
         alias: null,
         arguments: null,
         condition: null,
@@ -25,8 +25,8 @@ const readerAst: ReaderAst<Query__EntrypointBlogPost__param> = [
             alias: null,
             arguments: [
               [
-                "id",
-                { kind: "Variable", name: "slug" },
+                "slug",
+                { kind: "Variable", name: "docsSlug" },
               ],
             ],
             condition: null,
@@ -39,10 +39,16 @@ const readerAst: ReaderAst<Query__EntrypointBlogPost__param> = [
               },
               {
                 kind: "Resolver",
-                alias: "BlogPostListItem",
+                alias: "DocsPostListItem",
                 arguments: null,
-                readerArtifact: BfBlogPost__BlogPostListItem__resolver_reader,
+                readerArtifact: BfDocsPost__DocsPostListItem__resolver_reader,
                 usedRefetchQueries: [],
+              },
+              {
+                kind: "Scalar",
+                fieldName: "title",
+                alias: null,
+                arguments: null,
               },
             ],
           },
@@ -53,8 +59,8 @@ const readerAst: ReaderAst<Query__EntrypointBlogPost__param> = [
 ];
 
 const artifact: EagerReaderArtifact<
-  Query__EntrypointBlogPost__param,
-  Query__EntrypointBlogPost__output_type
+  Query__EntrypointDocsPost__param,
+  Query__EntrypointDocsPost__output_type
 > = {
   kind: "EagerReaderArtifact",
   resolver,

@@ -1,21 +1,21 @@
 import type {IsographEntrypoint, NormalizationAst, RefetchQueryNormalizationArtifactWrapper} from '@isograph/react';
-import {Query__EntrypointBlogPost__param} from './param_type.ts';
-import {Query__EntrypointBlogPost__output_type} from './output_type.ts';
+import {Query__EntrypointDocsPost__param} from './param_type.ts';
+import {Query__EntrypointDocsPost__output_type} from './output_type.ts';
 import readerResolver from './resolver_reader.ts';
 const nestedRefetchQueries: RefetchQueryNormalizationArtifactWrapper[] = [];
 
-const queryText = 'query EntrypointBlogPost ($slug: ID) {\
+const queryText = 'query EntrypointDocsPost ($docsSlug: ID) {\
   me {\
     __typename,\
     id,\
-    blog {\
+    docs {\
       id,\
-      post____id___v_slug: post(id: $slug) {\
+      post____slug___v_docsSlug: post(slug: $docsSlug) {\
         id,\
         __typename,\
         author,\
-        cta,\
         href,\
+        status,\
         summary,\
         title,\
       },\
@@ -44,9 +44,9 @@ const normalizationAst: NormalizationAst = {
         },
         {
           kind: "Linked",
-          fieldName: "blog",
+          fieldName: "docs",
           arguments: null,
-          concreteType: "BfBlog",
+          concreteType: "BfDocs",
           selections: [
             {
               kind: "Scalar",
@@ -58,11 +58,11 @@ const normalizationAst: NormalizationAst = {
               fieldName: "post",
               arguments: [
                 [
-                  "id",
-                  { kind: "Variable", name: "slug" },
+                  "slug",
+                  { kind: "Variable", name: "docsSlug" },
                 ],
               ],
-              concreteType: "BfBlogPost",
+              concreteType: "BfDocsPost",
               selections: [
                 {
                   kind: "Scalar",
@@ -81,12 +81,12 @@ const normalizationAst: NormalizationAst = {
                 },
                 {
                   kind: "Scalar",
-                  fieldName: "cta",
+                  fieldName: "href",
                   arguments: null,
                 },
                 {
                   kind: "Scalar",
-                  fieldName: "href",
+                  fieldName: "status",
                   arguments: null,
                 },
                 {
@@ -108,8 +108,8 @@ const normalizationAst: NormalizationAst = {
   ],
 };
 const artifact: IsographEntrypoint<
-  Query__EntrypointBlogPost__param,
-  Query__EntrypointBlogPost__output_type
+  Query__EntrypointDocsPost__param,
+  Query__EntrypointDocsPost__output_type
 > = {
   kind: "Entrypoint",
   networkRequestInfo: {

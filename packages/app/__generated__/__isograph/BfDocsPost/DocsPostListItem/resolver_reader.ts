@@ -1,17 +1,23 @@
 import type {ComponentReaderArtifact, ExtractSecondParam, ReaderAst } from '@isograph/react';
-import { BfBlogPost__BlogPostListItem__param } from './param_type.ts';
-import { BlogPostListItem as resolver } from '../../../../components/BfBlogPost/BlogPostListItem.tsx';
+import { BfDocsPost__DocsPostListItem__param } from './param_type.ts';
+import { DocsPostListItem as resolver } from '../../../../components/BfDocsPost/DocsPostListItem.tsx';
 
-const readerAst: ReaderAst<BfBlogPost__BlogPostListItem__param> = [
+const readerAst: ReaderAst<BfDocsPost__DocsPostListItem__param> = [
   {
     kind: "Scalar",
-    fieldName: "__typename",
+    fieldName: "title",
     alias: null,
     arguments: null,
   },
   {
     kind: "Scalar",
-    fieldName: "title",
+    fieldName: "id",
+    alias: null,
+    arguments: null,
+  },
+  {
+    kind: "Scalar",
+    fieldName: "summary",
     alias: null,
     arguments: null,
   },
@@ -23,13 +29,7 @@ const readerAst: ReaderAst<BfBlogPost__BlogPostListItem__param> = [
   },
   {
     kind: "Scalar",
-    fieldName: "cta",
-    alias: null,
-    arguments: null,
-  },
-  {
-    kind: "Scalar",
-    fieldName: "summary",
+    fieldName: "status",
     alias: null,
     arguments: null,
   },
@@ -42,11 +42,11 @@ const readerAst: ReaderAst<BfBlogPost__BlogPostListItem__param> = [
 ];
 
 const artifact: ComponentReaderArtifact<
-  BfBlogPost__BlogPostListItem__param,
+  BfDocsPost__DocsPostListItem__param,
   ExtractSecondParam<typeof resolver>
 > = {
   kind: "ComponentReaderArtifact",
-  componentName: "BfBlogPost.BlogPostListItem",
+  componentName: "BfDocsPost.DocsPostListItem",
   resolver,
   readerAst,
   hasUpdatable: false,

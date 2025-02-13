@@ -1,24 +1,21 @@
 import type {IsographEntrypoint, NormalizationAst, RefetchQueryNormalizationArtifactWrapper} from '@isograph/react';
-import {Query__EntrypointBlog__param} from './param_type.ts';
-import {Query__EntrypointBlog__output_type} from './output_type.ts';
+import {Query__EntrypointDocs__param} from './param_type.ts';
+import {Query__EntrypointDocs__output_type} from './output_type.ts';
 import readerResolver from './resolver_reader.ts';
 const nestedRefetchQueries: RefetchQueryNormalizationArtifactWrapper[] = [];
 
-const queryText = 'query EntrypointBlog  {\
+const queryText = 'query EntrypointDocs  {\
   me {\
     __typename,\
     id,\
-    blog {\
+    docs {\
       id,\
-      __typename,\
-      name,\
       posts {\
         nodes {\
           id,\
-          __typename,\
           author,\
-          cta,\
           href,\
+          status,\
           summary,\
           title,\
         },\
@@ -48,9 +45,9 @@ const normalizationAst: NormalizationAst = {
         },
         {
           kind: "Linked",
-          fieldName: "blog",
+          fieldName: "docs",
           arguments: null,
-          concreteType: "BfBlog",
+          concreteType: "BfDocs",
           selections: [
             {
               kind: "Scalar",
@@ -58,35 +55,20 @@ const normalizationAst: NormalizationAst = {
               arguments: null,
             },
             {
-              kind: "Scalar",
-              fieldName: "__typename",
-              arguments: null,
-            },
-            {
-              kind: "Scalar",
-              fieldName: "name",
-              arguments: null,
-            },
-            {
               kind: "Linked",
               fieldName: "posts",
               arguments: null,
-              concreteType: "BfBlogPostConnection",
+              concreteType: "BfDocsPostConnection",
               selections: [
                 {
                   kind: "Linked",
                   fieldName: "nodes",
                   arguments: null,
-                  concreteType: "BfBlogPost",
+                  concreteType: "BfDocsPost",
                   selections: [
                     {
                       kind: "Scalar",
                       fieldName: "id",
-                      arguments: null,
-                    },
-                    {
-                      kind: "Scalar",
-                      fieldName: "__typename",
                       arguments: null,
                     },
                     {
@@ -96,12 +78,12 @@ const normalizationAst: NormalizationAst = {
                     },
                     {
                       kind: "Scalar",
-                      fieldName: "cta",
+                      fieldName: "href",
                       arguments: null,
                     },
                     {
                       kind: "Scalar",
-                      fieldName: "href",
+                      fieldName: "status",
                       arguments: null,
                     },
                     {
@@ -125,8 +107,8 @@ const normalizationAst: NormalizationAst = {
   ],
 };
 const artifact: IsographEntrypoint<
-  Query__EntrypointBlog__param,
-  Query__EntrypointBlog__output_type
+  Query__EntrypointDocs__param,
+  Query__EntrypointDocs__output_type
 > = {
   kind: "Entrypoint",
   networkRequestInfo: {
