@@ -45,7 +45,6 @@ export class BfBlogPost extends BfNodeBase<BfBlogPostProps> {
       logger.debug('Returning existing posts cache');
       return this._postsCache;
     }
-    logger.setLevel(logger.levels.DEBUG)
     
     this._postsCache = new Map();
     const iterable = walk(new URL(import.meta.resolve("content/blog")));
@@ -90,7 +89,6 @@ export class BfBlogPost extends BfNodeBase<BfBlogPostProps> {
       }
     }
     logger.debug('Completed getPostsCache');
-    logger.resetLevel();
     return this._postsCache;
   }
 
@@ -108,20 +106,6 @@ export class BfBlogPost extends BfNodeBase<BfBlogPostProps> {
       return item as unknown as T;
     }
     logger.info(`Post not found: ${id}`);
-    throw new BfErrorNodeNotFound();
-  }
-
-  static async findRaw(
-    _cv: BfCurrentViewer,
-    id: BfGid,
-    _caches: Array<BfNodeCache> = [],
-  ) {
-    const postsCache = await this.getPostsCache();
-    const item = postsCache.get(id);
-    if (item) {
-      return item;
-    }
-    logger.info(`Raw post not found: ${id}`);
     throw new BfErrorNodeNotFound();
   }
 

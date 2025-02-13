@@ -14,7 +14,7 @@ const queryText = 'query EntrypointDocs  {\
         nodes {\
           id,\
           author,\
-          slug,\
+          href,\
           status,\
           summary,\
           title,\
@@ -78,7 +78,7 @@ const normalizationAst: NormalizationAst = {
                     },
                     {
                       kind: "Scalar",
-                      fieldName: "slug",
+                      fieldName: "href",
                       arguments: null,
                     },
                     {

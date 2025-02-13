@@ -1,8 +1,11 @@
-import { objectType } from "nexus";
+import { idArg, nonNull, objectType, stringArg } from "nexus";
 import { BfDocsPost } from "packages/bfDb/models/BfDocsPost.ts";
 import { connectionFromArray } from "graphql-relay";
 import { graphqlBfNode } from "packages/graphql/types/graphqlBfNode.ts";
+import { toBfGid } from "packages/bfDb/classes/BfNodeIds.ts";
+import { getLogger } from "packages/logger.ts";
 
+const logger = getLogger(import.meta);
 export const graphqlBfDocsPostType = objectType({
   name: "BfDocsPost",
   definition(t) {
@@ -13,6 +16,9 @@ export const graphqlBfDocsPostType = objectType({
     t.string("status");
     t.string("summary");
     t.string("slug");
+    t.string("href", {
+      resolve: (parent) => `/docs/${parent.slug || parent.id || ''}`,
+    });
   },
 });
 
@@ -28,6 +34,19 @@ export const graphqlBfDocsType = objectType({
       resolve: async (parent, args, ctx) => {
         const posts = await BfDocsPost.query();
         return connectionFromArray(posts.map(post => post.toGraphql()), args);
+      },
+    });
+    
+    t.field("post", {
+      type: graphqlBfDocsPostType,
+      args: {
+        slug: idArg(),
+      },
+      resolve: async (parent, { slug }, ctx) => {
+        if (!slug) return null;
+        logger.debug("slug", slug);
+        const post = await ctx.findX(BfDocsPost, toBfGid(slug));
+        return post?.toGraphql();
       },
     });
   },

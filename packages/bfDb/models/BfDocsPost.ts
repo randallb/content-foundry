@@ -79,9 +79,13 @@ export class BfDocsPost extends BfNodeBase<BfDocsPostProps> {
       };
 
       logger.debug(`Creating docs post with title: ${metadata.title || 'untitled'}`);
+      const creationMetadata = {
+        bfGid: id,
+      }
       const post = await this.__DANGEROUS__createUnattached(
         loggedOutCV,
         props,
+        creationMetadata,
       );
       this._postsCache.set(id, post);
       logger.debug(`Added docs post to cache with ID: ${id}`);
@@ -104,7 +108,7 @@ export class BfDocsPost extends BfNodeBase<BfDocsPostProps> {
     if (item) {
       return item as unknown as T;
     }
-    logger.info(`Docs post not found: ${id}`);
+    logger.info(`Post not found: ${id}`);
     throw new BfErrorNodeNotFound();
   }
 

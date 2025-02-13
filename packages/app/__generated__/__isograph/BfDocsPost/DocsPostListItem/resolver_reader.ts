@@ -1,6 +1,6 @@
 import type {ComponentReaderArtifact, ExtractSecondParam, ReaderAst } from '@isograph/react';
 import { BfDocsPost__DocsPostListItem__param } from './param_type.ts';
-import { DocsPostListItem as resolver } from '../../../../components/BfDocs/DocsPostListItem.tsx';
+import { DocsPostListItem as resolver } from '../../../../components/BfDocsPost/DocsPostListItem.tsx';
 
 const readerAst: ReaderAst<BfDocsPost__DocsPostListItem__param> = [
   {
@@ -11,7 +11,7 @@ const readerAst: ReaderAst<BfDocsPost__DocsPostListItem__param> = [
   },
   {
     kind: "Scalar",
-    fieldName: "slug",
+    fieldName: "id",
     alias: null,
     arguments: null,
   },
@@ -30,6 +30,12 @@ const readerAst: ReaderAst<BfDocsPost__DocsPostListItem__param> = [
   {
     kind: "Scalar",
     fieldName: "status",
+    alias: null,
+    arguments: null,
+  },
+  {
+    kind: "Scalar",
+    fieldName: "href",
     alias: null,
     arguments: null,
   },

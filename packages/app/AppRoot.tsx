@@ -13,6 +13,7 @@ const logger = getLogger(import.meta);
 export function AppRoot() {
   const routerProps = useRouter();
   const params = { ...routerProps.routeParams, ...routerProps.queryParams };
+  logger.debug("params", params);
   const { currentPath } = routerProps;
   const matchingRoute = Array.from(appRoutes).find(([path]) => {
     const pathMatch = matchRouteWithParams(currentPath, path);

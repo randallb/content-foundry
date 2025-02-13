@@ -39,15 +39,17 @@ iso(`entrypoint Query.EntrypointBlog`);
 iso(`entrypoint Query.EntrypointBlogPost`);
 iso(`entrypoint Query.EntrypointContentFoundryApp`);
 iso(`entrypoint Query.EntrypointDocs`);
+iso(`entrypoint Query.EntrypointDocsPost`);
 
 import entrypointDocs from "packages/app/__generated__/__isograph/Query/EntrypointDocs/entrypoint.ts";
+import entrypointDocsPost from "packages/app/__generated__/__isograph/Query/EntrypointDocsPost/entrypoint.ts";
 
 export const isographAppRoutes = new Map<string, IsographRoute>([
   ["/", entrypointApp],
   ["/blog/:slug", entrypointBlogPost],
   ["/blog", entrypointBlog],
+  ["/docs/:docsSlug", entrypointDocsPost],
   ["/docs", entrypointDocs],
-  ["/docs/:slug", entrypointDocs],
 ]);
 
 export const toolRoutes: RouteMap = new Map([
