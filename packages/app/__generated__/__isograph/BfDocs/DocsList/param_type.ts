@@ -8,6 +8,9 @@ Flattened list of BfDocsPost type
       */
       readonly nodes: (ReadonlyArray<({
         readonly DocsPostListItem: BfDocsPost__DocsPostListItem__output_type,
+        readonly status: (string | null),
+        readonly title: (string | null),
+        readonly summary: (string | null),
       } | null)> | null),
     } | null),
   },

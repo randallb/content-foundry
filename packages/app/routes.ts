@@ -38,11 +38,16 @@ export type RouteEntrypoint = {
 iso(`entrypoint Query.EntrypointBlog`);
 iso(`entrypoint Query.EntrypointBlogPost`);
 iso(`entrypoint Query.EntrypointContentFoundryApp`);
+iso(`entrypoint Query.EntrypointDocs`);
+
+import entrypointDocs from "packages/app/__generated__/__isograph/Query/EntrypointDocs/entrypoint.ts";
 
 export const isographAppRoutes = new Map<string, IsographRoute>([
   ["/", entrypointApp],
   ["/blog/:slug", entrypointBlogPost],
   ["/blog", entrypointBlog],
+  ["/docs", entrypointDocs],
+  ["/docs/:id", entrypointDocs],
 ]);
 
 export const toolRoutes: RouteMap = new Map([
