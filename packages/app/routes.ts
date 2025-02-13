@@ -47,7 +47,7 @@ export const isographAppRoutes = new Map<string, IsographRoute>([
   ["/blog/:slug", entrypointBlogPost],
   ["/blog", entrypointBlog],
   ["/docs", entrypointDocs],
-  ["/docs/:id", entrypointDocs],
+  ["/docs/:slug", entrypointDocs],
 ]);
 
 export const toolRoutes: RouteMap = new Map([

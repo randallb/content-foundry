@@ -4,19 +4,21 @@ import {Query__EntrypointBlogPost__output_type} from './output_type.ts';
 import readerResolver from './resolver_reader.ts';
 const nestedRefetchQueries: RefetchQueryNormalizationArtifactWrapper[] = [];
 
-const queryText = 'query EntrypointBlogPost ($id: ID) {\
-  bfNode____id___v_id: bfNode(id: $id) {\
+const queryText = 'query EntrypointBlogPost ($slug: ID) {\
+  me {\
     __typename,\
     id,\
-    __typename,\
-    ... on BfBlogPost {\
+    blog {\
       id,\
-      __typename,\
-      author,\
-      content,\
-      cta,\
-      summary,\
-      title,\
+      post____id___v_slug: post(id: $slug) {\
+        id,\
+        __typename,\
+        author,\
+        cta,\
+        href,\
+        summary,\
+        title,\
+      },\
     },\
   },\
 }';
@@ -26,13 +28,8 @@ const normalizationAst: NormalizationAst = {
   selections: [
     {
       kind: "Linked",
-      fieldName: "bfNode",
-      arguments: [
-        [
-          "id",
-          { kind: "Variable", name: "id" },
-        ],
-      ],
+      fieldName: "me",
+      arguments: null,
       concreteType: null,
       selections: [
         {
@@ -46,13 +43,10 @@ const normalizationAst: NormalizationAst = {
           arguments: null,
         },
         {
-          kind: "Scalar",
-          fieldName: "__typename",
+          kind: "Linked",
+          fieldName: "blog",
           arguments: null,
-        },
-        {
-          kind: "InlineFragment",
-          type: "BfBlogPost",
+          concreteType: "BfBlog",
           selections: [
             {
               kind: "Scalar",
@@ -60,34 +54,52 @@ const normalizationAst: NormalizationAst = {
               arguments: null,
             },
             {
-              kind: "Scalar",
-              fieldName: "__typename",
-              arguments: null,
-            },
-            {
-              kind: "Scalar",
-              fieldName: "author",
-              arguments: null,
-            },
-            {
-              kind: "Scalar",
-              fieldName: "content",
-              arguments: null,
-            },
-            {
-              kind: "Scalar",
-              fieldName: "cta",
-              arguments: null,
-            },
-            {
-              kind: "Scalar",
-              fieldName: "summary",
-              arguments: null,
-            },
-            {
-              kind: "Scalar",
-              fieldName: "title",
-              arguments: null,
+              kind: "Linked",
+              fieldName: "post",
+              arguments: [
+                [
+                  "id",
+                  { kind: "Variable", name: "slug" },
+                ],
+              ],
+              concreteType: "BfBlogPost",
+              selections: [
+                {
+                  kind: "Scalar",
+                  fieldName: "id",
+                  arguments: null,
+                },
+                {
+                  kind: "Scalar",
+                  fieldName: "__typename",
+                  arguments: null,
+                },
+                {
+                  kind: "Scalar",
+                  fieldName: "author",
+                  arguments: null,
+                },
+                {
+                  kind: "Scalar",
+                  fieldName: "cta",
+                  arguments: null,
+                },
+                {
+                  kind: "Scalar",
+                  fieldName: "href",
+                  arguments: null,
+                },
+                {
+                  kind: "Scalar",
+                  fieldName: "summary",
+                  arguments: null,
+                },
+                {
+                  kind: "Scalar",
+                  fieldName: "title",
+                  arguments: null,
+                },
+              ],
             },
           ],
         },
