@@ -1,7 +1,7 @@
 import { runShellCommand } from "infra/bff/shellBase.ts";
 import { register } from "infra/bff/bff.ts";
 
-export function buildNix(profile = ".") {
+export async function buildNix(profile = "."): Promise<number> {
   return runShellCommand([
     "nix",
     "build",

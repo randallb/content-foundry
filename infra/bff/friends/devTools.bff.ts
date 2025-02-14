@@ -52,7 +52,7 @@ Deno.addSignalListener("SIGINT", async () => {
   Deno.exit();
 });
 
-async function stopJupyter() {
+export async function stopJupyter(): Promise<number> {
   logger.info("Stopping Jupyter...");
   try {
     await runShellCommand(
@@ -69,7 +69,7 @@ async function stopJupyter() {
   }
 }
 
-async function stopSapling() {
+export async function stopSapling(): Promise<number> {
   logger.info("Stopping Sapling...");
   try {
     await runShellCommand(
