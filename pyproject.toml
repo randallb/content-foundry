@@ -8,4 +8,5 @@ dependencies = [
     "strawberry-graphql==0.259.0",
     "typing-extensions>=4.12.2",
     "uvicorn>=0.34.0",
+    "files-to-prompt",
 ]
