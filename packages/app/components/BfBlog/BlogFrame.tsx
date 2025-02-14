@@ -1,7 +1,7 @@
 import type * as React from "react";
 import { RouterLink } from "packages/app/components/Router/RouterLink.tsx";
 import { CfLogo } from "packages/bfDs/static/CfLogo.tsx";
-import { BlogPageNavbar } from "packages/app/components/Blog/BlogPageNavBar.tsx";
+import { BlogPageNavbar } from "packages/app/components/BfBlog/BlogPageNavBar.tsx";
 
 type Props = {
   cover?: string;
