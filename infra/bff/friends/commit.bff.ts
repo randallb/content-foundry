@@ -40,10 +40,7 @@ async function openSapling() {
   );
 }
 
-register(
-  "commit",
-  "Get ready to send your work to github",
-  async () => {
+export async function commit(): Promise<number> {
     const XDG_CONFIG_HOME = getConfigurationVariable("XDG_CONFIG_HOME")!;
     const REPL_SLUG = getConfigurationVariable("REPL_SLUG") ?? "";
     const HOME = getConfigurationVariable("HOME") ?? "";
@@ -141,5 +138,6 @@ register(
     await openSapling();
 
     return 0;
-  },
-);
+}
+
+register("commit", "Get ready to send your work to github", commit);

@@ -7,10 +7,7 @@ import { toBfGid } from "packages/bfDb/classes/BfNodeIds.ts";
 import { generateUUID } from "lib/generateUUID.ts";
 const logger = getLogger(import.meta);
 
-register(
-  "createDemoPerson",
-  "Creates a person in the system and returns a url to register",
-  async () => {
+export async function createDemoPerson(): Promise<number> {
     logger.info("creating a person now.");
     const cv = BfCurrentViewer.__DANGEROUS_USE_IN_SCRIPTS_ONLY__createOmni(
       import.meta,
@@ -27,5 +24,6 @@ register(
       `Successfully created the demo person!`,
     ));
     return 0;
-  },
-);
+}
+
+register("createDemoPerson", "Creates a person in the system and returns a url to register", createDemoPerson);
