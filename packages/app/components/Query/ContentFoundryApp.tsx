@@ -16,6 +16,7 @@ export const ContentFoundryApp = iso(`
     }
   }
 `)(function ContentFoundryApp({ data }) {
+  console.log('rendererererer')
   const Component = data?.me?.asBfCurrentViewerLoggedIn?.LoggedInView ??
     data?.me?.asBfCurrentViewerLoggedOut?.LoggedOutView ?? (() =>
       "Who are you even");

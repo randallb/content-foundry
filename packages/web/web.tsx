@@ -210,6 +210,18 @@ routes.set("/static/:filename+", function staticHandler(req) {
   });
 });
 
+routes.set("/content/:filename+", (req) => {
+  // Serve from build/content
+  return serveDir(req, {
+    headers: [
+      "Cache-Control: public, must-revalidate",
+      "ETag: true",
+    ],
+    fsRoot: "static/build/content",
+    urlRoot: "content", // so that /content maps to that folder
+  });
+});
+
 routes.set("/graphql", graphQLHandler);
 routes.set("/assemblyai", async (req) => {
   try {
@@ -284,6 +296,7 @@ function matchRoute(pathWithParams: string): [Handler, Record<string, string>] {
 logger.info("Ready to serve");
 
 const pythonPrefix = '/python';
+
 async function pythonHandler(req: Request) {
   const pythonPort = Deno.env.get("PYTHON_PORT") ?? "3333";
   const incomingUrl = new URL(req.url);
@@ -307,9 +320,8 @@ async function pythonHandler(req: Request) {
 if (import.meta.main) {
   Deno.serve(async (req) => {
     const incomingUrl = new URL(req.url);
+
     if (incomingUrl.pathname.startsWith(pythonPrefix)) {
-      
-      
       return pythonHandler(req);
     }
     const timer = performance.now();
@@ -328,7 +340,7 @@ if (import.meta.main) {
       const perf = performance.now() - timer;
       const perfInMs = Math.round(perf);
       logger.info(
-        `[${new Date().toISOString()}] [${req.method}] ${incomingUrl} ${
+        `[${new Date().toISOString()}] [${req.method}] ${res.status} ${incomingUrl} ${
           req.headers.get("content-type")
         } (${perfInMs}ms)`,
       );

@@ -1,6 +1,8 @@
 import { iso } from "packages/app/__generated__/__isograph/iso.ts";
 import { CfLogo } from "packages/bfDs/static/CfLogo.tsx";
 import { BfDsButton } from "packages/bfDs/components/BfDsButton.tsx";
+import { getLogger } from "packages/logger.ts";
+const logger = getLogger(import.meta)
 
 export const LoggedInView = iso(`
   field BfCurrentViewerLoggedIn.LoggedInView @component {
@@ -8,6 +10,7 @@ export const LoggedInView = iso(`
     YcForm
   }
 `)(function LoggedInView({ data }) {
+  logger.warn("hey wat")
   return (
     <div className="flexRow editor-container">
       <div className="flexColumn left-side-bar">

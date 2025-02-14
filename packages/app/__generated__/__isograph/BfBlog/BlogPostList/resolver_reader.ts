@@ -25,6 +25,12 @@ const readerAst: ReaderAst<BfBlog__BlogPostList__param> = [
         condition: null,
         selections: [
           {
+            kind: "Scalar",
+            fieldName: "id",
+            alias: null,
+            arguments: null,
+          },
+          {
             kind: "Resolver",
             alias: "BlogPostListItem",
             arguments: null,

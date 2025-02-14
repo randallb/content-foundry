@@ -8,6 +8,10 @@ export type BfBlog__BlogPostList__param = {
 Flattened list of BfBlogPost type
       */
       readonly nodes: (ReadonlyArray<({
+        /**
+Unique identifier for the resource
+        */
+        readonly id: string,
         readonly BlogPostListItem: BfBlogPost__BlogPostListItem__output_type,
       } | null)> | null),
     } | null),

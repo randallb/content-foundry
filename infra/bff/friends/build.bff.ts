@@ -47,9 +47,16 @@ const allowedNetworkDestionations = [
   neonApiDomain,
 ];
 
+const includableRemotes = [
+  "localhost:9444",
+  "jsr.io",
+];
+
 const includableDirectories = [
   "packages",
   "content",
+  "build/content",
+  "static",
 ];
 
 const readableLocations = [
@@ -68,12 +75,18 @@ const denoCompilationCommand = [
   ...includableDirectories.map((dir) => `--include=${dir}`),
   `--allow-net=${allowedNetworkDestionations.join(",")}`,
   `--allow-env=${allowedEnvironmentVariables.join(",")}`,
-  `--allow-read=${readableLocations}`,
+  `--allow-read=${readableLocations.join(",")}`,
   `--allow-run=${allowedBinaries.join(",")}`,
+  `--allow-import=${includableRemotes.join(",")}`,
   "packages/web/web.tsx",
 ];
 
 register("build", "Builds the current project", async () => {
+  await Deno.remove("build", { recursive: true });
+  await Deno.mkdir("build", { recursive: true });
+  await Deno.remove("static/build", { recursive: true })
+  await Deno.mkdir("static/build", { recursive: true });
+  const contentResult = await runShellCommand(["./infra/appBuild/contentBuild.ts"]);
   const result = await runShellCommand(["./packages/graphql/graphqlServer.ts"]);
   if (result) return result;
   const isographResult = await runShellCommand(

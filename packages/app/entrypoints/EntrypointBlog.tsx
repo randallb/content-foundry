@@ -12,6 +12,7 @@ export const EntrypointBlog = iso(`
     }
   }
 `)(function EntrypointBlog({ data }): RouteEntrypoint {
+  console.log('laul')
   const title = "Content Foundry";
   const DefaultBody = () => "coming soon";
 
