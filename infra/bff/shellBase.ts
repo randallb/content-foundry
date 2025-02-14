@@ -12,12 +12,15 @@ export async function runShellCommand(
   cwdString = getConfigurationVariable("REPL_HOME") ?? Deno.cwd(),
   additionalEnv = {},
   useSpinner = true,
+  silent = false,
 ): Promise<number> {
   const env = {
     ...Deno.env.toObject(),
     ...additionalEnv,
   };
-  logger.info(`Running command: ${commandArray.join(" ")}`);
+  if (!silent) {
+    logger.info(`Running command: ${commandArray.join(" ")}`);
+  }
   let stopSpinner: (() => void) | undefined;
   if (useSpinner) {
     stopSpinner = startSpinner();
@@ -42,10 +45,12 @@ export async function runShellCommand(
     stopSpinner();
   }
 
-  if (success) {
-    logger.info(`Command succeeded: ${commandArray.join(" ")}`);
-  } else {
-    logger.error(`Command failed with code ${code}: ${commandArray.join(" ")}`);
+  if (!silent) {
+    if (success) {
+      logger.info(`Command succeeded: ${commandArray.join(" ")}`);
+    } else {
+      logger.error(`Command failed with code ${code}: ${commandArray.join(" ")}`);
+    }
   }
 
   return code;
@@ -55,12 +60,15 @@ export async function runShellCommandWithOutput(
   commandArray: Array<string>,
   additionalEnv = {},
   useSpinner = true,
+  silent = false,
 ): Promise<string> {
   const env = {
     ...Deno.env.toObject(),
     ...additionalEnv,
   };
-  logger.info(`Running command: ${commandArray.join(" ")}`);
+  if (!silent) {
+    logger.info(`Running command: ${commandArray.join(" ")}`);
+  }
   let stopSpinner;
   if (useSpinner) {
     stopSpinner = startSpinner();
