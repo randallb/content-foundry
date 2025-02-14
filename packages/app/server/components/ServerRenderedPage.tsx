@@ -55,7 +55,7 @@ export function ServerRenderedPage(
           type="image/jpg"
           href="https://bf-static-assets.s3.amazonaws.com/favicon.ico"
         />
-        <script type="module" src="/static/build/ClientRoot.js" />
+        <script type="module" src="/static/build/packages/app/ClientRoot.js" />
       </head>
       <body>
         <div id="root">
