@@ -20,14 +20,14 @@ enum BlogPostStatus {
   Published = "published",
 }
 
-type BlogPostFrontmatter = {
+type BlogPostFrontmatter = Partial<{
   author: string;
   cta: string;
   authorTwitter: string;
   summary: string;
   title: string;
   status: BlogPostStatus;
-};
+}>;
 
 type MaybeBlogPostFrontmatter = Partial<BlogPostFrontmatter>;
 
@@ -40,55 +40,55 @@ export class BfBlogPost extends BfNodeBase<BfBlogPostProps> {
   private static _postsCache: Map<BfGid, BfBlogPost>;
 
   static async getPostsCache() {
-    logger.debug('Starting getPostsCache');
+    logger.debug("Starting getPostsCache");
     if (this._postsCache) {
-      logger.debug('Returning existing posts cache');
+      logger.debug("Returning existing posts cache");
       return this._postsCache;
     }
-    
+
     this._postsCache = new Map();
     const iterable = walk(new URL(import.meta.resolve("content/blog")));
     const loggedOutCV = BfCurrentViewer.createLoggedOut(import.meta);
-    logger.debug('Walking content/blog directory');
-    
+    logger.debug("Walking content/blog directory");
+
     for await (const entry of iterable) {
-      const maybeId = entry.path.split(".md")[0].split("/").pop();
-      if (maybeId == null) {
-        logger.debug(`Skipping entry with invalid path: ${entry.path}`);
-        continue;
-      }
-      const id = toBfGid(maybeId);
       if (entry.isFile) {
-        logger.debug(`Processing file: ${entry.path} with ID: ${id}`);
-        let content = await Deno.readTextFile(entry.path);
-        let metadata = {} as MaybeBlogPostFrontmatter;
-        try {
-          const { body, attrs } = extractYaml(content);
-          content = body;
-          metadata = attrs as MaybeBlogPostFrontmatter;
-          logger.debug(`Successfully parsed front matter for ${id}`);
-        } catch {
-          logger.warn(`Failed to parse front matter for ${id}`);
+        let addableText = "";
+        let props: BlogPostFrontmatter = {};
+        let id = entry.path.split(
+          import.meta.resolve("content/blog/").replace("file://", ""),
+        )[1] as BfGid;
+        if (entry.path.endsWith(".md")) {
+          const text = await Deno.readTextFile(entry.path);
+          addableText = text;
+          if (text.startsWith("---")) {
+            const { body, attrs } = extractYaml(text);
+            props = attrs as BlogPostFrontmatter;
+            addableText = body;
+          }
+          
+          
+          
         }
-        const props: BfBlogPostProps = {
-          ...(metadata as MaybeBlogPostFrontmatter),
-          content,
-          status: metadata.status ?? BlogPostStatus.Published,
-        };
+
         const creationMetadata = {
           bfGid: id,
-        }
-        logger.debug(`Creating blog post with title: ${metadata.title || 'untitled'}`);
+        };
+        logger.debug(
+          `Creating blog post with title: ${props.title || "untitled"}`,
+        );
         const post = await this.__DANGEROUS__createUnattached(
           loggedOutCV,
-          props,
+          { ...props, content: addableText },
           creationMetadata,
         );
         this._postsCache.set(id, post);
         logger.debug(`Added post to cache with ID: ${id}`);
       }
+      // if (entry.isFile && entry.path.endsWith(".ipynb")) {
+
+      // }
     }
-    logger.debug('Completed getPostsCache');
     return this._postsCache;
   }
 
