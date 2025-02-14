@@ -87,6 +87,19 @@ register(
       return installResult;
     }
 
+    
+    // Build BFF
+    logger.info("Building BFF...");
+    const buildResult = await runShellCommand([
+      "bff",
+      "build",
+    ]);
+
+    if (buildResult !== 0) {
+      logger.error("Failed to build BFF");
+      return buildResult;
+    }
+
     const currentSaplingHash = await getCurrentSaplingHash();
     const lastSaplingHash = await getLastSaplingHashFromGit();
 
