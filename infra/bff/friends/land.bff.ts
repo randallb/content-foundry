@@ -46,10 +46,7 @@ async function getLastSaplingHashFromGit(): Promise<string | null> {
   }
 }
 
-register(
-  "land",
-  "Pull code from sapling, install deps, and create a git commit",
-  async () => {
+export async function land(): Promise<number> {
     // Then pull the latest code
     logger.info("Pulling latest code from sapling...");
     const pullResult = await runShellCommand([
@@ -149,5 +146,6 @@ register(
 
     logger.info("Successfully landed changes!");
     return 0;
-  },
-);
+}
+
+register("land", "Pull code from sapling, install deps, and create a git commit", land);

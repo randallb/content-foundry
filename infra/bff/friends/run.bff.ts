@@ -51,10 +51,7 @@ Deno.addSignalListener("SIGINT", async () => {
   Deno.exit();
 });
 
-register(
-  "run",
-  "Run the compiled web binary and Python server",
-  async () => {
+export async function run(): Promise<number> {
     try {
       logger.info("Starting web server and Python backend...");
 
@@ -163,5 +160,6 @@ register(
       logger.error("Failed to start servers:", error);
       return 1;
     }
-  },
-);
+  }
+
+register("run", "Run the compiled web binary and Python server", run);

@@ -7,7 +7,7 @@ import { getLogger } from "packages/logger.ts";
 
 const logger = getLogger(import.meta);
 
-register("fork", "Fork the Content Foundry repository to your personal GitHub account", async () => {
+export async function fork(): Promise<number> {
   logger.info("Forking Content Foundry repository...");
 
   // 1. Check GitHub auth status first
@@ -123,4 +123,6 @@ register("fork", "Fork the Content Foundry repository to your personal GitHub ac
   // 7. Done
   logger.info("Upstream configuration complete!");
   return 0; // Success
-});
+}
+
+register("fork", "Fork the Content Foundry repository to your personal GitHub account", fork);

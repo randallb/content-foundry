@@ -81,7 +81,7 @@ const denoCompilationCommand = [
   "packages/web/web.tsx",
 ];
 
-register("build", "Builds the current project", async () => {
+export async function build(): Promise<number> {
   await Deno.remove("build", { recursive: true });
   await Deno.mkdir("build", { recursive: true });
   await Deno.writeFile("build/.gitkeep", new Uint8Array());
@@ -104,4 +104,6 @@ register("build", "Builds the current project", async () => {
   const [denoResult, jsResult] = await Promise.all([denoCompile, jsCompile]);
 
   return denoResult || jsResult;
-});
+}
+
+register("build", "Builds the current project", build);
