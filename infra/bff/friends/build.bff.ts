@@ -84,9 +84,14 @@ const denoCompilationCommand = [
 register("build", "Builds the current project", async () => {
   await Deno.remove("build", { recursive: true });
   await Deno.mkdir("build", { recursive: true });
+  await Deno.writeFile("build/.gitkeep", new Uint8Array());
   await Deno.remove("static/build", { recursive: true })
   await Deno.mkdir("static/build", { recursive: true });
+  await Deno.writeFile("static/build/.gitkeep", new Uint8Array());
   const contentResult = await runShellCommand(["./infra/appBuild/contentBuild.ts"]);
+  if (contentResult !== 0) {
+    return contentResult;
+  }
   const result = await runShellCommand(["./packages/graphql/graphqlServer.ts"]);
   if (result) return result;
   const isographResult = await runShellCommand(
