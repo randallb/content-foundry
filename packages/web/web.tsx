@@ -328,7 +328,7 @@ if (import.meta.main) {
       const perf = performance.now() - timer;
       const perfInMs = Math.round(perf);
       logger.info(
-        `[${new Date().toISOString()}] [${req.method}] ${incomingUrl} ${
+        `[${new Date().toISOString()}] [${req.method}] ${res.status} ${incomingUrl} ${
           req.headers.get("content-type")
         } (${perfInMs}ms)`,
       );
